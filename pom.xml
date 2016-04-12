@@ -1,8 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
 		 					 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-		 					 
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>hu.bertalanadam.prt.beadando</groupId>
@@ -39,6 +38,11 @@
 		<developerConnection>scm:git:git@github.com:AdamTakeow/pt-beadando.git</developerConnection>
 	</scm>
 
+	<inceptionYear>2016</inceptionYear>
+	<organization>
+		<name>Faculty of Informatics, University of Debrecen</name>
+	</organization>
+
 	<licenses>
 		<license>
 			<name>GNU GPL V3</name>
@@ -49,18 +53,27 @@
 	<modules>
 		<module>penzkezelo-db</module>
 		<module>build-tools</module>
+		<module>penzkezelo-szolg-api</module>
+		<module>penzkezelo-szolg</module>
+		<module>penzkezelo-ui</module>
 	</modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>1.7.18</version>
-				<scope>runtime</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<!-- <dependencyManagement> -->
+	<!-- <dependencies> -->
+	<!-- <dependency> -->
+	<!-- <groupId>org.slf4j</groupId> -->
+	<!-- <artifactId>slf4j-api</artifactId> -->
+	<!-- <version>1.7.21</version> -->
+	<!-- <scope>compile</scope> -->
+	<!-- </dependency> -->
+	<!-- <dependency> -->
+	<!-- <groupId>org.slf4j</groupId> -->
+	<!-- <artifactId>slf4j-simple</artifactId> -->
+	<!-- <version>1.7.18</version> -->
+	<!-- <scope>runtime</scope> -->
+	<!-- </dependency> -->
+	<!-- </dependencies> -->
+	<!-- </dependencyManagement> -->
 
 	<build>
 		<pluginManagement>
@@ -96,6 +109,30 @@
 						<target>1.8</target>
 					</configuration>
 				</plugin>
+
+<!-- 				<plugin> -->
+<!-- 					<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 					<artifactId>maven-assembly-plugin</artifactId> -->
+<!-- 					<version>2.6</version> -->
+<!-- 					<executions> -->
+<!-- 						<execution> -->
+<!-- 							<phase>package</phase> -->
+<!-- 							<goals> -->
+<!-- 								<goal>single</goal> -->
+<!-- 							</goals> -->
+<!-- 							<configuration> -->
+<!-- 								<archive> -->
+<!-- 									<manifest> -->
+<!-- 										<mainClass>mainclass</mainClass> -->
+<!-- 									</manifest> -->
+<!-- 								</archive> -->
+<!-- 								<descriptorRefs> -->
+<!-- 									<descriptorRef>jar-with-dependencies</descriptorRef> -->
+<!-- 								</descriptorRefs> -->
+<!-- 							</configuration> -->
+<!-- 						</execution> -->
+<!-- 					</executions> -->
+<!-- 				</plugin> -->
 
 			</plugins>
 		</pluginManagement>
