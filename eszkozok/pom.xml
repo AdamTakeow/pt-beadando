@@ -5,8 +5,6 @@
     <artifactId>penzkezelo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-<!-- <groupId>hu.bertalanadam.prt.beadando</groupId> -->
-  <artifactId>build-tools</artifactId>
-<!--   <version>0.0.1-SNAPSHOT</version> -->
-  <name>Build Tools</name>
+  <artifactId>eszkozok</artifactId>
+  <name>Eszközök</name>
 </project>

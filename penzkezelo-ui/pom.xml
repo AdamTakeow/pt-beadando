@@ -10,6 +10,29 @@
 
 	<build>
 		<plugins>
+<!-- 		<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-assembly-plugin</artifactId> -->
+<!-- 				<version>2.6</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>package</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>single</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<archive> -->
+<!-- 								<manifest> -->
+<!-- 									<mainClass>mainclass</mainClass> -->
+<!-- 								</manifest> -->
+<!-- 							</archive> -->
+<!-- 							<descriptorRefs> -->
+<!-- 								<descriptorRef>jar-with-dependencies</descriptorRef> -->
+<!-- 							</descriptorRefs> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
@@ -17,8 +40,18 @@
 				<configuration>
 					<mainClass>hu.bertalanadam.prt.beadando.ui.main.Main</mainClass>
 				</configuration>
+				<executions>
+					<execution>
+						<id>create-jfxjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

@@ -15,7 +15,7 @@
 	<description>
   	A Programozási Technológiák beadandó feladatnak elkészített projekt ami
   	Pénzügyi kiadások és bevételek kezelését hivatott elősegíteni.
-  </description>
+  	</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,9 +38,16 @@
 		<developerConnection>scm:git:git@github.com:AdamTakeow/pt-beadando.git</developerConnection>
 	</scm>
 
+	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>file:///tmp/fake.com/</url>
+		</site>
+	</distributionManagement>
+
 	<inceptionYear>2016</inceptionYear>
 	<organization>
-		<name>Faculty of Informatics, University of Debrecen</name>
+		<name>Debreceni Egyetem Informatika Kar</name>
 	</organization>
 
 	<licenses>
@@ -52,92 +59,55 @@
 
 	<modules>
 		<module>penzkezelo-db</module>
-		<module>build-tools</module>
+		<module>eszkozok</module>
 		<module>penzkezelo-szolg-api</module>
 		<module>penzkezelo-szolg</module>
 		<module>penzkezelo-ui</module>
 	</modules>
 
-	<!-- <dependencyManagement> -->
-	<!-- <dependencies> -->
-	<!-- <dependency> -->
-	<!-- <groupId>org.slf4j</groupId> -->
-	<!-- <artifactId>slf4j-api</artifactId> -->
-	<!-- <version>1.7.21</version> -->
-	<!-- <scope>compile</scope> -->
-	<!-- </dependency> -->
-	<!-- <dependency> -->
-	<!-- <groupId>org.slf4j</groupId> -->
-	<!-- <artifactId>slf4j-simple</artifactId> -->
-	<!-- <version>1.7.18</version> -->
-	<!-- <scope>runtime</scope> -->
-	<!-- </dependency> -->
-	<!-- </dependencies> -->
-	<!-- </dependencyManagement> -->
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>1.4.1</version>
-					<executions>
-						<execution>
-							<phase>validate</phase>
-							<goals>
-								<goal>enforce</goal>
-							</goals>
-							<configuration>
-								<rules>
-									<requireJavaVersion>
-										<version>1.8</version>
-									</requireJavaVersion>
-								</rules>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.5.1</version>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-
-<!-- 				<plugin> -->
-<!-- 					<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 					<artifactId>maven-assembly-plugin</artifactId> -->
-<!-- 					<version>2.6</version> -->
-<!-- 					<executions> -->
-<!-- 						<execution> -->
-<!-- 							<phase>package</phase> -->
-<!-- 							<goals> -->
-<!-- 								<goal>single</goal> -->
-<!-- 							</goals> -->
-<!-- 							<configuration> -->
-<!-- 								<archive> -->
-<!-- 									<manifest> -->
-<!-- 										<mainClass>mainclass</mainClass> -->
-<!-- 									</manifest> -->
-<!-- 								</archive> -->
-<!-- 								<descriptorRefs> -->
-<!-- 									<descriptorRef>jar-with-dependencies</descriptorRef> -->
-<!-- 								</descriptorRefs> -->
-<!-- 							</configuration> -->
-<!-- 						</execution> -->
-<!-- 					</executions> -->
-<!-- 				</plugin> -->
-
-			</plugins>
-		</pluginManagement>
-
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>1.8</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -145,29 +115,33 @@
 				<dependencies>
 					<dependency>
 						<groupId>hu.bertalanadam.prt.beadando</groupId>
-						<artifactId>build-tools</artifactId>
+						<artifactId>eszkozok</artifactId>
 						<version>0.0.1-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>
+
 		</plugins>
 	</build>
 
 	<reporting>
 		<plugins>
-			<!-- reporting -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.3</version>
+				<configuration>
+					<show>private</show>
+				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>
-				maven-surefire-report-plugin
-			</artifactId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.19.1</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -180,6 +154,17 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.7</version>
+				<reportSets>
+					<reportSet>
+						<id>cobertura</id>
+						<reports>
+							<report>cobertura</report>
+						</reports>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+					</reportSet>
+				</reportSets>
 			</plugin>
 
 			<plugin>
@@ -188,10 +173,8 @@
 				<version>2.17</version>
 				<configuration>
 					<configLocation>checkstyle/checkstyle.xml</configLocation>
-					<headerLocation>checkstyle/LICENSE.txt</headerLocation>
 				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
-
 </project>
