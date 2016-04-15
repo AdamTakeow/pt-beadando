@@ -7,4 +7,10 @@
   </parent>
   <artifactId>eszkozok</artifactId>
   <name>Eszközök</name>
+  
+  <description>
+  Ez a modul abból a célból jött létre, hogy olyan erőforrás-állományokat tároljon
+  amelyek minden további modul számára szükségesek, így az erőforrások központosítva tárolódnak.
+  </description>
+  
 </project>

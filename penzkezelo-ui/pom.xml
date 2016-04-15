@@ -7,6 +7,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>penzkezelo-ui</artifactId>
+	
+	<name>Pénzügyi menedzser felhasználói felület</name>
+	
+	<description>
+	Ez a modul felelős a felhasználói felület megfelelő működéséért.
+	</description>
 
 	<build>
 		<plugins>

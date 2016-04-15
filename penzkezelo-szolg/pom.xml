@@ -5,5 +5,12 @@
     <artifactId>penzkezelo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  
   <artifactId>penzkezelo-szolg</artifactId>
+  
+  <name>Pénzügyi menedzser szolgáltatás réteg</name>
+  
+  <description>
+  Ez a modul felelős az üzleti logika megvalósításáért. FOLYTATÁS
+  </description>
 </project>

@@ -13,6 +13,12 @@
 	<artifactId>penzkezelo-db</artifactId>
 
 	<name>Pénzügyi menedzser adatbázis réteg</name>
+	
+	<description>
+	Ez a modul felelős az adatbázissal való kommunikálás megvalósításáért. Itt találhatóak meg
+	azok az entitások amelyek az adatbázis elemeket reprezentálják, valamint azok az interfészek,
+	amelyek az adatbázis műveleteket definiálják ezeken az entitásokon.
+	</description>
 
 	<!-- hibernate -->
 

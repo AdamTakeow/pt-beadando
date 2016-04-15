@@ -6,4 +6,13 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>penzkezelo-szolg-api</artifactId>
+  
+  <name>Pénzügyi menedzser szolgáltatás felület</name>
+  
+  <description>
+  Ez a modul tartalmazza azokat az interfészeket amelyek leírják a szolgáltatások működését,
+  ezzel is magasabb absztrakciós szintre helyezve a funkciók leírását.
+  A szolgáltatás réteg ezeket a terveket fogja megvalósítani.
+  </description>
+  
 </project>
