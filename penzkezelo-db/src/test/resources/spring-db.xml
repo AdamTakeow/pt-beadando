@@ -25,7 +25,8 @@
 	<context:component-scan base-package="hu.bertalanadam.prt.beadando.db" />
 	
 
-	<jpa:repositories base-package="hu.bertalanadam.prt.beadando.db.tarolo" />
+	<jpa:repositories base-package="hu.bertalanadam.prt.beadando.db.tarolo"
+	repository-impl-postfix="Impl" />
 
 
 	<bean id="entityManagerFactory"
@@ -38,7 +39,8 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<tx:annotation-driven />
 
 </beans>

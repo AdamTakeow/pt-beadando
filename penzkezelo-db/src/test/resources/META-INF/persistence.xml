@@ -8,11 +8,6 @@
 	<persistence-unit name="hu.bertalanadam.prt.beadando">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
-<!-- 		<non-jta-data-source> -->
-			<!-- java:comp/env/jdbc/BlogJpa -->
-			<!-- #toltski -->
-<!-- 		</non-jta-data-source> -->
-		
 		<class>hu.bertalanadam.prt.beadando.db.entitas.FoEntitas</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo</class>
@@ -46,6 +41,7 @@
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/PTBeadando" />
 			<property name="hibernate.default_schema" value="public" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.import_files" value="create.sql"/>
 			<property name="hibernate.flushMode" value="FLUSH_AUTO" />
 			
 		</properties>

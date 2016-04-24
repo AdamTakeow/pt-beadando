@@ -30,7 +30,7 @@ public class Felhasznalo extends FoEntitas {
 	/**
 	 * Egy felhasználó felhasználóneve.
 	 * */
-	private String felasznalonev;
+	private String felhasznalonev;
 	
 	/**
 	 * Egy felhasználó jelszava.
@@ -62,16 +62,16 @@ public class Felhasznalo extends FoEntitas {
 	 * Visszaadja a felhasználó felhasználónevét.
 	 * @return A felhasználó felhasználóneve.
 	 */
-	public String getFelasznalonev() {
-		return felasznalonev;
+	public String getFelhasznalonev() {
+		return felhasznalonev;
 	}
 
 	/**
 	 * Beállítja a felhasználó felhasználónevét.
 	 * @param felasznalonev A beállítandó felhasználónév.
 	 */
-	public void setFelasznalonev(String felasznalonev) {
-		this.felasznalonev = felasznalonev;
+	public void setFelhasznalonev(String felasznalonev) {
+		this.felhasznalonev = felasznalonev;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class Felhasznalo extends FoEntitas {
 	 */
 	@Override
 	public String toString() {
-		return "Felhasznalo [felasznalonev=" + felasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
+		return "Felhasznalo [felasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
 				+ ", lebontas=" + lebontas + "]";
 	}
 

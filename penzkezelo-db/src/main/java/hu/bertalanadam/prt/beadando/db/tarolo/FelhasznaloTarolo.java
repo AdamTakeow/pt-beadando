@@ -19,4 +19,5 @@ import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface FelhasznaloTarolo extends JpaRepository<Felhasznalo, Long> {
 
+	Felhasznalo findByFelhasznalonev( String felhasznalonev ) throws Exception;
 }

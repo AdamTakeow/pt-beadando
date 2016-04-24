@@ -1,16 +1,58 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>hu.bertalanadam.prt.beadando</groupId>
-    <artifactId>penzkezelo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  
-  <artifactId>penzkezelo-szolg</artifactId>
-  
-  <name>Pénzügyi menedzser szolgáltatás réteg</name>
-  
-  <description>
-  Ez a modul felelős az üzleti logika megvalósításáért. FOLYTATÁS
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.bertalanadam.prt.beadando</groupId>
+		<artifactId>penzkezelo</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>penzkezelo-szolg</artifactId>
+
+	<name>Pénzügyi menedzser szolgáltatás réteg</name>
+
+	<description>
+  Ez a modul felelős az üzleti logika megvalósításáért. TODO folytatás
   </description>
+
+	<dependencies>
+		<dependency>
+			<groupId>hu.bertalanadam.prt.beadando</groupId>
+			<artifactId>penzkezelo-szolg-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>hu.bertalanadam.prt.beadando</groupId>
+			<artifactId>penzkezelo-db</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.5.1</version>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>commons-collections</groupId> -->
+<!-- 			<artifactId>commons-collections</artifactId> -->
+<!-- 			<version>20040616</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>4.2.5.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.2.5.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
 </project>

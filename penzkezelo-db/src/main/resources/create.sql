@@ -1,0 +1,1 @@
+INSERT INTO public."felhasznalo"(id, egyenleg, felhasznalonev, jelszo, lebontas) VALUES (1, 0, 'admin', 'admin', 0);
