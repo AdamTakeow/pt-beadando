@@ -30,13 +30,16 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>hu.bertalanadam.prt.beadando.ui.main.Main</mainClass>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.handlers</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.schemas</resource>
 								</transformer>
 							</transformers>
@@ -50,7 +53,6 @@
 	</build>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>hu.bertalanadam.prt.beadando</groupId>
 			<artifactId>penzkezelo-szolg-api</artifactId>
@@ -67,6 +69,18 @@
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>20040616</version>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-core</artifactId> -->
+<!-- 			<version>3.1.0.RELEASE</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 	</dependencies>
 

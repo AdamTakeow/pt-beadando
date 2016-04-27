@@ -18,5 +18,7 @@ import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface KategoriaTarolo extends JpaRepository<Kategoria, Long> {
+	
+	Kategoria findByNev(String nev);
 
 }

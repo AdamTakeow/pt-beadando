@@ -2,6 +2,7 @@ package hu.bertalanadam.prt.beadando.db.entitas;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,7 +35,7 @@ public class Kategoria extends FoEntitas {
 	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak.
 	 * Egy kategóriába több tranzakció is sorolható.
 	 */
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Tranzakcio> tranzakciok;
 	
 	/**

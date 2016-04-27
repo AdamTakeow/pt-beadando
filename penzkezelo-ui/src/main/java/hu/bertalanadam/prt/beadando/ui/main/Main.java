@@ -2,6 +2,9 @@ package hu.bertalanadam.prt.beadando.ui.main;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,19 +13,27 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	
 	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+	
+	Logger logolo = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
 		  launch(args); 
 	}
 
-	@Override public void start(Stage stage) throws IOException {
+	@Override public void start(Stage primaryStage) throws IOException {
 		Parent root = (Parent) loader.load("/BejelentkezoFelulet.fxml");
 	    
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root);
     
-        stage.setTitle("Bejelentkezés");
-        stage.setScene(scene);
-        stage.show(); 
+        primaryStage.setTitle("Bejelentkezés");
+        primaryStage.setScene(scene);
+        primaryStage.show(); 
+	}
+	
+	@Override
+	public void stop() throws Exception {
+		logolo.info("JavaFX: Main: Shutting down javafx");
+		SpringFxmlLoader.close();
 	}
 
 }

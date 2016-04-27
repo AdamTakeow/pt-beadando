@@ -1,7 +1,9 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -59,7 +61,7 @@ public class Tranzakcio extends FoEntitas {
 	 * Az a kategória amihez ez a tranzakció tartozik.
 	 * Több tranzakció sorolható egy kategóriába.
 	 * */
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Kategoria kategoria;
 	
 	/**

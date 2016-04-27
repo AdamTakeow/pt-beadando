@@ -1,14 +1,11 @@
-package hu.bertalanadam.prt.beadando.db.test;
+package hu.bertalanadam.prt.beadando.szolgaltatas.test;
 
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,37 +15,34 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
+import org.junit.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-db.xml")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@ContextConfiguration("/spring-szolg.xml")
 @Transactional
 @Rollback(true)
-public class TestConnection {
-	
-//	private static Logger logolo = LoggerFactory.getLogger(TestConnection.class);
+public class SzolgaltatasTest {
 
 	@Autowired
-	private FelhasznaloTarolo fhtarolo;
+	FelhasznaloTarolo felhasznaloTarolo;
 
-	@Ignore
 	@Test
-	public void teszt1FelhasznaloBeszuras() throws Exception {
+	public void tesztFelhasznaloBeszuras() throws Exception{
 		
 		Felhasznalo felh = new Felhasznalo();
 		felh.setFelhasznalonev("tesztFelhasznalo");
 		felh.setEgyenleg(0L);
-		felh.setJelszo("password");
+		felh.setJelszo("jelszo");
 		felh.setLebontas(1);
 		felh.setTranzakciok(new ArrayList<Tranzakcio>());
 
-		fhtarolo.save(felh);
+		felhasznaloTarolo.save(felh);
 		
-		Felhasznalo f = fhtarolo.findByFelhasznalonev("tesztFelhasznalo");
+		Felhasznalo f = felhasznaloTarolo.findByFelhasznalonev("tesztFelhasznalo");
 		if( f == null )
 			Assert.fail();
 		
-		Assert.assertTrue( f.getJelszo() == "password" );
+		Assert.assertTrue( f.getJelszo() == "jelszo" );
 		
 	}
 

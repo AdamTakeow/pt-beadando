@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.db.entitas;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -30,6 +31,7 @@ public class Felhasznalo extends FoEntitas {
 	/**
 	 * Egy felhasználó felhasználóneve.
 	 * */
+	@Column(unique=true)
 	private String felhasznalonev;
 	
 	/**

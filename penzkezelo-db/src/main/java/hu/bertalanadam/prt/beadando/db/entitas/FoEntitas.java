@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 
 /**
  * Közös ősként szolgál a többi entitás számára.
@@ -23,11 +24,11 @@ public class FoEntitas implements Serializable{
 	
 	/**
 	 * Egyedi {@link java.lang.Long} típusú azonosító.
-	 * Az adatbázisban sorozat típusúként fog megjelenni a {@link javax.persistence.GeneratedValue}
+	 * Az adatbázisban a megfelelő típusként fog megjelenni a {@link javax.persistence.GeneratedValue}
 	 * annotációnak köszönhetően.
 	 * */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	
