@@ -37,4 +37,8 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	FelhasznaloVo frissitFelhasznalot( FelhasznaloVo felhasznalo );
 	
+	long osszesBevetelAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	
+	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	
 }

@@ -59,7 +59,7 @@ public class BejelentkezesKezelo {
 				
 				// beállítjuk a bejelentkezett felhasználót az adatbázisból felhozottra
 				bejelentkezett_fh = felh;
-				logolo.info("A beállított felhasználó: " + felh);
+//				logolo.info("A beállított felhasználó: " + felh);
 				
 				// átváltunk a kezdőlapra
 				Parent szulo = (Parent)loader.load("/OtthonFelulet.fxml");

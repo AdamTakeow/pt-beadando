@@ -82,5 +82,4 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		
 		return TranzakcioMapper.toVo(found);
 	}
-
 }

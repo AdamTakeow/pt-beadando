@@ -2,6 +2,8 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
+import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
@@ -86,5 +89,31 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		// TESZTELD KI (old: saveAndFlush)
 		Felhasznalo ret = felhasznaloTarolo.save(FelhasznaloMapper.toDto(felhasznalo));
 		return FelhasznaloMapper.toVo(ret);
-	}	
+	}
+
+	@Override
+	public long osszesBevetelAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		
+		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev());
+		
+		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
+		
+		return tranzakciok.stream()
+					.mapToLong( t -> t.getOsszeg() )
+					.filter( o -> o > 0 ? true : false )
+					.sum();
+	}
+
+	@Override
+	public long osszesKiadasAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		
+		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev());
+		
+		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
+		
+		return Math.abs(tranzakciok.stream()
+					.mapToLong( t -> t.getOsszeg() )
+					.filter( o -> o < 0 ? true : false )
+					.sum());
+	}
 }

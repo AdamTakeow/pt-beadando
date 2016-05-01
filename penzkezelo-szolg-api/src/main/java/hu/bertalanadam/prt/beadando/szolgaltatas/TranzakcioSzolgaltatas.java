@@ -41,4 +41,5 @@ public interface TranzakcioSzolgaltatas {
 	 * @return Egy lista a paraméterül kapott felhasználó tranzakcióiról.
 	 */
 	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
+
 }

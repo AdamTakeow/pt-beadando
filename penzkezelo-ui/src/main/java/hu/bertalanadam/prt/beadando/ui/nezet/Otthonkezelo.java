@@ -44,23 +44,41 @@ public class Otthonkezelo {
 	private Text egyenleg_text;
 	
 	@FXML
+	private Text sum_bevetel;
+	
+	@FXML
+	private Text sum_kiadas;
+	
+	@FXML
 	private Text tranzakciok_text;
 	
 	public void adatFrissites(){
 		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezett_fh.getFelhasznalonev());
 		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
+		
+		long osszes_bev = felhasznaloSzolgaltatas.osszesBevetelAFelhasznalohoz(bejelentkezett_fh);
+		sum_bevetel.setText("" + osszes_bev);
+		
+		long osszes_kiad = felhasznaloSzolgaltatas.osszesKiadasAFelhasznalohoz(bejelentkezett_fh);
+		sum_kiadas.setText("" + osszes_kiad);
 	}
 	
 	@FXML
 	private void initialize(){
 		// beállítjuk az aktuális felhasználót
 		bejelentkezett_fh = bejelentkezesKezelo.getBejelentkezett_fh();
-		logolo.info("Otthonkezelo initialize: bejelentkezett felhasznalo: " + bejelentkezett_fh );
+//		logolo.info("Otthonkezelo initialize: bejelentkezett felhasznalo: " + bejelentkezett_fh );
 		
 		// beállítjuk az adatokat
 		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
 		
 		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
+		
+		long osszes_bev = felhasznaloSzolgaltatas.osszesBevetelAFelhasznalohoz(bejelentkezett_fh);
+		sum_bevetel.setText("" + osszes_bev);
+		
+		long osszes_kiad = felhasznaloSzolgaltatas.osszesKiadasAFelhasznalohoz(bejelentkezett_fh);
+		sum_kiadas.setText("" + osszes_kiad);
 	}
 	
 	@FXML
