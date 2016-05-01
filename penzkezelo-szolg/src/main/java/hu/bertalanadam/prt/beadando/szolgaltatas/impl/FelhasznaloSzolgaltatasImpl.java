@@ -34,7 +34,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	private static Logger logolo = LoggerFactory.getLogger(FelhasznaloSzolgaltatasImpl.class);
 	
 	/**
-	 * A penzkezelo-db modulból származó {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo}.
+	 * A penzkezelo-db modulból származó {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo FelhasznaloTarolo}.
 	 * Ezt az adattagot az {@link org.springframework.beans.factory.annotation.Autowired} annotáció
 	 * segítségével a spring DI injektálja be. Ezen az adattagon keresztül érhetőek el egy felhasználóhoz
 	 * szükséges adatbázis műveletek.
@@ -53,7 +53,8 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		if( f == null ){
 			logolo.error("FelhasznaloSzolgaltatasImpl: Nem sikerült lekérdezni a(z) " + felhasznalonev + " felhasználónevű felhasználót!");			
 		} else {
-			logolo.info("FelhasznaloSzolgaltatasImpl: Sikeres lekérdezés: a következő felhasználónévvel: " + felhasznalonev );			
+//			logolo.info("FelhasznaloSzolgaltatasImpl: Sikeres lekérdezés: a következő felhasználónévvel: " + felhasznalonev +
+//					" a kapott eredmény(Felhasznalo): " + f );			
 		}
 
 		return FelhasznaloMapper.toVo( f );
@@ -63,11 +64,27 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * @see hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas#ujFelhasznaloLetrehozas(hu.bertalanadam.prt.beadando.vo.FelhasznaloVo)
 	 */
 	@Override
-	public void ujFelhasznaloLetrehozas(FelhasznaloVo felhasznalo) {
+	public FelhasznaloVo ujFelhasznaloLetrehozas(FelhasznaloVo felhasznalo) {
+//		logolo.info("Felhasználó mentése: " + felhasznalo);
+		
 		Felhasznalo ujfelhasznalo = FelhasznaloMapper.toDto(felhasznalo);
 		
-		felhasznaloTarolo.save(ujfelhasznalo);
+		// TESZTELD KI (old: saveAndFlush)
+		return FelhasznaloMapper.toVo(felhasznaloTarolo.save(ujfelhasznalo));
 	}
 
-	
+	@Override
+	public FelhasznaloVo frissitFelhasznalot(FelhasznaloVo felhasznalo) {
+		
+		// egyelőre csak az egyenleget állítom be
+		long egyenleg = felhasznalo.getTranzakciok().stream()
+													.mapToLong( t -> t.getOsszeg() )
+													.sum();
+		
+		felhasznalo.setEgyenleg(egyenleg);
+		
+		// TESZTELD KI (old: saveAndFlush)
+		Felhasznalo ret = felhasznaloTarolo.save(FelhasznaloMapper.toDto(felhasznalo));
+		return FelhasznaloMapper.toVo(ret);
+	}	
 }

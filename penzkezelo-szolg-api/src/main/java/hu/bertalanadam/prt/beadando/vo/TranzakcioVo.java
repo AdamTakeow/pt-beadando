@@ -20,6 +20,11 @@ public class TranzakcioVo implements Serializable{
 	 * */
 	public TranzakcioVo() {
 	}
+	
+	/**
+	 * A tranzakció azonosítója.
+	 */
+	private Long id;
 
 	/**
 	 * Az a pénzösszeg amiről a tranzakció szól.
@@ -175,10 +180,29 @@ public class TranzakcioVo implements Serializable{
 		this.ismetlodo = ismetlodo;
 	}
 
+	/**
+	 * Visszaadja a tranzakció azonosítóját.
+	 * @return A tranzakció azonosítója.
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Beállítja a tranzakció azonosítóját.
+	 * @param id A beállítandó azonosító.
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "TranzakcioVo [osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras + ", felhasznalo="
-				+ felhasznalo + ", kategoria=" + kategoria + ", lekotes=" + lekotes + ", ismetlodo=" + ismetlodo + "]";
+		return "TranzakcioVo [id=" + id + ", osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras
+				+ ", felhasznalo=" + felhasznalo + ", kategoria=" + kategoria + ", lekotes=" + lekotes + ", ismetlodo="
+				+ ismetlodo + "]";
 	}
-	
 }

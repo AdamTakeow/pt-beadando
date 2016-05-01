@@ -72,14 +72,6 @@ public class Ismetlodo extends FoEntitas {
 		this.teljesitett = teljesitett;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Ismetlodo [ido=" + ido + ", teljesitett=" + teljesitett + "]";
-	}
-
 	/**
 	 * Visszaadja azt a tranzakciót amihez ez az ismétlődő tartozik.
 	 * @return Az ismétlődőhöz tartozó tranzakció
@@ -94,5 +86,13 @@ public class Ismetlodo extends FoEntitas {
 	 */
 	public void setTranzakcio(Tranzakcio tranzakcio) {
 		this.tranzakcio = tranzakcio;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Ismetlodo [ido=" + ido + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
 	}
 }

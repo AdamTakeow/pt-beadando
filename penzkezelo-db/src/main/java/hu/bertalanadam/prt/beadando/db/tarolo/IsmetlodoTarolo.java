@@ -16,7 +16,7 @@ import hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo;
  * ezáltal az alapvető CRUD műveletek előre definiáltak.
  * */
 @Repository
-@Transactional(propagation = Propagation.SUPPORTS)
+@Transactional(propagation = Propagation.SUPPORTS) 
 public interface IsmetlodoTarolo extends JpaRepository<Ismetlodo, Long> {
 
 }

@@ -21,8 +21,20 @@ public interface FelhasznaloSzolgaltatas {
 	FelhasznaloVo findByFelhasznalonev( String felhasznalonev );
 	
 	/**
-	 * @param felhasznalo
+	 * Ez a szolgáltatás létrehozza a paraméterül kapott felhasználót az adatbázisban.
+	 * Az implementációban szereplő adatbázis modulban lévő {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo FelhasznaloTarolo}
+	 * segítségével perzistenssé alakítjuk a felhasználót.
+	 * @param felhasznalo Az a felhasználó amelyet perzisztálni kell az adatbázisba.
+	 * @return Az immár perzisztált adatbáziselem.
 	 */
-	void ujFelhasznaloLetrehozas( FelhasznaloVo felhasznalo );
+	FelhasznaloVo ujFelhasznaloLetrehozas( FelhasznaloVo felhasznalo );
+	
+	/**
+	 * Ez a szolgáltatás egy adatbázsiban már szereplő felhasználó adatait frissíti, azaz
+	 * módosítja az adatbázisban úgy, hogy az megfeleljen a paraméterül kapott felhasználó adataival.
+	 * @param felhasznalo Az a módosított adatokkal rendelkező felhasználó, amelyet szeretnénk perzisztálni.
+	 * @return A frissített felhasználó amely már szerepel az adatbázisban.
+	 */
+	FelhasznaloVo frissitFelhasznalot( FelhasznaloVo felhasznalo );
 	
 }

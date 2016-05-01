@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.db.entitas;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,13 +30,14 @@ public class Kategoria extends FoEntitas {
 	/**
 	 * A kategória megnevezése. 
 	 */
+	@Column(unique=true)
 	private String nev;
 	
 	/**
 	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak.
 	 * Egy kategóriába több tranzakció is sorolható.
 	 */
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="kategoria", cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private List<Tranzakcio> tranzakciok;
 	
 	/**
@@ -54,14 +56,6 @@ public class Kategoria extends FoEntitas {
 		this.nev = nev;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Kategoria [nev=" + nev + "]";
-	}
-
 	/**
 	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a kategóriába sorolhatók.
 	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
@@ -76,5 +70,13 @@ public class Kategoria extends FoEntitas {
 	 */
 	public void setTranzakciok(List<Tranzakcio> tranzakciok) {
 		this.tranzakciok = tranzakciok;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Kategoria [nev=" + nev + ", tranzakciok=" + tranzakciok + "]";
 	}
 }

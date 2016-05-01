@@ -18,6 +18,11 @@ public class IsmetlodoVo implements Serializable {
 	 */
 	public IsmetlodoVo() {
 	}
+	
+	/**
+	 * Az ismétlődő azonosítója
+	 */
+	private Long id;
 
 	/**
 	 * Az a mennyiség (napban) ami megmondja hogy milyen időközönként ismétlődik
@@ -38,7 +43,6 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Visszaadja hogy hány naponta ismétlődik egy tranzakció.
-	 * 
 	 * @return Az ismétlődés gyakorisága napban.
 	 */
 	public Long getIdo() {
@@ -47,9 +51,7 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Beállítja hogy hány naponta ismétlődjön egy tranzakció.
-	 * 
-	 * @param ido
-	 *            Az ismétlődés gyakorisága napban.
+	 * @param ido Az ismétlődés gyakorisága napban.
 	 */
 	public void setIdo(Long ido) {
 		this.ido = ido;
@@ -57,7 +59,6 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Visszaadja hogy teljesítve van-e egy ismétlődő tranzakció.
-	 * 
 	 * @return true ha teljesítve van, false ha nincs.
 	 */
 	public boolean isTeljesitett() {
@@ -66,10 +67,7 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Beállítja hogy teljesítve legyen-e egy ismétlődő tranzakció.
-	 * 
-	 * @param teljesitett
-	 *            true ha legyen az ismétlődő tranzakció teljesítve, false ha
-	 *            ne.
+	 * @param teljesitett true ha legyen az ismétlődő tranzakció teljesítve, false ha ne.
 	 */
 	public void setTeljesitett(boolean teljesitett) {
 		this.teljesitett = teljesitett;
@@ -77,8 +75,7 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Visszaadja azt a tranzakciót amihez ez az ismétlődő tartozik.
-	 * 
-	 * @return Az ismétlődőhöz tartozó tranzakció
+	 * @return Az ismétlődőhöz tartozó tranzakció.
 	 */
 	public TranzakcioVo getTranzakcio() {
 		return tranzakcio;
@@ -86,17 +83,34 @@ public class IsmetlodoVo implements Serializable {
 
 	/**
 	 * Beállítja hogy melyik tranzakcióhoz tartozzon ez az ismétlődő.
-	 * 
-	 * @param tranzakcio
-	 *            A beállítandó tranzakció.
+	 * @param tranzakcio A beállítandó tranzakció.
 	 */
 	public void setTranzakcio(TranzakcioVo tranzakcio) {
 		this.tranzakcio = tranzakcio;
 	}
 
-	@Override
-	public String toString() {
-		return "IsmetlodoVo [ido=" + ido + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
+	/**
+	 * Visszaadja az ismétlődő azonosítóját.
+	 * @return Az ismétlődő azonosítója.
+	 */
+	public Long getId() {
+		return id;
 	}
 
+	/**
+	 * Beállítja az ismétlődő azonosítóját
+	 * @param id A beállítandó azonosító.
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "IsmetlodoVo [id=" + id + ", ido=" + ido + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio
+				+ "]";
+	}
 }

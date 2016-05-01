@@ -18,6 +18,11 @@ public class LekotesVo implements Serializable {
 	 * */
 	public LekotesVo() {
 	}
+	
+	/**
+	 * A lekötés azonosítója.
+	 */
+	private Long id;
 
 	/**
 	 * Az a pénzösszeg amelyről a lekötés szól.
@@ -146,13 +151,29 @@ public class LekotesVo implements Serializable {
 		this.tranzakcio = tranzakcio;
 	}
 
+	/**
+	 * Visszaadja a lekötés azonosítóját.
+	 * @return A lekötés azonosítója.
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Beállítja a lekötés azonosítóját.
+	 * @param id A beállítandó azonosító.
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "LekotesVo [osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat + ", varhato=" + varhato
-				+ ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
+		return "LekotesVo [id=" + id + ", osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat
+				+ ", varhato=" + varhato + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
 	}
 	
 }

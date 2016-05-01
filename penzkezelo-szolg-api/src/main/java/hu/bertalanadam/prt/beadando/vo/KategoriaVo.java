@@ -19,6 +19,11 @@ public class KategoriaVo implements Serializable {
 	 */
 	public KategoriaVo() {
 	}
+	
+	/**
+	 * A kategória azonosítója.
+	 */
+	private Long id;
 
 	/**
 	 * A kategória megnevezése.
@@ -33,7 +38,6 @@ public class KategoriaVo implements Serializable {
 
 	/**
 	 * Visszaadja a kategória nevét.
-	 * 
 	 * @return A kategória neve.
 	 */
 	public String getNev() {
@@ -42,9 +46,7 @@ public class KategoriaVo implements Serializable {
 
 	/**
 	 * Beállítja a kategória nevét.
-	 * 
-	 * @param nev
-	 *            A beállítandó kategórianév.
+	 * @param nev A beállítandó kategórianév.
 	 */
 	public void setNev(String nev) {
 		this.nev = nev;
@@ -53,9 +55,7 @@ public class KategoriaVo implements Serializable {
 	/**
 	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a
 	 * kategóriába sorolhatók.
-	 * 
-	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú
-	 *         tranzakciók vannak.
+	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
 	 */
 	public List<TranzakcioVo> getTranzakciok() {
 		return tranzakciok;
@@ -63,18 +63,34 @@ public class KategoriaVo implements Serializable {
 
 	/**
 	 * Beállítja hogy ebbe a kategóriába melyik tranzakciók tartozzanak.
-	 * 
-	 * @param tranzakciok
-	 *            A {@link java.util.List} amiben az azonos kategóriájú
-	 *            tranzakciók vannak.
+	 * @param tranzakciok A {@link java.util.List} amiben az azonos kategóriájú 
+	 * tranzakciók vannak.
 	 */
 	public void setTranzakciok(List<TranzakcioVo> tranzakciok) {
 		this.tranzakciok = tranzakciok;
 	}
 
-	@Override
-	public String toString() {
-		return "KategoriaVo [nev=" + nev + ", tranzakciok=" + tranzakciok + "]";
+	/**
+	 * Visszaadja a kategória azonosítóját.
+	 * @return A kategória azonosítója.
+	 */
+	public Long getId() {
+		return id;
 	}
 
+	/**
+	 * Beállítja a kategória azonosítóját.
+	 * @param id A beállítandó azonosító.
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "KategoriaVo [id=" + id + ", nev=" + nev + ", tranzakciok=" + tranzakciok + "]";
+	}
 }

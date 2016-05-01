@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -55,8 +54,7 @@ public class Felhasznalo extends FoEntitas {
 	 * Minden egyes bevételt, kiadást és lekötést egy-egy tranzakcióként kezelünk, így 
 	 * minden felhasználó rendelkezik egy listáról amelyben a tranzakciói szerepelnek.
 	 * */
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="tranzakcio_id")
+	@OneToMany(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private List<Tranzakcio> tranzakciok;
 	
 
@@ -127,16 +125,7 @@ public class Felhasznalo extends FoEntitas {
 	public void setLebontas(int lebontas) {
 		this.lebontas = lebontas;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Felhasznalo [felasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
-				+ ", lebontas=" + lebontas + "]";
-	}
-
+	
 	/**
 	 * Visszaadja a felhasználó tranzakcióit.
 	 * @return Egy {@link java.util.List} amiben a felhasználó tranzakciói szerepelnek.
@@ -153,4 +142,12 @@ public class Felhasznalo extends FoEntitas {
 		this.tranzakciok = tranzakciok;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
+				+ ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + "]";
+	}
 }

@@ -135,15 +135,6 @@ public class Lekotes extends FoEntitas {
 		this.teljesitett = teljesitett;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Lekotes [osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat + ", varhato=" + varhato
-				+ ", teljesitett=" + teljesitett + "]";
-	}
-
 	/**
 	 * Visszaadja azt a tranzakciót amihez ez a lekötés tartozik.
 	 * @return A tranzakció amihez ez a lekötés tartozik.
@@ -158,5 +149,14 @@ public class Lekotes extends FoEntitas {
 	 */
 	public void setTranzakcio(Tranzakcio tranzakcio) {
 		this.tranzakcio = tranzakcio;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Lekotes [osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat + ", varhato=" + varhato
+				+ ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
 	}
 }

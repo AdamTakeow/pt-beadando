@@ -19,6 +19,16 @@ import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface KategoriaTarolo extends JpaRepository<Kategoria, Long> {
 	
+	/**
+	 * Egy kategóriát keres az adatbázsiban a kategórianeve alapján.
+	 * A metódushoz tartozó lekérdezést a spring készíti el a metódus neve alapján, ezért a 
+	 * findBy használata szükséges a metódus nevében, valamint ezt követően az a mező, ami a {@code where}
+	 * feltételben szerepelni fog.
+	 * @param nev Az a kategórianév aminek meg kell egyeznie a talált kategória kategórianevével.
+	 * Ezt a kategórianevet helyettesíti be a {@code where nev = ?} kifejezésben a ? helyére.
+	 * @return Pontosan egy {@link hu.bertalanadam.prt.beadando.db.entitas.Kategoria Kategoria} amelynek
+	 * megegyezik a neve a metódus paraméterül adott Stringben szereplővel.
+	 */
 	Kategoria findByNev(String nev);
 
 }

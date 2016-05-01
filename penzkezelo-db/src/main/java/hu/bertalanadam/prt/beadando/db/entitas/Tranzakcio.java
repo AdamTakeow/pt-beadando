@@ -1,11 +1,11 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -54,14 +54,16 @@ public class Tranzakcio extends FoEntitas {
 	 * Az a felhasználó akihez ez a tranzació tartozik.
 	 * Több tranzakció is tartozhat egy felhasználóhoz.
 	 * */
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	@JoinColumn(name="tranzakcio_id")
 	private Felhasznalo felhasznalo;
 	
 	/**
 	 * Az a kategória amihez ez a tranzakció tartozik.
 	 * Több tranzakció sorolható egy kategóriába.
 	 * */
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	@JoinColumn(name="kategoria_id")
 	private Kategoria kategoria;
 	
 	/**
@@ -125,14 +127,6 @@ public class Tranzakcio extends FoEntitas {
 	 */
 	public void setLeiras(String leiras) {
 		this.leiras = leiras;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Tranzakcio [osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras + "]";
 	}
 
 	/**
@@ -199,5 +193,14 @@ public class Tranzakcio extends FoEntitas {
 	 */
 	public void setIsmetlodo(Ismetlodo ismetlodo) {
 		this.ismetlodo = ismetlodo;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Tranzakcio [osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras + ", felhasznalo="
+				+ felhasznalo + ", kategoria=" + kategoria + ", lekotes=" + lekotes + ", ismetlodo=" + ismetlodo + "]";
 	}
 }

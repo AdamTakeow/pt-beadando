@@ -19,5 +19,15 @@ import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface FelhasznaloTarolo extends JpaRepository<Felhasznalo, Long> {
 
+	/**
+	 * Egy felhasználót keres az adatbázsiban a felhasználóneve alapján.
+	 * A metódushoz tartozó lekérdezést a spring készíti el a metódus neve alapján, ezért a 
+	 * findBy használata szükséges a metódus nevében, valamint ezt követően az a mező, ami a {@code where}
+	 * feltételben szerepelni fog.
+	 * @param felhasznalonev Az a felhasználónév aminek meg kell egyeznie a talált felhasználó felhasználónevével.
+	 * Ezt a felhasználónevet helyettesíti be a {@code where felhasznalonev = ?} kifejezésben a ? helyére.
+	 * @return Pontosan egy {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo Felhasznalo} amelynek
+	 * megegyezik a felhasználóneve a metódus paraméteréül adot Stringben szereplővel.
+	 */
 	Felhasznalo findByFelhasznalonev( String felhasznalonev );
 }
