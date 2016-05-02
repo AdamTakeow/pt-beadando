@@ -4,6 +4,7 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +74,29 @@ public class UjKategoriaKezelo {
 			if( kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText()) != null ){
 				// van már ilyen kategórianév
 				logolo.info("Már létezik az adatbázisban ilyen kategória: " + ujKatNeve.getText());
-				celszoveg.setText("Ilyen kategórianév már létezik!");
+//				
+				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText());
+				
+				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+				boolean isEmpty = fhk.stream()
+							    .filter( f -> f.getFelhasznalonev().equals(ujtranzakciokezelo.getBejelentkezett_fh().getFelhasznalonev()) )
+								.collect(Collectors.toList()).isEmpty();
+				
+				if( isEmpty ){
+					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());					
+					letezo_kat.setFelhasznalok(fhk);
+					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
+					
+					BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
+					Scene scene = new Scene(pane);
+					Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+					stage.setScene(scene);
+					
+				} else {
+					celszoveg.setText("Ilyen kategórianév már létezik!");
+				}
+				
+				
 			} else {
 				logolo.info("Még nincs ilyen kategória az adatbázisban");
 				// nincs még ilyen nevű kategória az adatbázisban

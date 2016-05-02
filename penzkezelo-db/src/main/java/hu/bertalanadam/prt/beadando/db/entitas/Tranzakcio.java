@@ -47,7 +47,7 @@ public class Tranzakcio extends FoEntitas {
 	/**
 	 * A tranzakció részleteinek leírása.
 	 * */
-	@Lob
+//	@Lob
 	private String leiras;
 	
 	/**

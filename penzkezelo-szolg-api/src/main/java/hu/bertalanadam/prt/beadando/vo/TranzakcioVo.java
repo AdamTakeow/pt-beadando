@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javafx.beans.property.StringProperty;
+
 /**
  * Egyszerű osztály a tranzakcióhoz tartozó adatok szállítására az adatbázis réteg
  * és a szolgáltatás réteg között (POJO). 
@@ -20,6 +22,10 @@ public class TranzakcioVo implements Serializable{
 	 * */
 	public TranzakcioVo() {
 	}
+	
+//	private StringProperty osszeg_prop;
+//	private StringProperty kategoria_prop;
+//	private StringProperty datum_prop;
 	
 	/**
 	 * A tranzakció azonosítója.

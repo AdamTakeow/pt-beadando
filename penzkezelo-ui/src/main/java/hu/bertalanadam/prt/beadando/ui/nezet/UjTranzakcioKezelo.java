@@ -163,7 +163,7 @@ public class UjTranzakcioKezelo {
 		boolean kiadas = false;
 		// ha nincs kiválasztva egyetlen rádiógomb se
 		if( !bevetel_radiogomb.isSelected() && !kiadas_radiogomb.isSelected() ){
-			celszoveg.setText(celszoveg.getText() + "Válassza ki, hogy kiadás vagy bevétel!");
+			celszoveg.setText(celszoveg.getText() + "Válassza ki, hogy kiadás vagy bevétel!\n");
 			mehet = false;
 		} else {
 			if( kiadas_radiogomb.isSelected() ){
@@ -174,23 +174,28 @@ public class UjTranzakcioKezelo {
 		// ha nem lett beleírva semmi az összeg mezőbe.
 		long osszeg = 0;
 		try {
-			if( osszeg_bevitel.getText().length() == 0 ){
-				celszoveg.setText(celszoveg.getText() + "Írja be az összeget!");
+			if( osszeg_bevitel.getText() == null ){
+				celszoveg.setText(celszoveg.getText() + "Írja be az összeget!\n");
 				mehet = false;
 			} else {
 				osszeg = Long.parseLong(osszeg_bevitel.getText());
+				if( osszeg == 0 ){
+					throw new NumberFormatException();
+				}
 			}
 		} catch (NumberFormatException nfe) {
-			celszoveg.setText(celszoveg.getText() + "Az összeg mezőbe számot kell írni!");
+			celszoveg.setText(celszoveg.getText() + "Az összeg mezőbe számot (nullától különbözőt) kell írni!\n");
 		}
 		
 		// ha nincs leírás írva, akkor üresen hagyjuk.
 		String leiras = leiras_bevitel.getText();
 		
 		// ha nincs dátum kiválasztva akkor üres lesz
-		Date datum = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		if( datum == null ){
+		Date datum = null;
+		if( datum_bevitel.getValue() == null ){
 			datum = new Date();
+		} else { 
+			datum = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 		
 		// megnézzük hogy a felhasználó melyik kategóriát választotta
@@ -211,14 +216,17 @@ public class UjTranzakcioKezelo {
 						
 			// létrehozom a tranzakciót az adatbázisban
 			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTranzakcio);
+
+			if( trz_kategoriaja != null ){
+				// elkérem a kategória tranzakcióit
+				List<TranzakcioVo> trz_kategoriajanak_trzi = trz_kategoriaja.getTranzakciok();
+				// hozzáadom a lementett tranzakciót a kategóriák meglévő tranzakcióihoz
+				trz_kategoriajanak_trzi.add(letezo_trz);
+				// beállítom a bővített listát a kategória tranzakcióinak
+				trz_kategoriaja.setTranzakciok(trz_kategoriajanak_trzi);
+				kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);				
+			}
 			
-			// elkérem a kategória tranzakcióit
-			List<TranzakcioVo> trz_kategoriajanak_trzi = trz_kategoriaja.getTranzakciok();
-			// hozzáadom a lementett tranzakciót a kategóriák meglévő tranzakcióihoz
-			trz_kategoriajanak_trzi.add(letezo_trz);
-			// beállítom a bővített listát a kategória tranzakcióinak
-			trz_kategoriaja.setTranzakciok(trz_kategoriajanak_trzi);
-			kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);
 			
 			// elkérem a felhasználótól a tranzakcióit
 			List<TranzakcioVo> felh_trzi = bejelentkezett_fh.getTranzakciok();
