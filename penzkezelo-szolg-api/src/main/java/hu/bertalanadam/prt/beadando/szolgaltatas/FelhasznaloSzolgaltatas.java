@@ -37,8 +37,18 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	FelhasznaloVo frissitFelhasznalot( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * Kiszámolja a felhasználó összes eddigi bevételét és visszaadja eredményül.
+	 * @param felhasznalo A felhasználó akinek az eddigi összes bevételére kíváncsiak vagyunk.
+	 * @return A felhasználó eddigi összes bevétele.
+	 */
 	long osszesBevetelAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * Kiszámolja a felhasználó összes eddigi kiadását és visszaadja eredményül.
+	 * @param felhasznalo A felhasználó akinek az eddigi összes kiadására kíváncsiak vagyunk.
+	 * @return A felhasználó eddigi összes kiadása.
+	 */
 	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 }

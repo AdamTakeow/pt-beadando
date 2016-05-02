@@ -49,6 +49,11 @@ public class FelhasznaloVo implements Serializable {
 	 * Lista a felhasználó tranzakcióiról.
 	 */
 	private List<TranzakcioVo> tranzakciok;
+	
+	/**
+	 * Lista a felhasználó kategóriáiról.
+	 */
+	private List<KategoriaVo> kategoriak;
 
 	/**
 	 * Visszaadja a felhasználó azonosítóját.
@@ -146,15 +151,29 @@ public class FelhasznaloVo implements Serializable {
 		this.tranzakciok = tranzakciok;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Visszaadja a felhasználó kategóriáit.
+	 * @return A felhasználó kategórialistája.
+	 */
+	public List<KategoriaVo> getKategoriak() {
+		return kategoriak;
+	}
+	
+	/**
+	 * Beállít a felhasználóhoz tartozó kategóriákat.
+	 * @param kategoriak A beállítandó kategórialista.
+	 */
+	public void setKategoriak(List<KategoriaVo> kategoriak) {
+		this.kategoriak = kategoriak;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "FelhasznaloVo [id=" + id + ", felasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
-				+ egyenleg + ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + "]";
+		return "FelhasznaloVo [id=" + id + ", felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
+				+ egyenleg + ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak
+				+ "]";
 	}
-
 }

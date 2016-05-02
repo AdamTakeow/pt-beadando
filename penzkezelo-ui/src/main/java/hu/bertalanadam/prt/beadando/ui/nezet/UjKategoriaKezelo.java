@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
+import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
@@ -78,6 +80,11 @@ public class UjKategoriaKezelo {
 				// létrehozzuk az új kategóriát
 				KategoriaVo ujkat = new KategoriaVo();
 				ujkat.setNev(ujKatNeve.getText());
+				
+				List<FelhasznaloVo> felhasznalok = new ArrayList<>();
+				felhasznalok.add(ujtranzakciokezelo.getBejelentkezett_fh());
+				ujkat.setFelhasznalok(felhasznalok);
+				
 				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
 				
 				// beállítjuk a tranzakciós képernyőn a kategóriát

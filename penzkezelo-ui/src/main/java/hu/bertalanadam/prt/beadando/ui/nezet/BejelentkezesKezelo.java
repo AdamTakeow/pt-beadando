@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
+import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -118,6 +119,7 @@ public class BejelentkezesKezelo {
 				ujfelhasznalo.setJelszo(jelszo_bevitel.getText());
 				ujfelhasznalo.setLebontas(0);
 				ujfelhasznalo.setTranzakciok(new ArrayList<TranzakcioVo>());
+				ujfelhasznalo.setKategoriak(new ArrayList<KategoriaVo>());
 				
 				// elmentjük az új felhasználót
 				fhsz.ujFelhasznaloLetrehozas(ujfelhasznalo);	

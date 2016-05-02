@@ -35,6 +35,11 @@ public class KategoriaVo implements Serializable {
 	 * több tranzakció is sorolható.
 	 */
 	private List<TranzakcioVo> tranzakciok;
+	
+	/**
+	 * A kategóriát birtokló felhasznlálók listája.
+	 */
+	private List<FelhasznaloVo> felhasznalok;
 
 	/**
 	 * Visszaadja a kategória nevét.
@@ -86,11 +91,28 @@ public class KategoriaVo implements Serializable {
 		this.id = id;
 	}
 
+	/**
+	 * Visszaadja a kategória tulajdonosainak listáját.
+	 * @return A kategóriát birtokló felhasználók listája.
+	 */
+	public List<FelhasznaloVo> getFelhasznalok() {
+		return felhasznalok;
+	}
+	
+	/**
+	 * Beállítja a kategóriát birtokló felhasználókat.
+	 * @param felhasznalok A kategória tulajdonosainak listája.
+	 */
+	public void setFelhasznalok(List<FelhasznaloVo> felhasznalok) {
+		this.felhasznalok = felhasznalok;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "KategoriaVo [id=" + id + ", nev=" + nev + ", tranzakciok=" + tranzakciok + "]";
+		return "KategoriaVo [id=" + id + ", nev=" + nev + ", tranzakciok=" + tranzakciok + ", felhasznalok="
+				+ felhasznalok + "]";
 	}
 }

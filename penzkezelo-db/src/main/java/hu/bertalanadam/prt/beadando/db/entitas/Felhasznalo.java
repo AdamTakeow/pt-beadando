@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -56,6 +58,14 @@ public class Felhasznalo extends FoEntitas {
 	 * */
 	@OneToMany(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private List<Tranzakcio> tranzakciok;
+	
+	/**
+	 * A felhasználóhoz tartozó kategóriák listája.
+	 * Egy felhasználóhoz több kategória is tartozhat és egy kategória
+	 * több felhasználóhoz is tartozhat.
+	 */
+	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY)
+	private List<Kategoria> kategoriak;
 	
 
 	/**
@@ -142,12 +152,28 @@ public class Felhasznalo extends FoEntitas {
 		this.tranzakciok = tranzakciok;
 	}
 
+	/**
+	 * Visszaadja a felhasználó kategóriáit.
+	 * @return A felhasználó kategóriái.
+	 */
+	public List<Kategoria> getKategoriak() {
+		return kategoriak;
+	}
+	
+	/**
+	 * Beállítja a felhasználó kategóriáit.
+	 * @param kategoriak A felhasználó kategóriái.
+	 */
+	public void setKategoriak(List<Kategoria> kategoriak) {
+		this.kategoriak = kategoriak;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
-				+ ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + "]";
+				+ ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak + "]";
 	}
 }

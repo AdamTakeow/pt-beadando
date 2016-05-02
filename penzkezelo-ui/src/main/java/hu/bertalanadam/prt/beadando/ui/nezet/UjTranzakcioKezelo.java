@@ -96,7 +96,7 @@ public class UjTranzakcioKezelo {
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();		
 		
 		// felhozom az összes kategóriát az adatbázisból
-		List<KategoriaVo> kategoriak = kategoriaSzolgaltatas.getAllKategoria();	
+		List<KategoriaVo> kategoriak = kategoriaSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);	
 	
 		ObservableList<String> list = FXCollections.observableArrayList();
 
@@ -226,6 +226,14 @@ public class UjTranzakcioKezelo {
 			felh_trzi.add(letezo_trz);
 			// beállítom a felhasználó tranzakcióit
 			bejelentkezett_fh.setTranzakciok(felh_trzi);
+			
+			// elkérem a felhasználótól a kategóriáit
+			List<KategoriaVo> felh_ktgi = bejelentkezett_fh.getKategoriak();
+			// hozzáadom a felhasználó kategóriáihoz a kategóriát
+			felh_ktgi.add(trz_kategoriaja);
+			// beállítom a felhasználó kategóriáit.
+			bejelentkezett_fh.setKategoriak(felh_ktgi);
+			
 			felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 			
 			
@@ -253,5 +261,9 @@ public class UjTranzakcioKezelo {
 			
 			((Stage)closeButton.getScene().getWindow()).close();
 		}
+	}
+	
+	public FelhasznaloVo getBejelentkezett_fh(){
+		return bejelentkezett_fh;
 	}
 }

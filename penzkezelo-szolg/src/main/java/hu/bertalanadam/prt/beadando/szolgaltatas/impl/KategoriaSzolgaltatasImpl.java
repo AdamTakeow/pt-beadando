@@ -1,6 +1,7 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 import hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo;
 import hu.bertalanadam.prt.beadando.mapper.KategoriaMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
+import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 
 /**
@@ -83,6 +85,35 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 		
 		return KategoriaMapper.toVo(frissitett);
 		
+	}
+
+	@Override
+	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		
+		List<KategoriaVo> kategoriak = KategoriaMapper.toVo(kategoriaTarolo.findAll());
+		logolo.info("Osszes kategoria:");
+		for (KategoriaVo kategoriaVo : kategoriak) {
+			logolo.info("Kategoria check: " + kategoriaVo.getNev() );
+			List<FelhasznaloVo> kateg_felhasznaloi = kategoriaVo.getFelhasznalok();
+			logolo.info("Kategoria felhasznaloi:");
+			for (FelhasznaloVo felhasznaloVo : kateg_felhasznaloi) {
+				logolo.info("felhasznalo: " + felhasznaloVo.getFelhasznalonev());
+			}
+		}
+		
+		List<KategoriaVo> fh_kategoriai = kategoriak.stream()
+				 .filter( k -> !k.getFelhasznalok().stream()
+						 						  .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
+				 								  .collect(Collectors.toList())
+				 								  .isEmpty() )
+				 .collect(Collectors.toList());
+		
+		logolo.info("Osszes felhasznalohoz tartozo kategoria:");
+		for (KategoriaVo kategoriaVo : fh_kategoriai) {
+			logolo.info("kategoria check: " + kategoriaVo.getNev());
+		}
+		
+		return fh_kategoriai;
 	}
 
 }

@@ -2,6 +2,7 @@ package hu.bertalanadam.prt.beadando.szolgaltatas;
 
 import java.util.List;
 
+import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 
 /**
@@ -42,5 +43,13 @@ public interface KategoriaSzolgaltatas {
 	 * @return Az immár frissített kategória.
 	 */
 	KategoriaVo frissitKategoriat( KategoriaVo kategoria );
+	
+	/**
+	 * Visszaadja eredményül azt a listát, amely már csak azokat a kategóriákat tartalmazza,
+	 * amelyek a paraméterként megadott felhasználóhoz tartoznak.
+	 * @param felhasznalo Az a felhasználó akinek a kategóriáit keressük.
+	 * @return Egy lista amely csak a felhasználó kategóriáit tartalmazza.
+	 */
+	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
 
 }

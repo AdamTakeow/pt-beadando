@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,6 +45,17 @@ public class Kategoria extends FoEntitas {
 	private List<Tranzakcio> tranzakciok;
 	
 	/**
+	 * A kategóriát birtokló felhasználók listája.
+	 * Egy kategóriát több felhasználó is birtokolhat, valamint
+	 * egy felhasználó több kategóriával is rendelkezhet.
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "felhasznalo_to_kategoria", joinColumns = 
+	@JoinColumn(name = "kategoria_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "felhasznalo_id", referencedColumnName = "id"))
+	private List<Felhasznalo> felhasznalok;
+
+	/**
 	 * Visszaadja a kategória nevét.
 	 * @return A kategória neve.
 	 */
@@ -71,12 +86,25 @@ public class Kategoria extends FoEntitas {
 	public void setTranzakciok(List<Tranzakcio> tranzakciok) {
 		this.tranzakciok = tranzakciok;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	
+	/**
+	 * Visszaadja a felhasználót akié a kategória.
+	 * @return A kategória tulajdonosa.
 	 */
+	public List<Felhasznalo> getFelhasznalok() {
+		return felhasznalok;
+	}
+
+	/**
+	 * Beállítja hogy a kategória melyik felhasználóhoz tartozzon.
+	 * @param felhasznalo Az a felhasználó akié a kategória.
+	 */
+	public void setFelhasznalok(List<Felhasznalo> felhasznalok) {
+		this.felhasznalok = felhasznalok;
+	}
+
 	@Override
 	public String toString() {
-		return "Kategoria [nev=" + nev + ", tranzakciok=" + tranzakciok + "]";
+		return "Kategoria [nev=" + nev + ", tranzakciok=" + tranzakciok + ", felhasznalo=" + felhasznalok + "]";
 	}
 }
