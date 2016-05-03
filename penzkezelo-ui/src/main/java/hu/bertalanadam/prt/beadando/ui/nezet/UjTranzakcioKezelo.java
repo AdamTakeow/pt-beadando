@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.LocalDate;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
@@ -212,11 +213,14 @@ public class UjTranzakcioKezelo {
 		String leiras = leiras_bevitel.getText();
 		
 		// ha nincs dátum kiválasztva akkor az aktuális dátum lesz
-		Date datum = null;
+//		Date datum = null;
+		java.time.LocalDate datum = null;
 		if( datum_bevitel.getValue() == null ){
-			datum = new Date();
+//			datum = new Date();
+			datum = java.time.LocalDate.now();
 		} else { 
-			datum = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//			datum = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			datum = datum_bevitel.getValue();
 		}
 		
 		// megnézzük hogy a felhasználó melyik kategóriát választotta

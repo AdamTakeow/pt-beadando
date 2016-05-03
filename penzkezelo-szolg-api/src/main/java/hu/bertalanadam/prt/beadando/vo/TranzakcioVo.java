@@ -23,10 +23,6 @@ public class TranzakcioVo implements Serializable{
 	public TranzakcioVo() {
 	}
 	
-//	private StringProperty osszeg_prop;
-//	private StringProperty kategoria_prop;
-//	private StringProperty datum_prop;
-	
 	/**
 	 * A tranzakció azonosítója.
 	 */
@@ -40,7 +36,8 @@ public class TranzakcioVo implements Serializable{
 	/**
 	 * A tranzakció végrehajtásának dátuma.
 	 * */
-	private Date datum;
+//	private Date datum;
+	private LocalDate datum;
 	
 	/**
 	 * A tranzakció részleteinek leírása.
@@ -92,7 +89,10 @@ public class TranzakcioVo implements Serializable{
 	 * Visszaadja a tranzakció teljesítésének dátumát.
 	 * @return A tranzakció dátuma.
 	 */
-	public Date getDatum() {
+//	public Date getDatum() {
+//		return datum;
+//	}
+	public LocalDate getDatum() {
 		return datum;
 	}
 
@@ -100,7 +100,10 @@ public class TranzakcioVo implements Serializable{
 	 * Beállítja a tranzakció teljesítésének dátumát.
 	 * @param datum A beállítandó dátum.
 	 */
-	public void setDatum(Date datum) {
+//	public void setDatum(Date datum) {
+//		this.datum = datum;
+//	}
+	public void setDatum(LocalDate datum) {
 		this.datum = datum;
 	}
 

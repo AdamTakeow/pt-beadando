@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.ui.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +17,8 @@ public class TranzakcioData {
 	public TranzakcioData(){
 	}
 	
-	public TranzakcioData(long id, long osszeg, Date datum, String leiras, String kategoria) {
+//	public TranzakcioData(long id, long osszeg, Date datum, String leiras, String kategoria) {
+	public TranzakcioData(long id, long osszeg, LocalDate datum, String leiras, String kategoria) {
 		this.setId(id);
 		this.osszeg = new SimpleStringProperty( "" + osszeg);
 		this.datum = new SimpleStringProperty( datum.toString() );
@@ -40,8 +42,11 @@ public class TranzakcioData {
 		return datum.get();
 	}
 
-	public void setDatum(Date datum) {
-		this.datum.set(datum.toString());
+//	public void setDatum(Date datum) {
+//		this.datum.set(datum.toString());
+//	}
+	public void setDatum(LocalDate datum) {
+		this.datum.set(datum.toString()); // TODO lehetne szebben is
 	}
 	
 	public StringProperty getDatumProperty(){

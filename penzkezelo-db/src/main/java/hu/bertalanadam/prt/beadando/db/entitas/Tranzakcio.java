@@ -42,9 +42,9 @@ public class Tranzakcio extends FoEntitas {
 	 * A tranzakció végrehajtásának dátuma.
 	 * */
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date datum;
-//	private LocalDate datum;
+//	@Temporal(TemporalType.TIMESTAMP)
+//	private Date datum;
+	private LocalDate datum;
 	
 	/**
 	 * A tranzakció részleteinek leírása.
@@ -105,23 +105,23 @@ public class Tranzakcio extends FoEntitas {
 	 * Visszaadja a tranzakció teljesítésének dátumát.
 	 * @return A tranzakció dátuma.
 	 */
-	public Date getDatum() {
-		return datum;
-	}
-//	public LocalDate getDatum() {
+//	public Date getDatum() {
 //		return datum;
 //	}
+	public LocalDate getDatum() {
+		return datum;
+	}
 
 	/**
 	 * Beállítja a tranzakció teljesítésének dátumát.
 	 * @param datum A beállítandó dátum.
 	 */
-	public void setDatum(Date datum) {
-		this.datum = datum;
-	}
-//	public void setDatum(LocalDate datum) {
+//	public void setDatum(Date datum) {
 //		this.datum = datum;
 //	}
+	public void setDatum(LocalDate datum) {
+		this.datum = datum;
+	}
 
 	/**
 	 * Visszaadja a tranzakció részletes leírását.
