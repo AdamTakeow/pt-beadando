@@ -2,6 +2,7 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -117,10 +118,39 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		
 		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
 		
+//		int lebontas = felhasznalo.getLebontas(); // a lebontáshoz
+		
 		return tranzakciok.stream()
-					.mapToLong( t -> t.getOsszeg() )
-					.filter( o -> o > 0 ? true : false )
-					.sum();
+				.mapToLong( t -> t.getOsszeg() )
+				.filter( o -> o > 0 ? true : false )
+				.sum();
+		
+//		switch( lebontas ){
+//		// heti
+//		case 0: return tranzakciok.stream()
+//				.filter( t -> t.getDatum().) // a lebontáshoz
+//				.mapToLong( t -> t.getOsszeg() )
+//				.filter( o -> o > 0 ? true : false )
+//				.sum();
+//			break;
+//		case 1: return tranzakciok.stream()
+//				.filter( t -> t.getDatum()) // a lebontáshoz
+//				.mapToLong( t -> t.getOsszeg() )
+//				.filter( o -> o > 0 ? true : false )
+//				.sum();
+//			break;
+//		case 2: return tranzakciok.stream()
+//				.filter( t -> t.getDatum()) // a lebontáshoz
+//				.mapToLong( t -> t.getOsszeg() )
+//				.filter( o -> o > 0 ? true : false )
+//				.sum();
+//			break;
+//		}
+//		return tranzakciok.stream()
+//					.filter( t -> t.getDatum()) // a lebontáshoz
+//					.mapToLong( t -> t.getOsszeg() )
+//					.filter( o -> o > 0 ? true : false )
+//					.sum();
 	}
 
 	@Override

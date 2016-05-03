@@ -45,13 +45,13 @@
                         <Insets right="20.0" />
                      </GridPane.margin></Button>
                   <Label text="Lebontás:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-                  <RadioButton mnemonicParsing="false" selected="true" text="Éves" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <RadioButton fx:id="eveslebontas_radio" mnemonicParsing="false" onAction="#lebontasValtozott" selected="true" text="Éves" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <toggleGroup>
                         <ToggleGroup fx:id="lebontas_group" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Havi" toggleGroup="$lebontas_group" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <RadioButton mnemonicParsing="false" text="Heti" toggleGroup="$lebontas_group" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <RadioButton fx:id="havilebontas_radio" mnemonicParsing="false" onAction="#lebontasValtozott" text="Havi" toggleGroup="$lebontas_group" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <RadioButton fx:id="hetilebontad_radio" mnemonicParsing="false" onAction="#lebontasValtozott" text="Heti" toggleGroup="$lebontas_group" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <SplitPane dividerPositions="0.26146788990825687" prefHeight="367.0" prefWidth="600.0">

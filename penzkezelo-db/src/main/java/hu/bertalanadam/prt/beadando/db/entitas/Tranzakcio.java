@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -43,6 +44,7 @@ public class Tranzakcio extends FoEntitas {
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datum;
+//	private LocalDate datum;
 	
 	/**
 	 * A tranzakció részleteinek leírása.
@@ -106,6 +108,9 @@ public class Tranzakcio extends FoEntitas {
 	public Date getDatum() {
 		return datum;
 	}
+//	public LocalDate getDatum() {
+//		return datum;
+//	}
 
 	/**
 	 * Beállítja a tranzakció teljesítésének dátumát.
@@ -114,6 +119,9 @@ public class Tranzakcio extends FoEntitas {
 	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
+//	public void setDatum(LocalDate datum) {
+//		this.datum = datum;
+//	}
 
 	/**
 	 * Visszaadja a tranzakció részletes leírását.

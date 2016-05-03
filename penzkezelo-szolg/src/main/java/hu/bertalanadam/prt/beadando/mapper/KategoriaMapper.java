@@ -3,12 +3,9 @@ package hu.bertalanadam.prt.beadando.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
+import org.modelmapper.ModelMapper;
 
-import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
-import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 
 public class KategoriaMapper {
@@ -16,7 +13,8 @@ public class KategoriaMapper {
 	/**
 	 * A mapper objektum ami a leképezést végzi.
 	 * */
-	private static Mapper mapper = new DozerBeanMapper();
+//	private static Mapper mapper = new DozerBeanMapper();
+	private static ModelMapper mapper = new ModelMapper();
 	
 	/**
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.db.entitas.Kategoria}

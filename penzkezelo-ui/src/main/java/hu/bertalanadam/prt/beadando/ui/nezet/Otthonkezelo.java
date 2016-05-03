@@ -1,5 +1,8 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -106,6 +110,18 @@ public class Otthonkezelo {
 	// a kiadásokat szemléltető diagram adatait tartalmazó lista
 	private ObservableList<PieChart.Data> kiad_diagramAdatok = FXCollections.observableArrayList();
 	
+	// lebontáshoz
+	private List<String> evszamok = new ArrayList<>();
+	private List<String> honapok = new ArrayList<>();
+	private List<String> hetek = new ArrayList<>();
+	
+	@FXML
+	private RadioButton eveslebontas_radio;
+	@FXML
+	private RadioButton havilebontas_radio;
+	@FXML
+	private RadioButton hetilebontad_radio;
+	
 	// a tranzakciólistából éppen kiválasztott tranzakció
 	private TranzakcioVo kivalasztott_trz;
 	
@@ -113,6 +129,19 @@ public class Otthonkezelo {
 	public void adatFrissites(){
 		// újból felhozza az adatbázisból a felhasználót hogy a módosított adatai frissek legyenek a felületen.
 		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
+
+		// beállítjuk a lebontáshoz szükséges dolgokat
+		if( eveslebontas_radio.isSelected() ){
+			bejelentkezett_fh.setLebontas(2);
+		}
+		if( havilebontas_radio.isSelected() ){
+			bejelentkezett_fh.setLebontas(1);
+		}
+		if( hetilebontad_radio.isSelected() ){
+			bejelentkezett_fh.setLebontas(0);
+		}
+		
+		bejelentkezett_fh = felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 		
 		// kiírjuk az aktuális egyenlegét
 		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
@@ -179,7 +208,18 @@ public class Otthonkezelo {
 	@FXML
 	private void initialize(){
 		
+		// evszamok
+		for( int i = 1990; i <= new Date().getYear(); ++i ){
+			evszamok.add( "" + i );
+		}
+		// honapok
+		honapok.addAll( Arrays.asList("Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Szep", "Okt", "Nov", "Dec") );
+		// hetek
+		hetek.addAll( Arrays.asList("Első hét", "Második hét", "Harmadik hét", "Negyedik hét") );
+		
 		adatFrissites();
+		
+		// lebontás TODO
 		
 		// üdvözöljük a felhasználót
 		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
@@ -259,6 +299,12 @@ public class Otthonkezelo {
 		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	@FXML
+	public void lebontasValtozott(){
+		// TODO
+		adatFrissites();
 	}
 
 	public FelhasznaloVo getBejelentkezett_fh() {
