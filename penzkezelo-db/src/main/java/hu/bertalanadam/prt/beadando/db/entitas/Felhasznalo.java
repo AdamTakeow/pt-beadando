@@ -56,7 +56,7 @@ public class Felhasznalo extends FoEntitas {
 	 * Minden egyes bevételt, kiadást és lekötést egy-egy tranzakcióként kezelünk, így 
 	 * minden felhasználó rendelkezik egy listáról amelyben a tranzakciói szerepelnek.
 	 * */
-	@OneToMany(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	@OneToMany(mappedBy="felhasznalo")
 	private List<Tranzakcio> tranzakciok;
 	
 	/**

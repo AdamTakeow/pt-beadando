@@ -1,8 +1,10 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class UjTranzakcioKezelo {
 	
 	private static Logger logolo = LoggerFactory.getLogger(UjTranzakcioKezelo.class);
 	
+	// szolgáltatások
 	@Autowired
 	private KategoriaSzolgaltatas kategoriaSzolgaltatas;
 	
@@ -46,11 +49,14 @@ public class UjTranzakcioKezelo {
 	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
 	@Autowired
+	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
+
+	@Autowired
 	private Otthonkezelo otthonkezelo;
 	
-	@Autowired
-	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
+	// kellékek
 	
+	// az aktuálisan bejelentkezett felhasználó
 	private FelhasznaloVo bejelentkezett_fh;
 	
 	@FXML
@@ -77,10 +83,10 @@ public class UjTranzakcioKezelo {
 	@FXML
 	private ComboBox<String> kategoria_bevitel;
 	
-	// hogy új kategória létrehozásánál ne vesszenek el a bevitt adatok.	
+	// hogy új kategória létrehozásánál ne vesszenek el a bevitt adatok, eltároljuk őket	
 
 	private boolean kiadas_radiogomb_mentes;
-	
+
 	private boolean bevetel_radiogomb_mentes;
 	
 	private String osszeg_bevitel_mentes;
@@ -89,24 +95,28 @@ public class UjTranzakcioKezelo {
 	
 	private Date datum_bevitel_mentes;
 	
-
+	// a dialog betöltődése előtt lefutó metódus
 	@FXML
 	private void initialize(){
 		
-		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();		
+		// beállítjuk a bejelentkezett felhasználót
+		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();	
 		
-		// felhozom az összes kategóriát az adatbázisból
-		List<KategoriaVo> kategoriak = kategoriaSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);	
+		// felhozom azokat a kategóriákat az adatbázisból amelyek a felhasználóhoz tartoznak
+		List<KategoriaVo> kategoriak = 	
+				felhasznaloSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
 	
 		ObservableList<String> list = FXCollections.observableArrayList();
 
-		// belerakom a legördülőbe
+		// belerakom a legördülőbe, hogy ki tudja onnan választani a megfelelőt
 		for (KategoriaVo kategoriaVo : kategoriak) {
 			list.add(kategoriaVo.getNev());
 		}
 		
+		// Beállítom a legördülő tartalmát
 		kategoria_bevitel.setItems(list);
 		
+		// beállítjuk az elmetett állapotot
 		kiadas_radiogomb.setSelected(kiadas_radiogomb_mentes);
 		bevetel_radiogomb.setSelected(bevetel_radiogomb_mentes);
 		osszeg_bevitel.setText(osszeg_bevitel_mentes);
@@ -116,21 +126,27 @@ public class UjTranzakcioKezelo {
 			datum_bevitel.setValue(datum_bevitel_mentes.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 	}
 
+	// a bezárás gombra kattintáskor lefutó metódus
 	@FXML
 	protected void bezarasKezelo(ActionEvent event) {
 		
 		logolo.info("UjTranzakcioKezelo: bezaras gomb kattintva!");
 		
+		// kitöröljük a mentést
 		kiadas_radiogomb_mentes = false;
 		bevetel_radiogomb_mentes = false;
 		osszeg_bevitel_mentes = null;
 		leiras_bevitel_mentes = null;
 		datum_bevitel_mentes = null;
 		
+		// lefrissítjük a kezdőképernyő adatait.
 		otthonkezelo.adatFrissites();
+		
+		// bezárjk ezt a dialogot
 		((Stage)closeButton.getScene().getWindow()).close();
 	}
 	
+	// új kategória létrehozása gombra kattintva lefutó metódus
 	@FXML
 	protected void ujKategoriaLetrehozasKezelo(ActionEvent event) {
 		
@@ -145,12 +161,15 @@ public class UjTranzakcioKezelo {
 		if( datum_bevitel.getValue() != null )
 			datum_bevitel_mentes = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+		// betöltjük a kategória létrehozót
 		GridPane pane = (GridPane)loader.load("/UjKategoriaFelulet.fxml");
 		Scene scene = new Scene(pane);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		stage.setTitle("Új kategória létrehozása");
 		stage.setScene(scene);
 	}
 	
+	// a mentés gombra kattintáskor lefutó metódus
 	@FXML
 	protected void mentesKezelo(ActionEvent event) {
 		
@@ -178,6 +197,7 @@ public class UjTranzakcioKezelo {
 				celszoveg.setText(celszoveg.getText() + "Írja be az összeget!\n");
 				mehet = false;
 			} else {
+				logolo.info("Parsolom a következő értéket: " + osszeg_bevitel.getText());
 				osszeg = Long.parseLong(osszeg_bevitel.getText());
 				if( osszeg == 0 ){
 					throw new NumberFormatException();
@@ -185,12 +205,13 @@ public class UjTranzakcioKezelo {
 			}
 		} catch (NumberFormatException nfe) {
 			celszoveg.setText(celszoveg.getText() + "Az összeg mezőbe számot (nullától különbözőt) kell írni!\n");
+			mehet = false;
 		}
 		
 		// ha nincs leírás írva, akkor üresen hagyjuk.
 		String leiras = leiras_bevitel.getText();
 		
-		// ha nincs dátum kiválasztva akkor üres lesz
+		// ha nincs dátum kiválasztva akkor az aktuális dátum lesz
 		Date datum = null;
 		if( datum_bevitel.getValue() == null ){
 			datum = new Date();
@@ -200,7 +221,51 @@ public class UjTranzakcioKezelo {
 		
 		// megnézzük hogy a felhasználó melyik kategóriát választotta
 		String kategoria = kategoria_bevitel.getValue();
+		// ha nem lett megadva kategória, létrehozunk egy "nincs" nevűt
+		if( kategoria == null ){
+			// ha még nincs Nincs nevű kategória
+			if( kategoriaSzolgaltatas.getKategoriaByNev("Nincs") == null ){
+				// létrehozzuk
+				
+				KategoriaVo ujkat = new KategoriaVo();
+				ujkat.setNev("Nincs");
+				
+				// beállítom a felhasználóit
+				List<FelhasznaloVo> felhasznalok = new ArrayList<>();
+				felhasznalok.add(bejelentkezett_fh);
+				ujkat.setFelhasznalok(felhasznalok);
+				
+				// tranzakcióihoz pedig egy üres listát
+				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
+	
+				kategoriaSzolgaltatas.ujKategoriaLetrehozas(ujkat);
+				
+				kategoria = "Nincs";
+				
+			} else { // ha már van ilyen kategória 
+				// felhozom ezt a létező kategóriát
+				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev("Nincs");
+				
+				// elkérem a felhasználóit
+				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+				// megnézem hogy szerepel-e már ennél a felhasználónál ez a kategória
+				boolean isEmpty = fhk.stream()
+							    .filter( f -> f.getFelhasznalonev().equals( bejelentkezett_fh.getFelhasznalonev()) )
+								.collect(Collectors.toList()).isEmpty();
+
+				// ha nem szerepel, hozzáadom
+				if( isEmpty ){
+					fhk.add(bejelentkezett_fh);
+					letezo_kat.setFelhasznalok(fhk);
+					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
+				}
+				kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
+				
+				kategoria = "Nincs";
+			}
+		}
 		
+		// ha rendben lettek megadva az adato
 		if( mehet ){
 			TranzakcioVo ujTranzakcio = new TranzakcioVo();
 			if( kiadas ){
@@ -217,15 +282,17 @@ public class UjTranzakcioKezelo {
 			// létrehozom a tranzakciót az adatbázisban
 			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTranzakcio);
 
-			if( trz_kategoriaja != null ){
-				// elkérem a kategória tranzakcióit
-				List<TranzakcioVo> trz_kategoriajanak_trzi = trz_kategoriaja.getTranzakciok();
-				// hozzáadom a lementett tranzakciót a kategóriák meglévő tranzakcióihoz
-				trz_kategoriajanak_trzi.add(letezo_trz);
-				// beállítom a bővített listát a kategória tranzakcióinak
-				trz_kategoriaja.setTranzakciok(trz_kategoriajanak_trzi);
-				kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);				
-			}
+			// ennek itt nem szabad null-nak lennie
+//			if( trz_kategoriaja != null ){
+//				
+//				// elkérem a kategória tranzakcióit
+//				List<TranzakcioVo> trz_kategoriajanak_trzi = trz_kategoriaja.getTranzakciok();
+//				// hozzáadom a lementett tranzakciót a kategóriák meglévő tranzakcióihoz
+//				trz_kategoriajanak_trzi.add(letezo_trz);
+//				// beállítom a bővített listát a kategória tranzakcióinak
+//				trz_kategoriaja.setTranzakciok(trz_kategoriajanak_trzi);
+//				kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);				
+//			}
 			
 			
 			// elkérem a felhasználótól a tranzakcióit
@@ -257,6 +324,7 @@ public class UjTranzakcioKezelo {
 //			ujTranzakcio.setIsmetlodo(null);
 			
 			
+			// kitöröljük a mentést
 			kiadas_radiogomb_mentes = false;
 			bevetel_radiogomb_mentes = false;
 			osszeg_bevitel_mentes = null;
@@ -264,9 +332,11 @@ public class UjTranzakcioKezelo {
 			datum_bevitel_mentes = null;	
 			
 			trz_kategoriaja = null;
-			
+
+			// lefrissítjük a kezdőképernyőn az adatokat
 			otthonkezelo.adatFrissites();
 			
+			// bezárjuk ezt a dialogot
 			((Stage)closeButton.getScene().getWindow()).close();
 		}
 	}

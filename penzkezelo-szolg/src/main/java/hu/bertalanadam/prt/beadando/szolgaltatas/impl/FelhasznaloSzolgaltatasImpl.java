@@ -3,6 +3,8 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +14,19 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
+import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
+import hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo;
+import hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
+import hu.bertalanadam.prt.beadando.mapper.KategoriaMapper;
+import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
+import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
+import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
 
 /**
@@ -44,6 +54,15 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 */
 	@Autowired
 	private FelhasznaloTarolo felhasznaloTarolo;
+	
+	@Autowired 
+	private KategoriaTarolo kategoriaTarolo;
+	
+	@Autowired
+	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
+	
+	@Autowired
+	private TranzakcioTarolo tranzakcioTarolo;
 	
 	/* (non-Javadoc)
 	 * @see hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas#findByFelhasznalonev(java.lang.String)
@@ -115,5 +134,55 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 					.mapToLong( t -> t.getOsszeg() )
 					.filter( o -> o < 0 ? true : false )
 					.sum());
+	}
+
+	@Override
+	public Map<String, Long> bevDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		// felhozzuk az összes tranzakcióját a felhasználónak
+		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
+		
+		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
+		// ilyen kategóriabeli tranzakció összegét
+		Map<String, Long> res = felh_tranzakcioi.stream()
+						.filter( t -> t.getOsszeg() > 0 )
+						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
+															Collectors.summingLong( t -> t.getOsszeg() ) )
+				);
+		
+		return res;
+	}
+	
+	@Override
+	public Map<String, Long> kiadDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		// felhozzuk az összes tranzakcióját a felhasználónak
+		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
+		
+		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
+		// ilyen kategóriabeli tranzakció összegét
+		Map<String, Long> res = felh_tranzakcioi.stream()
+						.filter( t -> t.getOsszeg() < 0 )
+						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
+															Collectors.summingLong( t -> t.getOsszeg() ) )
+				);
+		
+		return res;
+	}
+
+	@Override
+	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+
+		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
+		
+		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
+	}
+
+	@Override
+	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
+		
+		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
+		// TODO ellenőrzés
+		
+		return KategoriaMapper.toVo(felhasznalo_kategoriai);
 	}
 }

@@ -15,7 +15,6 @@ import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
-import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -33,12 +32,16 @@ public class UjKategoriaKezelo {
 	
 	private static Logger logolo = LoggerFactory.getLogger(UjKategoriaKezelo.class);
 	
+	// szolgáltatások
+	
 	@Autowired
 	KategoriaSzolgaltatas kategoriaSzolgaltatas;
 	
 	@Autowired
 	UjTranzakcioKezelo ujtranzakciokezelo;
 	
+	// eszközök
+
 	@FXML
 	private TextField ujKatNeve;
 	
@@ -48,17 +51,21 @@ public class UjKategoriaKezelo {
 	@FXML
 	private Text celszoveg;
 	
+	// a bezárás gombra kattintáskor lefutó metódus
 	@FXML
 	protected void bezarasKezelo(ActionEvent event) {
 		
 		logolo.info("Ujkategoriakezelo: bezaras gomb megnyomva");
 		
+		// visszatöltjük a tranzakciókezelőt
 		BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
 		Scene scene = new Scene(pane);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		stage.setTitle("Új tranzakció létrehozása");
 		stage.setScene(scene);
 	}
 	
+	// a mentés gombra kattintáskor lefutó metódus
 	@FXML
 	protected void letrehozUjKategoriatGomb(ActionEvent event){
 		
@@ -66,6 +73,7 @@ public class UjKategoriaKezelo {
 		
 		celszoveg.setText("");
 		
+		// ha nem írt be semmit a felhasználó
 		if( ujKatNeve.getText().length() == 0 ){
 			celszoveg.setText("A kategória neve nem lehet üres!");
 		} else {
@@ -74,28 +82,34 @@ public class UjKategoriaKezelo {
 			if( kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText()) != null ){
 				// van már ilyen kategórianév
 				logolo.info("Már létezik az adatbázisban ilyen kategória: " + ujKatNeve.getText());
-//				
+				
+				// felhozom azt a kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText());
 				
+				// elkérem a felhasználóit
 				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+				// megnézem hogy az éppen bejelentkezett felhasználó birtokolja-e már ezt a kategóriát
 				boolean isEmpty = fhk.stream()
 							    .filter( f -> f.getFelhasznalonev().equals(ujtranzakciokezelo.getBejelentkezett_fh().getFelhasznalonev()) )
 								.collect(Collectors.toList()).isEmpty();
 				
+				// ha nem birtokolja még 
 				if( isEmpty ){
+					// akkor hozzáadom a kategória listájához az aktuálisan bejelentkezett felhasználót
 					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());					
 					letezo_kat.setFelhasznalok(fhk);
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
 					
+					// visszatöltjük a tranzakciókezelőt
 					BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
 					Scene scene = new Scene(pane);
 					Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+					stage.setTitle("Új tranzakció létrehozása");
 					stage.setScene(scene);
 					
 				} else {
 					celszoveg.setText("Ilyen kategórianév már létezik!");
 				}
-				
 				
 			} else {
 				logolo.info("Még nincs ilyen kategória az adatbázisban");
@@ -104,15 +118,10 @@ public class UjKategoriaKezelo {
 				KategoriaVo ujkat = new KategoriaVo();
 				ujkat.setNev(ujKatNeve.getText());
 				
+				// beállítok neki kezdetben egy felhasználólistát egyetlen felhasználóval, az éppen bejelentkezettel
 				List<FelhasznaloVo> felhasznalok = new ArrayList<>();
 				felhasznalok.add(ujtranzakciokezelo.getBejelentkezett_fh());
 				ujkat.setFelhasznalok(felhasznalok);
-				
-				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
-				
-				// beállítjuk a tranzakciós képernyőn a kategóriát
-				// ez biztosan egy új kategória itt.
-//				ujtranzakciokezelo.setValasztott_kategoria(ujkat);
 				
 				// elmentjük az adatbázisba az új kategóriát
 				kategoriaSzolgaltatas.ujKategoriaLetrehozas(ujkat);
@@ -120,10 +129,9 @@ public class UjKategoriaKezelo {
 				BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
 				Scene scene = new Scene(pane);
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+				stage.setTitle("Új tranzakció létrehozása");
 				stage.setScene(scene);				
 			}
-			
 		}
 	}
-	
 }

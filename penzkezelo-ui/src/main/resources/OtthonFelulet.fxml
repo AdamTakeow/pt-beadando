@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,13 +16,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="755.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.bertalanadam.prt.beadando.ui.nezet.Otthonkezelo">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.bertalanadam.prt.beadando.ui.nezet.Otthonkezelo">
    <center>
       <SplitPane dividerPositions="0.07537688442211055" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
         <items>
             <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -34,71 +40,102 @@
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin></Text>
-                  <Button mnemonicParsing="false" onAction="#kijelentkezesGombKezelo" text="Kijelentkezés" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#kijelentkezesGombKezelo" text="Kijelentkezés" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin></Button>
+                  <Label text="Lebontás:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                  <RadioButton mnemonicParsing="false" selected="true" text="Éves" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="lebontas_group" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton mnemonicParsing="false" text="Havi" toggleGroup="$lebontas_group" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <RadioButton mnemonicParsing="false" text="Heti" toggleGroup="$lebontas_group" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <SplitPane dividerPositions="0.342809364548495" prefHeight="367.0" prefWidth="600.0">
+            <SplitPane dividerPositions="0.26146788990825687" prefHeight="367.0" prefWidth="600.0">
               <items>
-                  <SplitPane dividerPositions="0.8931506849315068" orientation="VERTICAL" prefHeight="366.0" prefWidth="179.0">
+                  <SplitPane dividerPositions="0.8820116054158608" orientation="VERTICAL" prefHeight="366.0" prefWidth="179.0">
                     <items>
-                        <TableView fx:id="tranzakcioTable" prefHeight="383.0" prefWidth="175.0">
+                        <TableView fx:id="tranzakcioTable" prefHeight="270.0" prefWidth="225.0">
                           <columns>
                             <TableColumn fx:id="datumOszlop" prefWidth="75.0" text="Dátum" />
                               <TableColumn fx:id="osszegOszlop" prefWidth="75.0" text="Összeg" />
                               <TableColumn fx:id="kategoriaOszlop" prefWidth="75.0" text="Kategória" />
                           </columns>
                         </TableView>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="31.0" prefWidth="205.0" />
+                        <GridPane>
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="10.0" prefWidth="68.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="89.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="77.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="lebontas_label" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="elozo_gomb" mnemonicParsing="false" text="Előző" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="kovetkezo_gomb" mnemonicParsing="false" text="Következő" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                           </children>
+                        </GridPane>
                     </items>
                   </SplitPane>
-                  <GridPane prefHeight="366.0" prefWidth="362.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="129.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="155.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="110.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="187.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="156.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Text fx:id="egyenleg_text" fill="#15bcb1" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="203.19140625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="40.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Predict" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
-                        </Text>
-                        <Text fx:id="sum_kiadas" strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
-                        </Text>
-                        <Text fx:id="sum_bevetel" strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
-                        </Text>
-                        <Button mnemonicParsing="false" onAction="#ujTranzakcioKezelo" text="New Transaction" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                        <Button mnemonicParsing="false" text="New lekötés" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                        <Label text="Egyenleg:" textFill="#15bcb1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="27.0" />
-                           </font>
-                        </Label>
-                        <Label text="Összes kiadás:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                        <Label text="Összes bevétel:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                     </children>
-                  </GridPane>
+                  <SplitPane dividerPositions="0.504835589941973" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <GridPane prefHeight="366.0" prefWidth="362.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="129.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="155.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="110.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="187.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text fx:id="egyenleg_text" fill="#15bcb1" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="203.19140625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="40.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Predict" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="sum_kiadas" strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="sum_bevetel" strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Button mnemonicParsing="false" onAction="#ujTranzakcioKezelo" text="New Transaction" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Button mnemonicParsing="false" text="New lekötés" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Label text="Egyenleg:" textFill="#15bcb1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="27.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Összes kiadás:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Label text="Összes bevétel:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                           </children>
+                        </GridPane>
+                        <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
+                           <items>
+                              <PieChart fx:id="kiad_diagram" animated="false" />
+                              <PieChart fx:id="bev_diagram" animated="false" prefHeight="261.0" prefWidth="492.0" />
+                           </items>
+                        </SplitPane>
+                    </items>
+                  </SplitPane>
               </items>
             </SplitPane>
         </items>

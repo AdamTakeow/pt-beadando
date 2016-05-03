@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.db.tarolo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public interface KategoriaTarolo extends JpaRepository<Kategoria, Long> {
 	 */
 	Kategoria findByNev(String nev);
 	
-//	List<Kategoria> findByFelhasznalok( Felhasznalo felhasznalo );
+	@Query("SELECT k FROM Kategoria k WHERE ?1 MEMBER OF k.felhasznalok")
+	List<Kategoria> findByFelhasznaloIn( Felhasznalo felhasznalo );
 
 }

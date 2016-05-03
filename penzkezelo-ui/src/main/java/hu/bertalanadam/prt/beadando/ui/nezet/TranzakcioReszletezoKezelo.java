@@ -3,16 +3,23 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 @Component
 public class TranzakcioReszletezoKezelo {
 	
 	@Autowired
 	private Otthonkezelo otthonkezelo;
+	
+	@Autowired
+	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
 	@FXML
 	private Text azonosito_reszletezo;
@@ -33,8 +40,13 @@ public class TranzakcioReszletezoKezelo {
 	private Text kategoria_reszletezo;
 	
 	@FXML
+	private Button closeButton;
+	
+	TranzakcioVo kival_trz;
+	
+	@FXML
 	private void initialize(){
-		TranzakcioVo kival_trz = otthonkezelo.getKivalasztott_trz();
+		kival_trz = otthonkezelo.getKivalasztott_trz();
 		FelhasznaloVo bej_felh = otthonkezelo.getBejelentkezett_fh();
 		
 		azonosito_reszletezo.setText("" + kival_trz.getId() );
@@ -52,8 +64,16 @@ public class TranzakcioReszletezoKezelo {
 	}
 	
 	@FXML
+	public void tranzakcioTorlesKezelo( ActionEvent event ){
+		tranzakcioSzolgaltatas.tranzakcioTorles(kival_trz);
+		
+		otthonkezelo.adatFrissites();
+		
+		((Stage)closeButton.getScene().getWindow()).close();
+	}
+	
+	@FXML
 	public void stop(){
-//	    otthonkezelo.getTranzakcioTable().getSelectionModel().clearSelection();
 	}
 
 }

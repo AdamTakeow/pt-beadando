@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
+import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
 import hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
+import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
@@ -46,6 +48,12 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	 */
 	@Autowired
 	private TranzakcioTarolo tranzakcioTarolo;
+	
+	@Autowired
+	private FelhasznaloTarolo felhasznaloTarolo;
+	
+	@Autowired
+	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 
 	@Override
 	public TranzakcioVo ujTranzakcioLetrehozas(TranzakcioVo ujTranzakcio) {
@@ -81,5 +89,19 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		Tranzakcio found = tranzakcioTarolo.findOne(id);
 		
 		return TranzakcioMapper.toVo(found);
+	}
+
+	@Override
+	public void tranzakcioTorles( TranzakcioVo tranzakcio ) {
+		
+		// kiszedjük a felhasználóból amelyik tartalmazza
+		FelhasznaloVo felh = tranzakcio.getFelhasznalo();
+		List<TranzakcioVo> tranzakciok = felh.getTranzakciok();
+		tranzakciok.remove(tranzakcio); // megtalálja vajon?
+		
+		felhasznaloSzolgaltatas.frissitFelhasznalot(felh);
+		
+		tranzakcioTarolo.delete(tranzakcio.getId());
+		
 	}
 }

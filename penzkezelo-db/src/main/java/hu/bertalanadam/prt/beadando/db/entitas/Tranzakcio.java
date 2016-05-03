@@ -5,8 +5,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -54,7 +54,8 @@ public class Tranzakcio extends FoEntitas {
 	 * Az a felhasználó akihez ez a tranzació tartozik.
 	 * Több tranzakció is tartozhat egy felhasználóhoz.
 	 * */
-	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, /*CascadeType.REMOVE*/},
+			fetch=FetchType.LAZY)
 	@JoinColumn(name="tranzakcio_id")
 	private Felhasznalo felhasznalo;
 	
@@ -62,7 +63,8 @@ public class Tranzakcio extends FoEntitas {
 	 * Az a kategória amihez ez a tranzakció tartozik.
 	 * Több tranzakció sorolható egy kategóriába.
 	 * */
-	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH/*, CascadeType.REMOVE*/},
+			fetch=FetchType.LAZY)
 	@JoinColumn(name="kategoria_id")
 	private Kategoria kategoria;
 	

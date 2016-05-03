@@ -2,14 +2,12 @@ package hu.bertalanadam.prt.beadando.db.entitas;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -36,13 +34,14 @@ public class Kategoria extends FoEntitas {
 	 */
 	@Column(unique=true)
 	private String nev;
-	
-	/**
-	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak.
-	 * Egy kategóriába több tranzakció is sorolható.
-	 */
-	@OneToMany(mappedBy="kategoria", cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
-	private List<Tranzakcio> tranzakciok;
+	// TEMPOR
+//	/**
+//	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak.
+//	 * Egy kategóriába több tranzakció is sorolható.
+//	 */
+//	@OneToMany(mappedBy="kategoria", cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE},
+//			fetch=FetchType.LAZY)
+//	private List<Tranzakcio> tranzakciok;
 	
 	/**
 	 * A kategóriát birtokló felhasználók listája.
@@ -70,22 +69,22 @@ public class Kategoria extends FoEntitas {
 	public void setNev(String nev) {
 		this.nev = nev;
 	}
-
-	/**
-	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a kategóriába sorolhatók.
-	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
-	 */
-	public List<Tranzakcio> getTranzakciok() {
-		return tranzakciok;
-	}
-
-	/**
-	 * Beállítja hogy ebbe a kategóriába melyik tranzakciók tartozzanak.
-	 * @param tranzakciok A {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
-	 */
-	public void setTranzakciok(List<Tranzakcio> tranzakciok) {
-		this.tranzakciok = tranzakciok;
-	}
+	// TEMPOR
+//	/**
+//	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a kategóriába sorolhatók.
+//	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
+//	 */
+//	public List<Tranzakcio> getTranzakciok() {
+//		return tranzakciok;
+//	}
+	// TEMPOR
+//	/**
+//	 * Beállítja hogy ebbe a kategóriába melyik tranzakciók tartozzanak.
+//	 * @param tranzakciok A {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
+//	 */
+//	public void setTranzakciok(List<Tranzakcio> tranzakciok) {
+//		this.tranzakciok = tranzakciok;
+//	}
 	
 	/**
 	 * Visszaadja a felhasználót akié a kategória.
@@ -103,8 +102,9 @@ public class Kategoria extends FoEntitas {
 		this.felhasznalok = felhasznalok;
 	}
 
+	// TEMPOR
 	@Override
 	public String toString() {
-		return "Kategoria [nev=" + nev + ", tranzakciok=" + tranzakciok + ", felhasznalo=" + felhasznalok + "]";
+		return "Kategoria [nev=" + nev + /*", tranzakciok=" + tranzakciok +*/ ", felhasznalo=" + felhasznalok + "]";
 	}
 }
