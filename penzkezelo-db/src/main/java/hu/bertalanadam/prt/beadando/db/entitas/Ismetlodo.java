@@ -1,7 +1,8 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -29,16 +30,9 @@ public class Ismetlodo extends FoEntitas {
 	private Long ido;
 	
 	/**
-	 * Megadja hogy egy ismétlődő tranzakció teljesült-e már.
-	 * */
-	private boolean teljesitett;
-	
-	/**
-	 * Az a tranzakció aminek ismétlődnie kell.
-	 * Egy tranzakcióhoz egy ismétlődés tartozik csak.
-	 * */
-	@OneToOne
-	private Tranzakcio tranzakcio;
+	 * Az a dátum amikor az ismétlődő tranzakciót utoljára beszúrtuk.
+	 */
+	private LocalDate utolsoBeszuras;
 
 	/**
 	 * Visszaadja hogy hány naponta ismétlődik egy tranzakció.
@@ -57,35 +51,19 @@ public class Ismetlodo extends FoEntitas {
 	}
 
 	/**
-	 * Visszaadja hogy teljesítve van-e egy ismétlődő tranzakció.
-	 * @return true ha teljesítve van, false ha nincs.
+	 * Visszaadja azt a dátumot amikor az utolsó ismétlődő tranzakciót beszúrtuk.
+	 * @return Az utolsó ismétlődő tranzakció beszúrásának dátuma.
 	 */
-	public boolean isTeljesitett() {
-		return teljesitett;
+	public LocalDate getUtolsoBeszuras() {
+		return utolsoBeszuras;
 	}
 
 	/**
-	 * Beállítja hogy teljesítve legyen-e egy ismétlődő tranzakció.
-	 * @param teljesitett true ha legyen az ismétlődő tranzakció teljesítve, false ha ne.
+	 * Beállítja az utolsó ismétlődő tranzakció beszúrásának dátumát.
+	 * @param utolsoBeszuras Az a dátum amikor az utolsó ismétlődő tranzakció be lett szúrva.
 	 */
-	public void setTeljesitett(boolean teljesitett) {
-		this.teljesitett = teljesitett;
-	}
-
-	/**
-	 * Visszaadja azt a tranzakciót amihez ez az ismétlődő tartozik.
-	 * @return Az ismétlődőhöz tartozó tranzakció
-	 */
-	public Tranzakcio getTranzakcio() {
-		return tranzakcio;
-	}
-
-	/**
-	 * Beállítja hogy melyik tranzakcióhoz tartozzon ez az ismétlődő.
-	 * @param tranzakcio A beállítandó tranzakció.
-	 */
-	public void setTranzakcio(Tranzakcio tranzakcio) {
-		this.tranzakcio = tranzakcio;
+	public void setUtolsoBeszuras(LocalDate utolsoBeszuras) {
+		this.utolsoBeszuras = utolsoBeszuras;
 	}
 
 	/* (non-Javadoc)
@@ -93,6 +71,6 @@ public class Ismetlodo extends FoEntitas {
 	 */
 	@Override
 	public String toString() {
-		return "Ismetlodo [ido=" + ido + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
+		return "Ismetlodo [ido=" + ido + ", utolsoBeszuras=" + utolsoBeszuras + "]";
 	}
 }

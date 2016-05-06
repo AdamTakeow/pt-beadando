@@ -56,12 +56,28 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
 	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
 	Map<String,Long> bevDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
 	Map<String,Long> kiadDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
 	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 }

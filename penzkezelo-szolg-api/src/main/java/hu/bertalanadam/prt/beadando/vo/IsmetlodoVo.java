@@ -1,6 +1,7 @@
 package hu.bertalanadam.prt.beadando.vo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Egyszerű osztály az ismétlődőhöz tartozó adatok szállítására az adatbázis réteg
@@ -31,15 +32,9 @@ public class IsmetlodoVo implements Serializable {
 	private Long ido;
 
 	/**
-	 * Megadja hogy egy ismétlődő tranzakció teljesült-e már.
+	 * 
 	 */
-	private boolean teljesitett;
-
-	/**
-	 * Az a tranzakció aminek ismétlődnie kell. Egy tranzakcióhoz egy ismétlődés
-	 * tartozik csak.
-	 */
-	private TranzakcioVo tranzakcio;
+	private LocalDate utolsoBeszuras;
 
 	/**
 	 * Visszaadja hogy hány naponta ismétlődik egy tranzakció.
@@ -58,38 +53,6 @@ public class IsmetlodoVo implements Serializable {
 	}
 
 	/**
-	 * Visszaadja hogy teljesítve van-e egy ismétlődő tranzakció.
-	 * @return true ha teljesítve van, false ha nincs.
-	 */
-	public boolean isTeljesitett() {
-		return teljesitett;
-	}
-
-	/**
-	 * Beállítja hogy teljesítve legyen-e egy ismétlődő tranzakció.
-	 * @param teljesitett true ha legyen az ismétlődő tranzakció teljesítve, false ha ne.
-	 */
-	public void setTeljesitett(boolean teljesitett) {
-		this.teljesitett = teljesitett;
-	}
-
-	/**
-	 * Visszaadja azt a tranzakciót amihez ez az ismétlődő tartozik.
-	 * @return Az ismétlődőhöz tartozó tranzakció.
-	 */
-	public TranzakcioVo getTranzakcio() {
-		return tranzakcio;
-	}
-
-	/**
-	 * Beállítja hogy melyik tranzakcióhoz tartozzon ez az ismétlődő.
-	 * @param tranzakcio A beállítandó tranzakció.
-	 */
-	public void setTranzakcio(TranzakcioVo tranzakcio) {
-		this.tranzakcio = tranzakcio;
-	}
-
-	/**
 	 * Visszaadja az ismétlődő azonosítóját.
 	 * @return Az ismétlődő azonosítója.
 	 */
@@ -105,12 +68,26 @@ public class IsmetlodoVo implements Serializable {
 		this.id = id;
 	}
 
+	/**
+	 * @return
+	 */
+	public LocalDate getUtolsoBeszuras() {
+		return utolsoBeszuras;
+	}
+
+	/**
+	 * @param utolsoBeszuras
+	 */
+	public void setUtolsoBeszuras(LocalDate utolsoBeszuras) {
+		this.utolsoBeszuras = utolsoBeszuras;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "IsmetlodoVo [id=" + id + ", ido=" + ido + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio
-				+ "]";
+		return "IsmetlodoVo [id=" + id + ", ido=" + ido + ", utolsoBeszuras=" + utolsoBeszuras + "]";
 	}
+	
 }

@@ -86,6 +86,7 @@ public class UjKategoriaKezelo {
 				// felhozom azt a kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText());
 				
+				// TODO ezt itt baszd át szolgáltatás rétegbe
 				// elkérem a felhasználóit
 				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
 				// megnézem hogy az éppen bejelentkezett felhasználó birtokolja-e már ezt a kategóriát

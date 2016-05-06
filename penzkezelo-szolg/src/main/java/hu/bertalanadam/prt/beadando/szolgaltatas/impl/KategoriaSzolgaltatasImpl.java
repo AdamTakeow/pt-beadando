@@ -45,7 +45,9 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 
 	@Override
 	public KategoriaVo ujKategoriaLetrehozas(KategoriaVo ujKategoria) {
+		
 		Kategoria uj = KategoriaMapper.toDto(ujKategoria);
+		
 		Kategoria letezo = kategoriaTarolo.save(uj);
 		
 		return KategoriaMapper.toVo(letezo);
@@ -53,9 +55,11 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 
 	@Override
 	public KategoriaVo getKategoriaByNev(String kategoriaNev) {
+		
 		logolo.info("Kategória keresése az adatbázisban ilyen névvel: " + kategoriaNev);
 		
 		Kategoria found = kategoriaTarolo.findByNev(kategoriaNev);
+		
 		if( found == null ){
 			logolo.error("Nem található kategória ilyen névvel: " + kategoriaNev );
 		} else {
@@ -70,17 +74,15 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 		logolo.info("Összes kategória lekérése");
 		
 		List<Kategoria> kategoriak = kategoriaTarolo.findAll();
-//		logolo.info("Talált kategóriák: " + kategoriak);
 		
 		return KategoriaMapper.toVo(kategoriak);
 	}
 
 	@Override
 	public KategoriaVo frissitKategoriat(KategoriaVo kategoria) {
-		// stackoverflow error maybe
-//		logolo.info("Kategória frissítése: " + kategoria);
 		
 		Kategoria kateg = KategoriaMapper.toDto(kategoria);
+		
 		Kategoria frissitett = kategoriaTarolo.save(kateg);
 		
 		return KategoriaMapper.toVo(frissitett);
@@ -90,28 +92,18 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	@Override
 	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
+		// megkeressük az összes kategóriát
 		List<KategoriaVo> kategoriak = KategoriaMapper.toVo(kategoriaTarolo.findAll());
-		logolo.info("Osszes kategoria:");
-		for (KategoriaVo kategoriaVo : kategoriak) {
-			logolo.info("Kategoria check: " + kategoriaVo.getNev() );
-			List<FelhasznaloVo> kateg_felhasznaloi = kategoriaVo.getFelhasznalok();
-			logolo.info("Kategoria felhasznaloi:");
-			for (FelhasznaloVo felhasznaloVo : kateg_felhasznaloi) {
-				logolo.info("felhasznalo: " + felhasznaloVo.getFelhasznalonev());
-			}
-		}
 		
-		List<KategoriaVo> fh_kategoriai = kategoriak.stream()
-				 .filter( k -> !k.getFelhasznalok().stream()
-						 						  .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
-				 								  .collect(Collectors.toList())
-				 								  .isEmpty() )
-				 .collect(Collectors.toList());
-		
-		logolo.info("Osszes felhasznalohoz tartozo kategoria:");
-		for (KategoriaVo kategoriaVo : fh_kategoriai) {
-			logolo.info("kategoria check: " + kategoriaVo.getNev());
-		}
+		// leszűrjük azokat a kategóriákat, amelyeknek a felhasználói között ott van a
+		// paraméterül kapott felhasználó
+		List<KategoriaVo> fh_kategoriai = 
+		kategoriak.stream()
+				  .filter( k -> !k.getFelhasznalok().stream()
+						 						    .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
+				 								    .collect(Collectors.toList())
+				 								    .isEmpty() )
+				  .collect(Collectors.toList());
 		
 		return fh_kategoriai;
 	}

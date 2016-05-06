@@ -1,6 +1,7 @@
 package hu.bertalanadam.prt.beadando.vo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -41,9 +42,14 @@ public class FelhasznaloVo implements Serializable {
 	private Long egyenleg;
 	
 	/**
-	 * A felhasználó pereferált megjelenítési módja. 
+	 * 
 	 */
-	private int lebontas;
+	private LocalDate kezdoIdopont;
+	
+	/**
+	 * 
+	 */
+	private LocalDate vegIdopont;
 	
 	/**
 	 * Lista a felhasználó tranzakcióiról.
@@ -120,22 +126,6 @@ public class FelhasznaloVo implements Serializable {
 	}
 
 	/**
-	 * Visszaadja a felhasználó preferált lebontási módját.
-	 * @return A felhasználó preferált lebontási módja.
-	 */
-	public int getLebontas() {
-		return lebontas;
-	}
-
-	/**
-	 * Beállítja a felhasználó preferált lebontási módját.
-	 * @param lebontas A beállítandó lebontási mód.
-	 */
-	public void setLebontas(int lebontas) {
-		this.lebontas = lebontas;
-	}
-
-	/**
 	 * Visszaadja a felhasználó tranzakcióinak listáját.
 	 * @return A felhasználó tranzakciói egy listában.
 	 */
@@ -167,13 +157,42 @@ public class FelhasznaloVo implements Serializable {
 		this.kategoriak = kategoriak;
 	}
 
+	/**
+	 * @return
+	 */
+	public LocalDate getKezdoIdopont() {
+		return kezdoIdopont;
+	}
+
+	/**
+	 * @param kezdoIdopont
+	 */
+	public void setKezdoIdopont(LocalDate kezdoIdopont) {
+		this.kezdoIdopont = kezdoIdopont;
+	}
+
+	/**
+	 * @return
+	 */
+	public LocalDate getVegIdopont() {
+		return vegIdopont;
+	}
+
+	/**
+	 * @param vegIdopont
+	 */
+	public void setVegIdopont(LocalDate vegIdopont) {
+		this.vegIdopont = vegIdopont;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "FelhasznaloVo [id=" + id + ", felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
-				+ egyenleg + ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak
-				+ "]";
+				+ egyenleg + ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok="
+				+ tranzakciok + ", kategoriak=" + kategoriak + "]";
 	}
+	
 }

@@ -1,8 +1,8 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,18 +45,23 @@ public class Felhasznalo extends FoEntitas {
 	 * */
 	private Long egyenleg;
 	
+	
 	/**
-	 * Az az érték ami meghatározza hogy a felhasználó milyen lebontásban szeretné követni a kiadásait
-	 * és bevételeit (0 - heti, 1 - havi, 2 - éves).
-	 * */
-	private int lebontas;
+	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciók.
+	 */
+	private LocalDate kezdoIdopont;
+	
+	/**
+	 * A felhasználó számára ezzel a dátummal befejezőleg fognak látszódni a tranzakciók.
+	 */
+	private LocalDate vegIdopont;
 	
 	/**
 	 * A felhasználóhoz tartozó tranzakciók (azaz a kiadásai, bevételei és lekötései).
 	 * Minden egyes bevételt, kiadást és lekötést egy-egy tranzakcióként kezelünk, így 
 	 * minden felhasználó rendelkezik egy listáról amelyben a tranzakciói szerepelnek.
 	 * */
-	@OneToMany(mappedBy="felhasznalo")
+	@OneToMany(mappedBy="felhasznalo") // TODO világosabban
 	private List<Tranzakcio> tranzakciok;
 	
 	/**
@@ -64,7 +69,7 @@ public class Felhasznalo extends FoEntitas {
 	 * Egy felhasználóhoz több kategória is tartozhat és egy kategória
 	 * több felhasználóhoz is tartozhat.
 	 */
-	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY) // TODO világosabban
 	private List<Kategoria> kategoriak;
 	
 
@@ -115,26 +120,6 @@ public class Felhasznalo extends FoEntitas {
 	public void setEgyenleg(Long egyenleg) {
 		this.egyenleg = egyenleg;
 	}
-
-	/**
-	 * Visszaadja hogy a felhasználó milyen időközönként szeretné követni a tranzakcióit.
-	 * @return 0, ha a felhasználó heti lebontásban látja a tranzakcióit, 1 ha 
-	 * a felhasználó havi lebontásban látja a tranzakcióit és 2 ha a felhasználó
-	 * éves lebontásban látja a tranzakcióit.
-	 */
-	public int getLebontas() {
-		return lebontas;
-	}
-
-	/**
-	 * Beállítja hogy a felhasználó milyen lebontásban lássa a tranzakcióit.
-	 * @param lebontas 0, ha a azt akarjuk hogy a felhasználó heti lebontásban lássa a tranzakcióit, 1 ha
-	 * azt akarjuk hogy a felhasználó havi lebontásban lássa a tranzakcióit és 2 ha a azt akarjuk hogy a
-	 * felhasználó éves lebontásban lássa a tranzakcióit.
-	 */
-	public void setLebontas(int lebontas) {
-		this.lebontas = lebontas;
-	}
 	
 	/**
 	 * Visszaadja a felhasználó tranzakcióit.
@@ -168,12 +153,46 @@ public class Felhasznalo extends FoEntitas {
 		this.kategoriak = kategoriak;
 	}
 
+	/**
+	 * Visszaadja azt a dátumot amitől kezdődően látszanak a felhasználó tranzakciói.
+	 * @return Az a dátum ahol a tranzakciók követése kezdődik.
+	 */
+	public LocalDate getKezdoIdopont() {
+		return kezdoIdopont;
+	}
+
+	/**
+	 * Beállítja azt a dátumot amitől kezdődően a felhasználó a tranzakcióit látni fogja.
+	 * @param kezdoIdopont Az a dátum amitől számítva látszanak a tranzakciók.
+	 */
+	public void setKezdoIdopont(LocalDate kezdoIdopont) {
+		this.kezdoIdopont = kezdoIdopont;
+	}
+
+	/**
+	 * Visszaadja azt a dátumot ameddig a felhasználó tranzakciói látszanak.
+	 * @return Az a dátum ameddig a felhasználó tranzakciói még látszanak.
+	 */
+	public LocalDate getVegIdopont() {
+		return vegIdopont;
+	}
+
+	/**
+	 * Beállítja hogy meddig lássa a felhasználó a tranzakcióit.
+	 * @param vegIdopont Az a dátum ameddig a felhasználó a tranzakcióit még látja.
+	 */
+	public void setVegIdopont(LocalDate vegIdopont) {
+		this.vegIdopont = vegIdopont;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
-				+ ", lebontas=" + lebontas + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak + "]";
+				+ ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok=" + tranzakciok
+				+ ", kategoriak=" + kategoriak + "]";
 	}
+	
 }

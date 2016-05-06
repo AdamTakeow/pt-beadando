@@ -3,12 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,12 +21,13 @@
         <items>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="170.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="69.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="73.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="179.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="279.0" minWidth="10.0" prefWidth="62.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="279.0" minWidth="10.0" prefWidth="184.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="140.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -40,48 +40,26 @@
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin></Text>
-                  <Button mnemonicParsing="false" onAction="#kijelentkezesGombKezelo" text="Kijelentkezés" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#kijelentkezesGombKezelo" text="Kijelentkezés" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin></Button>
                   <Label text="Lebontás:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-                  <RadioButton fx:id="eveslebontas_radio" mnemonicParsing="false" onAction="#lebontasValtozott" selected="true" text="Éves" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="lebontas_group" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="havilebontas_radio" mnemonicParsing="false" onAction="#lebontasValtozott" text="Havi" toggleGroup="$lebontas_group" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <RadioButton fx:id="hetilebontad_radio" mnemonicParsing="false" onAction="#lebontasValtozott" text="Heti" toggleGroup="$lebontas_group" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="lebontas_innentol" onAction="#valtozottALebontas" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="lebontas_idaig" onAction="#valtozottALebontas" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Label text="Innentől:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                  <Label text="Idáig:" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <SplitPane dividerPositions="0.26146788990825687" prefHeight="367.0" prefWidth="600.0">
               <items>
-                  <SplitPane dividerPositions="0.8820116054158608" orientation="VERTICAL" prefHeight="366.0" prefWidth="179.0">
-                    <items>
-                        <TableView fx:id="tranzakcioTable" prefHeight="270.0" prefWidth="225.0">
-                          <columns>
-                            <TableColumn fx:id="datumOszlop" prefWidth="75.0" text="Dátum" />
-                              <TableColumn fx:id="osszegOszlop" prefWidth="75.0" text="Összeg" />
-                              <TableColumn fx:id="kategoriaOszlop" prefWidth="75.0" text="Kategória" />
-                          </columns>
-                        </TableView>
-                        <GridPane>
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="10.0" prefWidth="68.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="89.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="77.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label fx:id="lebontas_label" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Button fx:id="elozo_gomb" mnemonicParsing="false" text="Előző" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Button fx:id="kovetkezo_gomb" mnemonicParsing="false" text="Következő" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                           </children>
-                        </GridPane>
-                    </items>
-                  </SplitPane>
+                  <TableView fx:id="tranzakcioTable" prefHeight="270.0" prefWidth="225.0">
+                    <columns>
+                      <TableColumn fx:id="datumOszlop" prefWidth="75.0" text="Dátum" />
+                        <TableColumn fx:id="osszegOszlop" prefWidth="75.0" text="Összeg" />
+                        <TableColumn fx:id="kategoriaOszlop" prefWidth="75.0" text="Kategória" />
+                    </columns>
+                  </TableView>
                   <SplitPane dividerPositions="0.504835589941973" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                     <items>
                         <GridPane prefHeight="366.0" prefWidth="362.0">

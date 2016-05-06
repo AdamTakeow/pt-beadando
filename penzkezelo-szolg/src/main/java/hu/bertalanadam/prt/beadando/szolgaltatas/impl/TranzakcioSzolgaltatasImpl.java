@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
-import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
 import hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
@@ -32,9 +31,6 @@ import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 @Transactional(propagation = Propagation.REQUIRED)
 public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	
-	// TODO logolás
-	// TODO kódkommentezés
-	
 	/**
 	 * A logoláshoz szükséges {@link org.slf4j.Logger}.
 	 */
@@ -50,9 +46,6 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	private TranzakcioTarolo tranzakcioTarolo;
 	
 	@Autowired
-	private FelhasznaloTarolo felhasznaloTarolo;
-	
-	@Autowired
 	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 
 	@Override
@@ -63,10 +56,10 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 
 	}
 
+	// TODO na ide kéne az ami a felhasználóba van...
 	@Override
 	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo ) {
 
-		// TODO nincs ellenőrizve!!
 		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
 		
 		List<Tranzakcio> trk = tranzakcioTarolo.findByFelhasznalo(felh);
@@ -78,6 +71,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	public TranzakcioVo frissitTranzakciot(TranzakcioVo tranzakcio) {
 		
 		Tranzakcio uj = TranzakcioMapper.toDto(tranzakcio);
+		
 		Tranzakcio mentett = tranzakcioTarolo.save(uj);
 
 		return TranzakcioMapper.toVo(mentett);
@@ -86,6 +80,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 
 	@Override
 	public TranzakcioVo findById( Long id ) {
+		
 		Tranzakcio found = tranzakcioTarolo.findOne(id);
 		
 		return TranzakcioMapper.toVo(found);
@@ -94,14 +89,29 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	@Override
 	public void tranzakcioTorles( TranzakcioVo tranzakcio ) {
 		
-		// kiszedjük a felhasználóból amelyik tartalmazza
+		// elkérjük a tranzakcióhoz tartozó felhasználót
 		FelhasznaloVo felh = tranzakcio.getFelhasznalo();
-		List<TranzakcioVo> tranzakciok = felh.getTranzakciok();
-		tranzakciok.remove(tranzakcio); // megtalálja vajon?
+		// annak a felhasználónak elkérjük a tranzakcióit
 		
+		List<TranzakcioVo> tranzakciok = felh.getTranzakciok();
+		// ebből a listából kivesszük ezt a tranzakciót
+		tranzakciok.remove(tranzakcio);
+		
+		// frissítjük a felhasználót az új listájával
 		felhasznaloSzolgaltatas.frissitFelhasznalot(felh);
 		
+		// töröljük az aktuálist tranzakciót
 		tranzakcioTarolo.delete(tranzakcio.getId());
 		
+	}
+
+	@Override
+	public TranzakcioVo getLegkorabbiTranzakcioFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		
+		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
+		
+		Tranzakcio legkorabbi = tranzakcioTarolo.findFirstByFelhasznaloOrderByDatumAsc(felh);
+		
+		return TranzakcioMapper.toVo(legkorabbi);
 	}
 }

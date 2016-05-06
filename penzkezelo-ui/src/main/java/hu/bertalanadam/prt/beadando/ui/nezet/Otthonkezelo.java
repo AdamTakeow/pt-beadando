@@ -1,8 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.LekotesSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.ui.model.TranzakcioData;
@@ -26,7 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -50,9 +48,10 @@ public class Otthonkezelo {
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 	
 	@Autowired
-	private BejelentkezesKezelo bejelentkezesKezelo;
+	LekotesSzolgaltatas lekotesSzolgaltatas;
 	
-	// kellékek
+	@Autowired
+	private BejelentkezesKezelo bejelentkezesKezelo;
 	
 	// az aktuálisan bejelentkezett felhasználó
 	private FelhasznaloVo bejelentkezett_fh;
@@ -72,10 +71,6 @@ public class Otthonkezelo {
 	// a felhasználó összes kiadása
 	@FXML
 	private Text sum_kiadas;
-	
-//	nincs használva
-//	@FXML
-//	private Text tranzakciok_text;
 	
 	// a tranzakciókat tartalmazó táblázat
 	@FXML
@@ -101,6 +96,12 @@ public class Otthonkezelo {
 	@FXML
 	private PieChart kiad_diagram;
 	
+	@FXML
+	private DatePicker lebontas_innentol;
+	
+	@FXML
+	private DatePicker lebontas_idaig;
+	
 	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
 	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
 	
@@ -110,39 +111,25 @@ public class Otthonkezelo {
 	// a kiadásokat szemléltető diagram adatait tartalmazó lista
 	private ObservableList<PieChart.Data> kiad_diagramAdatok = FXCollections.observableArrayList();
 	
-	// lebontáshoz
-	private List<String> evszamok = new ArrayList<>();
-	private List<String> honapok = new ArrayList<>();
-	private List<String> hetek = new ArrayList<>();
-	
-	@FXML
-	private RadioButton eveslebontas_radio;
-	@FXML
-	private RadioButton havilebontas_radio;
-	@FXML
-	private RadioButton hetilebontad_radio;
-	
 	// a tranzakciólistából éppen kiválasztott tranzakció
 	private TranzakcioVo kivalasztott_trz;
 	
 	// az kezdőképernyő adatait frissíti
 	public void adatFrissites(){
+		
 		// újból felhozza az adatbázisból a felhasználót hogy a módosított adatai frissek legyenek a felületen.
 		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
 
-		// beállítjuk a lebontáshoz szükséges dolgokat
-		if( eveslebontas_radio.isSelected() ){
-			bejelentkezett_fh.setLebontas(2);
-		}
-		if( havilebontas_radio.isSelected() ){
-			bejelentkezett_fh.setLebontas(1);
-		}
-		if( hetilebontad_radio.isSelected() ){
-			bejelentkezett_fh.setLebontas(0);
-		}
+		// beállítjuk a dátum választókat a felhasználónak megfelelőre
+		lebontas_innentol.setValue(bejelentkezett_fh.getKezdoIdopont());
+		lebontas_idaig.setValue(bejelentkezett_fh.getVegIdopont());
 		
 		bejelentkezett_fh = felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 		
+		// lefrissítjük a táblázatot
+		List<TranzakcioVo> felh_tranzakcioi = 
+				felhasznaloSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
+
 		// kiírjuk az aktuális egyenlegét
 		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
 		
@@ -154,9 +141,6 @@ public class Otthonkezelo {
 		long osszes_kiad = felhasznaloSzolgaltatas.osszesKiadasAFelhasznalohoz(bejelentkezett_fh);
 		sum_kiadas.setText("" + osszes_kiad);
 		
-		// lefrissítjük a táblázatot
-		List<TranzakcioVo> felh_tranzakcioi = 
-				felhasznaloSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 		
 		// ha nem üres a lista akkor kitöröljük a tartalmát
 		if( !tranzakcioTablazatAdatok.isEmpty() ){
@@ -208,18 +192,7 @@ public class Otthonkezelo {
 	@FXML
 	private void initialize(){
 		
-		// evszamok
-		for( int i = 1990; i <= new Date().getYear(); ++i ){
-			evszamok.add( "" + i );
-		}
-		// honapok
-		honapok.addAll( Arrays.asList("Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Szep", "Okt", "Nov", "Dec") );
-		// hetek
-		hetek.addAll( Arrays.asList("Első hét", "Második hét", "Harmadik hét", "Negyedik hét") );
-		
 		adatFrissites();
-		
-		// lebontás TODO
 		
 		// üdvözöljük a felhasználót
 		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
@@ -285,6 +258,38 @@ public class Otthonkezelo {
 		stage.setScene(scene);
 	}
 	
+	// ez a metódus fut le az új lekötés gombra kattintva
+	@FXML
+	protected void ujLekotesKezelo(ActionEvent event) {
+		logolo.info("Új lekötés gomb megnyomva");
+		
+		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
+			// ha már van lekötésünk
+			
+			BorderPane pane = (BorderPane)loader.load("/MeglevoLekotesFelulet.fxml");
+			Scene scene = new Scene(pane);
+			
+			Stage stage = new Stage();
+			stage.setTitle("Lekötés Részletei");
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.setScene(scene);
+			stage.show();
+			
+		} else {
+			// ha még nincs lekötésünk
+			BorderPane pane = (BorderPane)loader.load("/UjLekotesFelulet.fxml");
+			Scene scene = new Scene(pane);
+			
+			Stage stage = new Stage();
+			stage.setTitle("Új Lekötés létrehozása");
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.setScene(scene);
+			stage.show();
+		}
+	}
+	
 	// ez a metódus fut le az új tranzakció gombra kattintva
 	@FXML
 	protected void ujTranzakcioKezelo(ActionEvent event) {
@@ -302,8 +307,14 @@ public class Otthonkezelo {
 	}
 	
 	@FXML
-	public void lebontasValtozott(){
-		// TODO
+	public void valtozottALebontas(){
+		// lefut, ha a lebontásos dátumokat piszkálják
+		bejelentkezett_fh.setKezdoIdopont( lebontas_innentol.getValue() );
+		
+		bejelentkezett_fh.setVegIdopont( lebontas_idaig.getValue() );
+		
+		felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
+		
 		adatFrissites();
 	}
 
@@ -311,23 +322,15 @@ public class Otthonkezelo {
 		return bejelentkezett_fh;
 	}
 
-	public void setBejelentkezett_fh(FelhasznaloVo bejelentkezett_fh) {
-		this.bejelentkezett_fh = bejelentkezett_fh;
-	}
-
 	public TranzakcioVo getKivalasztott_trz() {
 		return kivalasztott_trz;
 	}
 
-	public void setKivalasztott_trz(TranzakcioVo kivalasztott_trz) {
-		this.kivalasztott_trz = kivalasztott_trz;
-	}
-
-	public TableView<TranzakcioData> getTranzakcioTable() {
-		return tranzakcioTable;
-	}
-
-	public void setTranzakcioTable(TableView<TranzakcioData> tranzakcioTable) {
-		this.tranzakcioTable = tranzakcioTable;
-	}
+//	public TableView<TranzakcioData> getTranzakcioTable() {
+//		return tranzakcioTable;
+//	}
+//
+//	public void setTranzakcioTable(TableView<TranzakcioData> tranzakcioTable) {
+//		this.tranzakcioTable = tranzakcioTable;
+//	}
 }

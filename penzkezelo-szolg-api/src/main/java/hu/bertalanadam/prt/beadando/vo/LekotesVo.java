@@ -48,12 +48,6 @@ public class LekotesVo implements Serializable {
 	 * Jelzi hogy az adott lekötés lejárt-e már vagy sem.
 	 * */
 	private boolean teljesitett;
-	
-	/**
-	 * Az a tranzakció ami ehhez a lekötéshez tartozik.
-	 * Egy tranzakcióhoz egy lekötés tartozhat.
-	 * */
-	private TranzakcioVo tranzakcio;
 
 	/**
 	 * Visszaadja hogy mekkora összegről szól a lekötés.
@@ -136,22 +130,6 @@ public class LekotesVo implements Serializable {
 	}
 
 	/**
-	 * Visszaadja azt a tranzakciót amihez ez a lekötés tartozik.
-	 * @return A tranzakció amihez ez a lekötés tartozik.
-	 */
-	public TranzakcioVo getTranzakcio() {
-		return tranzakcio;
-	}
-
-	/**
-	 * Beállítja hogy melyik tranzakcióhoz tartozzon ez a lekötés.
-	 * @param tranzakcio A beállítandó tranzakció.
-	 */
-	public void setTranzakcio(TranzakcioVo tranzakcio) {
-		this.tranzakcio = tranzakcio;
-	}
-
-	/**
 	 * Visszaadja a lekötés azonosítóját.
 	 * @return A lekötés azonosítója.
 	 */
@@ -167,13 +145,9 @@ public class LekotesVo implements Serializable {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "LekotesVo [id=" + id + ", osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat
-				+ ", varhato=" + varhato + ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
+				+ ", varhato=" + varhato + ", teljesitett=" + teljesitett + "]";
 	}
-	
 }

@@ -1,7 +1,6 @@
 package hu.bertalanadam.prt.beadando.db.entitas;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -47,13 +46,6 @@ public class Lekotes extends FoEntitas {
 	 * Jelzi hogy az adott lekötés lejárt-e már vagy sem.
 	 * */
 	private boolean teljesitett;
-	
-	/**
-	 * Az a tranzakció ami ehhez a lekötéshez tartozik.
-	 * Egy tranzakcióhoz egy lekötés tartozhat.
-	 * */
-	@OneToOne
-	private Tranzakcio tranzakcio;
 
 	/**
 	 * Visszaadja hogy mekkora összegről szól a lekötés.
@@ -135,28 +127,10 @@ public class Lekotes extends FoEntitas {
 		this.teljesitett = teljesitett;
 	}
 
-	/**
-	 * Visszaadja azt a tranzakciót amihez ez a lekötés tartozik.
-	 * @return A tranzakció amihez ez a lekötés tartozik.
-	 */
-	public Tranzakcio getTranzakcio() {
-		return tranzakcio;
-	}
-
-	/**
-	 * Beállítja hogy melyik tranzakcióhoz tartozzon ez a lekötés.
-	 * @param tranzakcio A beállítandó tranzakció.
-	 */
-	public void setTranzakcio(Tranzakcio tranzakcio) {
-		this.tranzakcio = tranzakcio;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Lekotes [osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat + ", varhato=" + varhato
-				+ ", teljesitett=" + teljesitett + ", tranzakcio=" + tranzakcio + "]";
+				+ ", teljesitett=" + teljesitett + "]";
 	}
+
 }

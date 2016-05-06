@@ -33,7 +33,7 @@ public class SzolgaltatasTest {
 		felh.setFelhasznalonev("tesztFelhasznalo");
 		felh.setEgyenleg(0L);
 		felh.setJelszo("jelszo");
-		felh.setLebontas(1);
+//		felh.setLebontas(1);
 		felh.setTranzakciok(new ArrayList<Tranzakcio>());
 
 		felhasznaloTarolo.save(felh);

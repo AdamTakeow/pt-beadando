@@ -31,5 +31,11 @@ public interface TranzakcioTarolo extends JpaRepository<Tranzakcio, Long> {
 	 * @return Egy lista azokról a tranzakciókról amelyek a metódus paramétereként megadott felhasználóhoz tartoznak.
 	 */
 	List<Tranzakcio> findByFelhasznalo( Felhasznalo felhasznalo );
+	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
+	Tranzakcio findFirstByFelhasznaloOrderByDatumAsc( Felhasznalo felhasznalo );
 
 }

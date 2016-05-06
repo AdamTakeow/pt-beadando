@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
@@ -29,7 +31,10 @@ public class BejelentkezesKezelo {
 	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 	
 	@Autowired
-	FelhasznaloSzolgaltatas fhsz;
+	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
+	
+	@Autowired
+	TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
 	// Az aktuálisan bejelentkezett felhasználó
 	private FelhasznaloVo bejelentkezett_fh;
@@ -52,7 +57,7 @@ public class BejelentkezesKezelo {
 		logolo.info("Bejelentkezes gomb megnyomva");
 		
 		// megkeressük a felhasználónevet amit beírt a felhasználó
-		FelhasznaloVo felh = fhsz.findByFelhasznalonev(felhnev_bevitel.getText());
+		FelhasznaloVo felh = felhasznaloSzolgaltatas.findByFelhasznalonev(felhnev_bevitel.getText());
 
 		// ha nincs ilyen fhnév
 		if( felh == null ){
@@ -117,23 +122,30 @@ public class BejelentkezesKezelo {
 		// ha minden rendben
 		if( ok ){
 			// megnézzük hogy van-e már ilyen felhasználónév az adatbázisban
-			if( fhsz.findByFelhasznalonev(felhnev_bevitel.getText()) != null ){
+			if( felhasznaloSzolgaltatas.findByFelhasznalonev(felhnev_bevitel.getText()) != null ){
 				// ha van már ilyen felhasználó
 				celszoveg.setText(celszoveg.getText() + "Ilyen felhasználónév már létezik!\n");
 			} else {
 				// ha nincs még ilyen felhasználó
 				logolo.info("Új felhasználó létrehozása");
 				
+				// létrehozzuk az új felhasználót
 				FelhasznaloVo ujfelhasznalo = new FelhasznaloVo();
 				ujfelhasznalo.setFelhasznalonev(felhnev_bevitel.getText());
 				ujfelhasznalo.setEgyenleg(0L);
 				ujfelhasznalo.setJelszo(jelszo_bevitel.getText());
-				ujfelhasznalo.setLebontas(0);
+				
+				LocalDate innentol = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+				LocalDate idaig = LocalDate.now();
+				
+				ujfelhasznalo.setKezdoIdopont(innentol);
+				ujfelhasznalo.setVegIdopont(idaig);
+				
 				ujfelhasznalo.setTranzakciok(new ArrayList<TranzakcioVo>());
 				ujfelhasznalo.setKategoriak(new ArrayList<KategoriaVo>());
 				
 				// elmentjük az új felhasználót
-				fhsz.ujFelhasznaloLetrehozas(ujfelhasznalo);	
+				felhasznaloSzolgaltatas.ujFelhasznaloLetrehozas(ujfelhasznalo);	
 				celszoveg.setText(celszoveg.getText() + "Sikeres regisztráció!");
 			}
 		}

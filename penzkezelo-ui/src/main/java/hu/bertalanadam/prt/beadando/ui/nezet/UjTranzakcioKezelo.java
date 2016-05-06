@@ -1,8 +1,7 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,13 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.threeten.bp.LocalDate;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.IsmetlodoSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
+import hu.bertalanadam.prt.beadando.vo.IsmetlodoVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.collections.FXCollections;
@@ -26,9 +26,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -51,6 +54,9 @@ public class UjTranzakcioKezelo {
 	
 	@Autowired
 	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
+	
+	@Autowired
+	private IsmetlodoSzolgaltatas ismetlodoSzolgaltatas;
 
 	@Autowired
 	private Otthonkezelo otthonkezelo;
@@ -84,6 +90,12 @@ public class UjTranzakcioKezelo {
 	@FXML
 	private ComboBox<String> kategoria_bevitel;
 	
+	@FXML
+	private CheckBox ismetlodo_checkbox;
+	
+	@FXML
+	private Spinner<Integer> ismetlodo_napvalaszto; 
+	
 	// hogy új kategória létrehozásánál ne vesszenek el a bevitt adatok, eltároljuk őket	
 
 	private boolean kiadas_radiogomb_mentes;
@@ -94,11 +106,28 @@ public class UjTranzakcioKezelo {
 	
 	private String leiras_bevitel_mentes;
 	
-	private Date datum_bevitel_mentes;
+	private LocalDate datum_bevitel_mentes;
+	
+	private boolean ismetlodik_mentes;
+	
+	private long spinner_ertek_mentes;
+	
+	@FXML
+	public void ismetlodik(){
+		if( ismetlodo_checkbox.isSelected() ){
+			ismetlodo_napvalaszto.setDisable(false);
+		} else {
+			ismetlodo_napvalaszto.setDisable(true);
+		}
+	}
 	
 	// a dialog betöltődése előtt lefutó metódus
 	@FXML
 	private void initialize(){
+		
+		// spinner érték
+		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 365);
+		ismetlodo_napvalaszto.setValueFactory(svf);
 		
 		// beállítjuk a bejelentkezett felhasználót
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();	
@@ -122,9 +151,11 @@ public class UjTranzakcioKezelo {
 		bevetel_radiogomb.setSelected(bevetel_radiogomb_mentes);
 		osszeg_bevitel.setText(osszeg_bevitel_mentes);
 		leiras_bevitel.setText(leiras_bevitel_mentes);
+		ismetlodo_checkbox.setSelected(ismetlodik_mentes);
+		ismetlodo_napvalaszto.setUserData(spinner_ertek_mentes);
 		
 		if( datum_bevitel_mentes != null )
-			datum_bevitel.setValue(datum_bevitel_mentes.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+			datum_bevitel.setValue(datum_bevitel_mentes);
 	}
 
 	// a bezárás gombra kattintáskor lefutó metódus
@@ -139,6 +170,8 @@ public class UjTranzakcioKezelo {
 		osszeg_bevitel_mentes = null;
 		leiras_bevitel_mentes = null;
 		datum_bevitel_mentes = null;
+		ismetlodik_mentes = false;
+		spinner_ertek_mentes = 0;
 		
 		// lefrissítjük a kezdőképernyő adatait.
 		otthonkezelo.adatFrissites();
@@ -158,9 +191,12 @@ public class UjTranzakcioKezelo {
 		bevetel_radiogomb_mentes = bevetel_radiogomb.isSelected();
 		osszeg_bevitel_mentes = osszeg_bevitel.getText();
 		leiras_bevitel_mentes = leiras_bevitel.getText();
+		ismetlodik_mentes = ismetlodo_checkbox.isSelected();
+		if( ismetlodo_checkbox.isSelected() )
+			spinner_ertek_mentes = ismetlodo_napvalaszto.getValue();
 		
 		if( datum_bevitel.getValue() != null )
-			datum_bevitel_mentes = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			datum_bevitel_mentes = datum_bevitel.getValue();
 
 		// betöltjük a kategória létrehozót
 		GridPane pane = (GridPane)loader.load("/UjKategoriaFelulet.fxml");
@@ -269,6 +305,12 @@ public class UjTranzakcioKezelo {
 			}
 		}
 		
+		// bepipálta hogy ismétlődő, de nem adott meg intervallumot
+		if( ismetlodo_checkbox.isSelected() && ismetlodo_napvalaszto.getValue() == null  ){
+			celszoveg.setText(celszoveg.getText() + "Adja meg az ismétlődés gyakoriságát!\n");
+			mehet = false;
+		}
+		
 		// ha rendben lettek megadva az adato
 		if( mehet ){
 			TranzakcioVo ujTranzakcio = new TranzakcioVo();
@@ -280,25 +322,23 @@ public class UjTranzakcioKezelo {
 			ujTranzakcio.setLeiras(leiras);
 			ujTranzakcio.setDatum(datum);
 			
+			
 			// felhozom a létező kategóriát
 			KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.getKategoriaByNev(kategoria);
 						
 			// létrehozom a tranzakciót az adatbázisban
 			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTranzakcio);
 
-			// ennek itt nem szabad null-nak lennie
-//			if( trz_kategoriaja != null ){
-//				
-//				// elkérem a kategória tranzakcióit
-//				List<TranzakcioVo> trz_kategoriajanak_trzi = trz_kategoriaja.getTranzakciok();
-//				// hozzáadom a lementett tranzakciót a kategóriák meglévő tranzakcióihoz
-//				trz_kategoriajanak_trzi.add(letezo_trz);
-//				// beállítom a bővített listát a kategória tranzakcióinak
-//				trz_kategoriaja.setTranzakciok(trz_kategoriajanak_trzi);
-//				kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);				
-//			}
+			// létrehozzuk az új ismétlődőt, ha ismétlődik a tranzakció
+			IsmetlodoVo ismetlodo = new IsmetlodoVo();
 			
-			
+			if( ismetlodo_checkbox.isSelected() ){
+				
+				ismetlodo.setIdo( new Long( ismetlodo_napvalaszto.getValue() ) );
+				ismetlodo.setUtolsoBeszuras(datum);
+				ismetlodo = ismetlodoSzolgaltatas.ujIsmetlodoLetrehozas(ismetlodo);
+			}
+	
 			// elkérem a felhasználótól a tranzakcióit
 			List<TranzakcioVo> felh_trzi = bejelentkezett_fh.getTranzakciok();
 			// hozzáadom a felhasználó tranzakciókhoz a frissített tranzakciót
@@ -320,13 +360,12 @@ public class UjTranzakcioKezelo {
 			letezo_trz.setKategoria(trz_kategoriaja);
 			// beállítom a tranzakciónak a felhasználót
 			letezo_trz.setFelhasznalo(bejelentkezett_fh);
-			tranzakcioSzolgaltatas.frissitTranzakciot(letezo_trz);
 			
-//			kategoriaSzolgaltatas.frissitKategoriat(trz_kategoriaja);
-//			tranzakcioSzolgaltatas.frissitTranzakciot(letezo_trz);
-//			felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
-//			ujTranzakcio.setIsmetlodo(null);
+			if( ismetlodo_checkbox.isSelected() ){
+				letezo_trz.setIsmetlodo(ismetlodo);				
+			}
 			
+			tranzakcioSzolgaltatas.frissitTranzakciot(letezo_trz);	
 			
 			// kitöröljük a mentést
 			kiadas_radiogomb_mentes = false;
@@ -334,6 +373,8 @@ public class UjTranzakcioKezelo {
 			osszeg_bevitel_mentes = null;
 			leiras_bevitel_mentes = null;
 			datum_bevitel_mentes = null;	
+			ismetlodik_mentes = false;
+			spinner_ertek_mentes = 0;
 			
 			trz_kategoriaja = null;
 

@@ -39,7 +39,7 @@ public class TestConnection {
 		felh.setFelhasznalonev("tesztFelhasznalo");
 		felh.setEgyenleg(0L);
 		felh.setJelszo("password");
-		felh.setLebontas(1);
+//		felh.setLebontas(1);
 		felh.setTranzakciok(new ArrayList<Tranzakcio>());
 
 		fhtarolo.save(felh);
