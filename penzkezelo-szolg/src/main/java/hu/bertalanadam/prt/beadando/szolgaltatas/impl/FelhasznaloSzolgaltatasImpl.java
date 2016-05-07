@@ -198,22 +198,23 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	@Override
 	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 
-		// elkérjük a felhasználó összes tranzakcióját
-		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
-		
-		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
-		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
-
-		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
-		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
-
-		// megszűrjük a tranzakciókat a megfelelő időpontra
-		felhasznalo_tranzakcioi = felhasznalo_tranzakcioi.stream()
-													     .filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-													                   t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-													     .collect(Collectors.toList());
-		
-		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
+//		// elkérjük a felhasználó összes tranzakcióját
+//		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
+//		
+//		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
+//		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
+//
+//		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
+//		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
+//
+//		// megszűrjük a tranzakciókat a megfelelő időpontra
+//		felhasznalo_tranzakcioi = felhasznalo_tranzakcioi.stream()
+//													     .filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+//													                   t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+//													     .collect(Collectors.toList());
+//		
+//		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
+		return null;
 	}
 
 	// TODO nem kellene itt kategóriatárolóval operálni, dobjuk át a kategóriaszolgáltatásba és azt használjuk

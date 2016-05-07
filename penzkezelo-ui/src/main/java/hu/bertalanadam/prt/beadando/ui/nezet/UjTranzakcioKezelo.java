@@ -286,6 +286,7 @@ public class UjTranzakcioKezelo {
 				// felhozom ezt a létező kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev("Nincs");
 				
+				// TODO szolgáltatásba átfele vele
 				// elkérem a felhasználóit
 				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
 				// megnézem hogy szerepel-e már ennél a felhasználónál ez a kategória
@@ -339,19 +340,21 @@ public class UjTranzakcioKezelo {
 				ismetlodo = ismetlodoSzolgaltatas.ujIsmetlodoLetrehozas(ismetlodo);
 			}
 	
-			// elkérem a felhasználótól a tranzakcióit
-			List<TranzakcioVo> felh_trzi = bejelentkezett_fh.getTranzakciok();
-			// hozzáadom a felhasználó tranzakciókhoz a frissített tranzakciót
-			felh_trzi.add(letezo_trz);
-			// beállítom a felhasználó tranzakcióit
-			bejelentkezett_fh.setTranzakciok(felh_trzi);
+//			// elkérem a felhasználótól a tranzakcióit
+//			List<TranzakcioVo> felh_trzi = bejelentkezett_fh.getTranzakciok();
+//			// hozzáadom a felhasználó tranzakciókhoz a frissített tranzakciót
+//			felh_trzi.add(letezo_trz);
+//			// beállítom a felhasználó tranzakcióit
+//			bejelentkezett_fh.setTranzakciok(felh_trzi);
+			bejelentkezett_fh.getTranzakciok().add(letezo_trz);
 			
-			// elkérem a felhasználótól a kategóriáit
-			List<KategoriaVo> felh_ktgi = bejelentkezett_fh.getKategoriak();
-			// hozzáadom a felhasználó kategóriáihoz a kategóriát
-			felh_ktgi.add(trz_kategoriaja);
-			// beállítom a felhasználó kategóriáit.
-			bejelentkezett_fh.setKategoriak(felh_ktgi);
+//			// elkérem a felhasználótól a kategóriáit
+//			List<KategoriaVo> felh_ktgi = bejelentkezett_fh.getKategoriak();
+//			// hozzáadom a felhasználó kategóriáihoz a kategóriát
+//			felh_ktgi.add(trz_kategoriaja);
+//			// beállítom a felhasználó kategóriáit.
+//			bejelentkezett_fh.setKategoriak(felh_ktgi);
+			bejelentkezett_fh.getKategoriak().add(trz_kategoriaja);
 			
 			felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 			

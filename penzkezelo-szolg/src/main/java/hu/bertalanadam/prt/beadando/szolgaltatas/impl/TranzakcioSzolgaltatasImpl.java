@@ -1,6 +1,7 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.IsmetlodoSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
@@ -47,6 +49,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	
 	@Autowired
 	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
+	
+	@Autowired
+	private IsmetlodoSzolgaltatas ismetlodoSzolgaltatas;
 
 	@Override
 	public TranzakcioVo ujTranzakcioLetrehozas(TranzakcioVo ujTranzakcio) {
@@ -56,15 +61,31 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 
 	}
 
-	// TODO na ide kéne az ami a felhasználóba van...
 	@Override
 	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo ) {
 
-		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
+//		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
+//		
+//		List<Tranzakcio> trk = tranzakcioTarolo.findByFelhasznalo(felh);
+//		
+//		return TranzakcioMapper.toVo(trk);
 		
-		List<Tranzakcio> trk = tranzakcioTarolo.findByFelhasznalo(felh);
-		
-		return TranzakcioMapper.toVo(trk);
+		// elkérjük a felhasználó összes tranzakcióját
+		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
+				
+		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
+		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
+
+		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
+		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
+				
+		// megszűrjük a tranzakciókat a megfelelő időpontra
+		felhasznalo_tranzakcioi = felhasznalo_tranzakcioi.stream()
+														 .filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+															           t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+														 .collect(Collectors.toList());
+				
+		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
 	}
 
 	@Override

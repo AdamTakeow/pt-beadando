@@ -61,7 +61,7 @@ public class Felhasznalo extends FoEntitas {
 	 * Minden egyes bevételt, kiadást és lekötést egy-egy tranzakcióként kezelünk, így 
 	 * minden felhasználó rendelkezik egy listáról amelyben a tranzakciói szerepelnek.
 	 * */
-	@OneToMany(mappedBy="felhasznalo") // TODO világosabban
+	@OneToMany(mappedBy="felhasznalo")
 	private List<Tranzakcio> tranzakciok;
 	
 	/**
@@ -69,7 +69,7 @@ public class Felhasznalo extends FoEntitas {
 	 * Egy felhasználóhoz több kategória is tartozhat és egy kategória
 	 * több felhasználóhoz is tartozhat.
 	 */
-	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY) // TODO világosabban
+	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY)
 	private List<Kategoria> kategoriak;
 	
 

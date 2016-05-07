@@ -101,12 +101,10 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					
 					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTr);
 					
-					List<TranzakcioVo> felh_trzi = felhasznalo.getTranzakciok();
-					
-					felh_trzi.add(letezo_tr);
-					
-					// beállítom a felhasználó tranzakcióit
-					felhasznalo.setTranzakciok(felh_trzi);
+//					List<TranzakcioVo> felh_trzi = felhasznalo.getTranzakciok();
+//					felh_trzi.add(letezo_tr);
+//					felhasznalo.setTranzakciok(felh_trzi);
+					felhasznalo.getTranzakciok().add(letezo_tr);
 					
 					felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);
 					

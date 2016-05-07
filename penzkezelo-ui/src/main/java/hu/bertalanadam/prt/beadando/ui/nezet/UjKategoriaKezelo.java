@@ -97,9 +97,10 @@ public class UjKategoriaKezelo {
 				// ha nem birtokolja még 
 				if( isEmpty ){
 					// akkor hozzáadom a kategória listájához az aktuálisan bejelentkezett felhasználót
-					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());					
+					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());			
 					letezo_kat.setFelhasznalok(fhk);
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
+					// TODO idáig
 					
 					// visszatöltjük a tranzakciókezelőt
 					BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");

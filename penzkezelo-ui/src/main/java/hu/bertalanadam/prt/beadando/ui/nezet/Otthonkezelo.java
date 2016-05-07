@@ -127,8 +127,10 @@ public class Otthonkezelo {
 		bejelentkezett_fh = felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 		
 		// lefrissítjük a táblázatot
+//		List<TranzakcioVo> felh_tranzakcioi = 
+//				felhasznaloSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 		List<TranzakcioVo> felh_tranzakcioi = 
-				felhasznaloSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
+				tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 
 		// kiírjuk az aktuális egyenlegét
 		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
