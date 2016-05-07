@@ -51,5 +51,12 @@ public interface KategoriaSzolgaltatas {
 	 * @return Egy lista amely csak a felhasználó kategóriáit tartalmazza.
 	 */
 	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	
+	/**
+	 * @param felhasznalo
+	 * @param kategoria
+	 * @return
+	 */
+	boolean vanIlyenKategoriajaAFelhasznalonak( FelhasznaloVo felhasznalo, KategoriaVo kategoria );
 
 }

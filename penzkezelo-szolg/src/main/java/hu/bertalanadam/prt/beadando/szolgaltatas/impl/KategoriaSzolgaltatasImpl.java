@@ -108,4 +108,17 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 		return fh_kategoriai;
 	}
 
+	@Override
+	public boolean vanIlyenKategoriajaAFelhasznalonak(FelhasznaloVo felhasznalo, KategoriaVo kategoria) {
+
+		// elkérem a felhasználóit
+		List<FelhasznaloVo> fhk = kategoria.getFelhasznalok();
+		// megnézem hogy az éppen bejelentkezett felhasználó birtokolja-e már ezt a kategóriát
+		boolean isEmpty = fhk.stream()
+					    .filter( f -> f.getFelhasznalonev().equals( felhasznalo.getFelhasznalonev() ))
+						.collect(Collectors.toList()).isEmpty();
+		
+		return isEmpty;
+	}
+
 }

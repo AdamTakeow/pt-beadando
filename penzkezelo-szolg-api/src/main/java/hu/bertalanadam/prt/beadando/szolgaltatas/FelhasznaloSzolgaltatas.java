@@ -56,11 +56,11 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
-	/**
-	 * @param felhasznalo
-	 * @return
-	 */
-	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
+//	/**
+//	 * @param felhasznalo
+//	 * @return
+//	 */
+//	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 	/**
 	 * @param felhasznalo

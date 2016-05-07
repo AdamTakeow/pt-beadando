@@ -194,9 +194,8 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		return res;
 	}
 
-	// TODO a felhasználónak nem kellene legyen ilyen szolgáltatása pakold át a tranzakciósba
-	@Override
-	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+//	@Override
+//	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 
 //		// elkérjük a felhasználó összes tranzakcióját
 //		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
@@ -214,8 +213,8 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 //													     .collect(Collectors.toList());
 //		
 //		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
-		return null;
-	}
+//		return null;
+//	}
 
 	// TODO nem kellene itt kategóriatárolóval operálni, dobjuk át a kategóriaszolgáltatásba és azt használjuk
 	@Override

@@ -86,19 +86,25 @@ public class UjKategoriaKezelo {
 				// felhozom azt a kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText());
 				
-				// TODO ezt itt baszd át szolgáltatás rétegbe
-				// elkérem a felhasználóit
-				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
-				// megnézem hogy az éppen bejelentkezett felhasználó birtokolja-e már ezt a kategóriát
-				boolean isEmpty = fhk.stream()
-							    .filter( f -> f.getFelhasznalonev().equals(ujtranzakciokezelo.getBejelentkezett_fh().getFelhasznalonev()) )
-								.collect(Collectors.toList()).isEmpty();
+//				// elkérem a felhasználóit
+//				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+//				// megnézem hogy az éppen bejelentkezett felhasználó birtokolja-e már ezt a kategóriát
+//				boolean isEmpty = fhk.stream()
+//							    .filter( f -> f.getFelhasznalonev().equals(ujtranzakciokezelo.getBejelentkezett_fh().getFelhasznalonev()) )
+//								.collect(Collectors.toList()).isEmpty();
+				
+				boolean isEmpty = kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(
+												ujtranzakciokezelo.getBejelentkezett_fh(),
+												letezo_kat);
 				
 				// ha nem birtokolja még 
 				if( isEmpty ){
 					// akkor hozzáadom a kategória listájához az aktuálisan bejelentkezett felhasználót
-					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());			
-					letezo_kat.setFelhasznalok(fhk);
+//					List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+//					fhk.add(ujtranzakciokezelo.getBejelentkezett_fh());			
+//					letezo_kat.setFelhasznalok(fhk);
+					letezo_kat.getFelhasznalok().add(ujtranzakciokezelo.getBejelentkezett_fh());
+					
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
 					// TODO idáig
 					
