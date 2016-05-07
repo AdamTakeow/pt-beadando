@@ -2,6 +2,7 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -159,5 +160,38 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				);
 				
 		return res;
+	}
+
+	@Override
+	public Long szamolMennyitKolthetMegAFelhasznalo(FelhasznaloVo felhasznalo) {
+		
+		// ennyit szán a felhasználó egy hónapban kiadásra
+		long kiadasra = felhasznalo.getKiadasraSzantPenz();
+		// ha a felhasználó egyenlege kisebb egyenlő mint 0
+		if( felhasznalo.getEgyenleg() <= 0 ){
+			return 0L; // akkor semennyit nem költhet
+		} else
+		if( kiadasra == 0 ){ // ha nem adta meg hogy mennyit költene
+			return felhasznalo.getEgyenleg(); // akkor annyit amennyi az egyenlege
+		}
+		
+		// ha meg van adva hogy mennyit szeretne költeni maximum egy hónapban
+		
+		// ha hó eleje van akkor a költésre szánt összeget költhetjük
+		int aktualisHonap = LocalDate.now().getMonthValue();
+			
+		// a kiadásra szánt összegből levonjuk az aktuális hónap kiadásait
+			
+		long eztvondki = felhasznalo.getTranzakciok().stream()
+				.filter( t -> t.getDatum().getMonthValue() == aktualisHonap &&
+				              t.getOsszeg() < 0 )
+				.mapToLong( t -> t.getOsszeg() )
+				.sum();
+		
+		if( (kiadasra - Math.abs(eztvondki)) < 0 ){
+			return 0L;
+		} else {
+			return kiadasra - Math.abs(eztvondki);
+		}
 	}
 }

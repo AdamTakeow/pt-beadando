@@ -45,6 +45,11 @@ public class Felhasznalo extends FoEntitas {
 	 * */
 	private Long egyenleg;
 	
+	/**
+	 * 
+	 */
+	private Long kiadasraSzantPenz;
+	
 	
 	/**
 	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciók.
@@ -193,6 +198,14 @@ public class Felhasznalo extends FoEntitas {
 		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
 				+ ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok=" + tranzakciok
 				+ ", kategoriak=" + kategoriak + "]";
+	}
+
+	public Long getKiadasraSzantPenz() {
+		return kiadasraSzantPenz;
+	}
+
+	public void setKiadasraSzantPenz(Long kiadasraSzantPenz) {
+		this.kiadasraSzantPenz = kiadasraSzantPenz;
 	}
 	
 }

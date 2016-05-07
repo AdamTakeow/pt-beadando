@@ -133,6 +133,7 @@ public class BejelentkezesKezelo {
 				FelhasznaloVo ujfelhasznalo = new FelhasznaloVo();
 				ujfelhasznalo.setFelhasznalonev(felhnev_bevitel.getText());
 				ujfelhasznalo.setEgyenleg(0L);
+				ujfelhasznalo.setKiadasraSzantPenz(0L);
 				ujfelhasznalo.setJelszo(jelszo_bevitel.getText());
 				
 				LocalDate innentol = LocalDate.of(LocalDate.now().getYear(), 1, 1);

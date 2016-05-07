@@ -80,7 +80,7 @@
                                     <Font name="System Bold" size="40.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Predict" GridPane.rowIndex="1">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ennyit költhetek még:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
@@ -104,6 +104,12 @@
                               </Label>
                               <Label text="Összes kiadás:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                               <Label text="Összes bevétel:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Button fx:id="beallitasok_gomb" mnemonicParsing="false" onAction="#beallitasokGombKezelo" text="Beállítások" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Text fx:id="ennyitKolthetekMeg" strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Text>
                            </children>
                         </GridPane>
                         <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">

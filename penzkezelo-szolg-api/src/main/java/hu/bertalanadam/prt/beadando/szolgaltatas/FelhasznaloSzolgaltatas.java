@@ -65,4 +65,10 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	Map<String,Long> kiadDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
+	Long szamolMennyitKolthetMegAFelhasznalo( FelhasznaloVo felhasznalo );
+	
 }

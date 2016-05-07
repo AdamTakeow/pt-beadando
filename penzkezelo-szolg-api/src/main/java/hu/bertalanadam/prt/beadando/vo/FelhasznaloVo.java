@@ -44,6 +44,11 @@ public class FelhasznaloVo implements Serializable {
 	/**
 	 * 
 	 */
+	private Long kiadasraSzantPenz;
+	
+	/**
+	 * 
+	 */
 	private LocalDate kezdoIdopont;
 	
 	/**
@@ -193,6 +198,14 @@ public class FelhasznaloVo implements Serializable {
 		return "FelhasznaloVo [id=" + id + ", felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
 				+ egyenleg + ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok="
 				+ tranzakciok + ", kategoriak=" + kategoriak + "]";
+	}
+
+	public Long getKiadasraSzantPenz() {
+		return kiadasraSzantPenz;
+	}
+
+	public void setKiadasraSzantPenz(Long kiadasraSzantPenz) {
+		this.kiadasraSzantPenz = kiadasraSzantPenz;
 	}
 	
 }

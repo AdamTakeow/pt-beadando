@@ -29,6 +29,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -106,6 +107,12 @@ public class Otthonkezelo {
 	@FXML
 	private Button lekotesGomb;
 	
+	@FXML
+	private Button beallitasok_gomb;
+	
+	@FXML
+	private Text ennyitKolthetekMeg;
+	
 	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
 	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
 	
@@ -135,7 +142,16 @@ public class Otthonkezelo {
 				tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 
 		// kiírjuk az aktuális egyenlegét
-		egyenleg_text.setText(bejelentkezett_fh.getEgyenleg().toString());
+		long egyenleg = bejelentkezett_fh.getEgyenleg();
+		if( egyenleg < 0 ){
+			egyenleg_text.setFill(Color.web("#ff0303"));
+		} else {
+			egyenleg_text.setFill(Color.web("#15bcb1"));
+		}
+		egyenleg_text.setText(""+egyenleg);
+		
+		// kiszámoljuk hogy mennyit költhet még a hónapban
+		ennyitKolthetekMeg.setText( "" + felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(bejelentkezett_fh));
 		
 		// kiszámoljuk az összes bevételét és kiírjuk
 		long osszes_bev = felhasznaloSzolgaltatas.osszesBevetelAFelhasznalohoz(bejelentkezett_fh);
@@ -196,6 +212,20 @@ public class Otthonkezelo {
 		} else {
 			lekotesGomb.setText("Új lekötés");
 		}
+	}
+	
+	@FXML
+	protected void beallitasokGombKezelo( ActionEvent event ){
+		
+		BorderPane pane = (BorderPane)loader.load("/BeallitasokFelulet.fxml");
+		Scene scene = new Scene(pane);
+
+		Stage stage = new Stage();
+		stage.setTitle("Beállítások");
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+		stage.setScene(scene);
+		stage.show();
 	}
 	
 	// a képernyő betöltődése előtt lefutó metódus

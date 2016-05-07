@@ -1,6 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
