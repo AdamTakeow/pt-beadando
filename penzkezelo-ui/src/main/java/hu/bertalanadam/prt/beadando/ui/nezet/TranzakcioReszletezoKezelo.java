@@ -61,6 +61,10 @@ public class TranzakcioReszletezoKezelo {
 			kategoria_reszletezo.setText(kival_trz.getKategoria().getNev());			
 		}
 		
+		if( kival_trz.getLekotes() != null ){
+			closeButton.setDisable(true);
+		}
+		
 	}
 	
 	@FXML

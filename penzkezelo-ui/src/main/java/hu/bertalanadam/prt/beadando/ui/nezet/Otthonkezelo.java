@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -101,6 +102,9 @@ public class Otthonkezelo {
 	
 	@FXML
 	private DatePicker lebontas_idaig;
+	
+	@FXML
+	private Button lekotesGomb;
 	
 	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
 	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
@@ -185,6 +189,12 @@ public class Otthonkezelo {
 			for (Map.Entry<String, Long> elem : kiad_adatok.entrySet() ) {
 				kiad_diagramAdatok.add( new PieChart.Data(elem.getKey(), elem.getValue()) );			
 			}			
+		}
+
+		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
+			lekotesGomb.setText("Lekötés megtekintése");
+		} else {
+			lekotesGomb.setText("Új lekötés");
 		}
 	}
 	

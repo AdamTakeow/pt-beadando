@@ -95,8 +95,8 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Text>
-                              <Button mnemonicParsing="false" onAction="#ujTranzakcioKezelo" text="New Transaction" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                              <Button mnemonicParsing="false" text="New lekötés" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Button mnemonicParsing="false" onAction="#ujTranzakcioKezelo" text="Új tranzakció" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Button fx:id="lekotesGomb" mnemonicParsing="false" onAction="#ujLekotesKezelo" text="Új lekötés" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                               <Label text="Egyenleg:" textFill="#15bcb1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="27.0" />

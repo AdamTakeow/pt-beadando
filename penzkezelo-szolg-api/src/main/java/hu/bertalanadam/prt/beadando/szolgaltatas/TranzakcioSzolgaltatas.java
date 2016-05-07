@@ -52,5 +52,11 @@ public interface TranzakcioSzolgaltatas {
 	 * @param tranzakcio
 	 */
 	void tranzakcioTorles( TranzakcioVo tranzakcio );
+	
+	/**
+	 * @param felhasznalo
+	 * @return
+	 */
+	TranzakcioVo getLekotesesTranzakciotAFelhasznalohoz(FelhasznaloVo felhasznalo);
 
 }

@@ -272,7 +272,7 @@ public class UjTranzakcioKezelo {
 				ujkat.setFelhasznalok(felhasznalok);
 				
 				// tranzakcióihoz pedig egy üres listát
-				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
+//				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
 	
 				kategoriaSzolgaltatas.ujKategoriaLetrehozas(ujkat);
 				

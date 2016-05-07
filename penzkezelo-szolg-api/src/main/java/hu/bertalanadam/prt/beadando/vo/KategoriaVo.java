@@ -30,11 +30,11 @@ public class KategoriaVo implements Serializable {
 	 */
 	private String nev;
 
-	/**
-	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak. Egy kategóriába
-	 * több tranzakció is sorolható.
-	 */
-	private List<TranzakcioVo> tranzakciok;
+//	/**
+//	 * Az a tranzakciók amelyek ehhez a kategóriához tartoznak. Egy kategóriába
+//	 * több tranzakció is sorolható.
+//	 */
+//	private List<TranzakcioVo> tranzakciok;
 	
 	/**
 	 * A kategóriát birtokló felhasznlálók listája.
@@ -57,23 +57,23 @@ public class KategoriaVo implements Serializable {
 		this.nev = nev;
 	}
 
-	/**
-	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a
-	 * kategóriába sorolhatók.
-	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
-	 */
-	public List<TranzakcioVo> getTranzakciok() {
-		return tranzakciok;
-	}
+//	/**
+//	 * Visszaadja azt a listát amelyben azok a tranzakciók vannak amik ebbe a
+//	 * kategóriába sorolhatók.
+//	 * @return Egy {@link java.util.List} amiben az azonos kategóriájú tranzakciók vannak.
+//	 */
+//	public List<TranzakcioVo> getTranzakciok() {
+//		return tranzakciok;
+//	}
 
-	/**
-	 * Beállítja hogy ebbe a kategóriába melyik tranzakciók tartozzanak.
-	 * @param tranzakciok A {@link java.util.List} amiben az azonos kategóriájú 
-	 * tranzakciók vannak.
-	 */
-	public void setTranzakciok(List<TranzakcioVo> tranzakciok) {
-		this.tranzakciok = tranzakciok;
-	}
+//	/**
+//	 * Beállítja hogy ebbe a kategóriába melyik tranzakciók tartozzanak.
+//	 * @param tranzakciok A {@link java.util.List} amiben az azonos kategóriájú 
+//	 * tranzakciók vannak.
+//	 */
+//	public void setTranzakciok(List<TranzakcioVo> tranzakciok) {
+//		this.tranzakciok = tranzakciok;
+//	}
 
 	/**
 	 * Visszaadja a kategória azonosítóját.
@@ -112,7 +112,7 @@ public class KategoriaVo implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "KategoriaVo [id=" + id + ", nev=" + nev + ", tranzakciok=" + tranzakciok + ", felhasznalok="
+		return "KategoriaVo [id=" + id + ", nev=" + nev +/* ", tranzakciok=" + tranzakciok + */", felhasznalok="
 				+ felhasznalok + "]";
 	}
 }

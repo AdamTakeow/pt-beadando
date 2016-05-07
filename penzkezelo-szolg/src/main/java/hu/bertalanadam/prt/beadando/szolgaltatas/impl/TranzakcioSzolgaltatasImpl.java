@@ -17,6 +17,7 @@ import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.IsmetlodoSzolgaltatas;
+import hu.bertalanadam.prt.beadando.szolgaltatas.LekotesSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
@@ -52,6 +53,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	
 	@Autowired
 	private IsmetlodoSzolgaltatas ismetlodoSzolgaltatas;
+	
+	@Autowired
+	private LekotesSzolgaltatas lekotesSzolgaltatas;
 
 	@Override
 	public TranzakcioVo ujTranzakcioLetrehozas(TranzakcioVo ujTranzakcio) {
@@ -69,6 +73,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 				
 		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
 		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
+		
+		// ellenőrizzük a lekötéseket
+		lekotesSzolgaltatas.lekotesEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo) );
 
 		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
 		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
@@ -128,5 +135,17 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		Tranzakcio legkorabbi = tranzakcioTarolo.findFirstByFelhasznaloOrderByDatumAsc(felh);
 		
 		return TranzakcioMapper.toVo(legkorabbi);
+	}
+
+	@Override
+	public TranzakcioVo getLekotesesTranzakciotAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+		
+		List<TranzakcioVo> felh_tranzakcioi = osszesTranzakcioAFelhasznalohoz(felhasznalo);
+		
+		// TODO TESZTELNi
+		return felh_tranzakcioi.stream()
+						.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )
+						.findAny()
+						.get();
 	}
 }
