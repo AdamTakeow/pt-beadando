@@ -23,4 +23,10 @@ public interface IsmetlodoSzolgaltatas {
 	 * @return
 	 */
 	void ismetlodoEllenorzes( FelhasznaloVo felhasznalo, List<TranzakcioVo> felh_tranzakcioi );
+	
+	/**
+	 * @param ismetlodo
+	 * @return
+	 */
+	IsmetlodoVo frissitIsmetlodot( IsmetlodoVo ismetlodo );
 }

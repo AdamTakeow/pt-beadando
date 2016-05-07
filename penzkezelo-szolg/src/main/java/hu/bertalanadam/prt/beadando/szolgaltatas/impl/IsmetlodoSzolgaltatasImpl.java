@@ -88,7 +88,8 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					ism.setUtolsoBeszuras(utolso_beszuras);
 					
 					// lefrissítjük az ismétlődőt mivel módosítottuk
-					ujIsmetlodoLetrehozas(ism); // TODO frissítés, nem létrehozás
+//					ujIsmetlodoLetrehozas(ism);
+					frissitIsmetlodot(ism);
 					
 					// és be kell szúrni egy új tranzakciót mert ismétlődött a tranzakció
 					TranzakcioVo ujTr = new TranzakcioVo();
@@ -118,6 +119,18 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 				}
 			}
 		}
+	}
+
+	@Override
+	public IsmetlodoVo frissitIsmetlodot(IsmetlodoVo ismetlodo) {
+		// átmappeljük az ismétlődőt
+		Ismetlodo ism = IsmetlodoMapper.toDto( ismetlodo );
+				
+		// elmentjük az adatbázisba, de mivel már létezik, frissülni fog
+		Ismetlodo mentett_ism = ismetlodoTarolo.save( ism );
+				
+		// visszaadjuk az mentett ismétlődőt átmappelve
+		return IsmetlodoMapper.toVo( mentett_ism );
 	}
 
 }
