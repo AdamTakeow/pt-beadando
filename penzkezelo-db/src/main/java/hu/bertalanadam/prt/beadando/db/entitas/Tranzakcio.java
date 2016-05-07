@@ -50,7 +50,7 @@ public class Tranzakcio extends FoEntitas {
 	 * */
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, /*CascadeType.REMOVE*/},
 			fetch=FetchType.LAZY)
-	@JoinColumn(name="tranzakcio_id")
+	@JoinColumn(name="felhasznalo_id")
 	private Felhasznalo felhasznalo;
 	
 	/**
@@ -74,7 +74,7 @@ public class Tranzakcio extends FoEntitas {
 	 * Ha ez a tranzakció egy olyan trazakció ami bizonyos időközönként ismétlődik automatikusan,
 	 * akkor az ehhez a tranzakcióhoz tartozó ismétlődési információk.
 	 * */
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Ismetlodo ismetlodo;
 
 	/**

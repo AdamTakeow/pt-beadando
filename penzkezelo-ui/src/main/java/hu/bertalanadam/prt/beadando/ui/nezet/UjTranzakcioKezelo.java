@@ -151,7 +151,11 @@ public class UjTranzakcioKezelo {
 		osszeg_bevitel.setText(osszeg_bevitel_mentes);
 		leiras_bevitel.setText(leiras_bevitel_mentes);
 		ismetlodo_checkbox.setSelected(ismetlodik_mentes);
-		ismetlodo_napvalaszto.setUserData(spinner_ertek_mentes);
+		
+		if( ismetlodo_checkbox.isSelected() ){
+			ismetlodo_napvalaszto.setDisable(false);
+			ismetlodo_napvalaszto.increment((int)spinner_ertek_mentes);
+		}
 		
 		if( datum_bevitel_mentes != null )
 			datum_bevitel.setValue(datum_bevitel_mentes);
@@ -173,7 +177,7 @@ public class UjTranzakcioKezelo {
 		spinner_ertek_mentes = 0;
 		
 		// lefrissítjük a kezdőképernyő adatait.
-		otthonkezelo.adatFrissites();
+//		otthonkezelo.adatFrissites();
 		
 		// bezárjk ezt a dialogot
 		((Stage)closeButton.getScene().getWindow()).close();
@@ -203,6 +207,7 @@ public class UjTranzakcioKezelo {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		stage.setTitle("Új kategória létrehozása");
 		stage.setScene(scene);
+		stage.centerOnScreen();
 	}
 	
 	// a mentés gombra kattintáskor lefutó metódus

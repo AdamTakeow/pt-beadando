@@ -16,11 +16,13 @@ import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 @Component
@@ -76,8 +78,10 @@ public class BejelentkezesKezelo {
 				Parent szulo = (Parent)loader.load("/OtthonFelulet.fxml");
 				Scene scene = new Scene(szulo);
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+				
 				stage.setTitle("Kezdőlap");
 				stage.setScene(scene);
+				stage.centerOnScreen(); // TODO átdolgozni
 				
 			} else {
 				// ha nem egyezik meg a jelszó

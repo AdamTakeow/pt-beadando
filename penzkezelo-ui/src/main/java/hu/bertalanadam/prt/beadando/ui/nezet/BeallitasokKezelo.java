@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 @Component
@@ -40,6 +41,14 @@ public class BeallitasokKezelo {
 	private Button closeButton;
 	
 	@FXML
+	private Text jelenlegi_kiadasraszant;
+	
+	@FXML
+	public void initialize(){
+		jelenlegi_kiadasraszant.setText(otthonkezelo.getBejelentkezett_fh().getKiadasraSzantPenz().toString() + " Ft");
+	}
+	
+	@FXML
 	protected void jelszoValtas(ActionEvent event){
 		
 		celszoveg.setText("");
@@ -60,6 +69,8 @@ public class BeallitasokKezelo {
 			otthonkezelo.getBejelentkezett_fh().setJelszo(ujJelszo_bevitel.getText());
 			
 			felhasznaloSzolgaltatas.frissitFelhasznalot(otthonkezelo.getBejelentkezett_fh());
+			
+			celszoveg.setText("Jelszó sikeresen megváltoztatva!");
 		}
 	}
 	
@@ -90,6 +101,8 @@ public class BeallitasokKezelo {
 			otthonkezelo.getBejelentkezett_fh().setKiadasraSzantPenz(osszeg);
 			
 			felhasznaloSzolgaltatas.frissitFelhasznalot(otthonkezelo.getBejelentkezett_fh());
+			
+			celszoveg.setText("Beállítás sikeres!");
 		}
 	}
 	
