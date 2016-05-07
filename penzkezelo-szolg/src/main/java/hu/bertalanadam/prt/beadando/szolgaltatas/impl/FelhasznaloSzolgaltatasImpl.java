@@ -131,7 +131,6 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				.filter( o -> o > 0 ? true : false )
 				.sum();
 		
-//		// TODO nem szükséges felhozni újból szerintem
 //		// megkeressük a felhasználót az adatbázisban
 //		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev());
 //		
@@ -181,9 +180,10 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	public Map<String, Long> bevDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
 		// felhozzuk az összes tranzakcióját a felhasználónak
-		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo); 
-		// TODO kipróbálni adatbázis nélkül ^ felhasznalo.getTranzakciok()
+//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo); 
 		
+		List<TranzakcioVo> felh_tranzakcioi = felhasznalo.getTranzakciok();
+				
 		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
 		// ilyen kategóriabeli tranzakció összegét
 		Map<String, Long> res = felh_tranzakcioi.stream()
@@ -193,17 +193,33 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
 															Collectors.summingLong( t -> t.getOsszeg() ) )
 				);
-		
+				
 		return res;
+		
+//		// felhozzuk az összes tranzakcióját a felhasználónak
+//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo); 
+//		
+//		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
+//		// ilyen kategóriabeli tranzakció összegét
+//		Map<String, Long> res = felh_tranzakcioi.stream()
+//						.filter( t -> t.getOsszeg() > 0 &&
+//									  t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+//								      t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+//						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
+//															Collectors.summingLong( t -> t.getOsszeg() ) )
+//				);
+//		
+//		return res;
 	}
 	
 	@Override
 	public Map<String, Long> kiadDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
 		// felhozzuk az összes tranzakcióját a felhasználónak
-		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
-		// TODO kipróbálni adatbázis nélkül ^ felhasznalo.getTranzakciok()
-		
+//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
+//		habár lehet hogy ha nem hívok szolgáltatást, akkor nem frissülnek le az ismétlődők
+		List<TranzakcioVo> felh_tranzakcioi = felhasznalo.getTranzakciok();
+				
 		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
 		// ilyen kategóriabeli tranzakció összegét
 		Map<String, Long> res = felh_tranzakcioi.stream()
@@ -213,8 +229,23 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
 															Collectors.summingLong( t -> t.getOsszeg() ) )
 				);
-		
+				
 		return res;
+		
+//		// felhozzuk az összes tranzakcióját a felhasználónak
+//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
+//		
+//		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
+//		// ilyen kategóriabeli tranzakció összegét
+//		Map<String, Long> res = felh_tranzakcioi.stream()
+//						.filter( t -> t.getOsszeg() < 0 &&
+//									  t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+//								      t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+//						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
+//															Collectors.summingLong( t -> t.getOsszeg() ) )
+//				);
+//		
+//		return res;
 	}
 
 //	@Override
