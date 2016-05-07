@@ -106,7 +106,6 @@ public class UjKategoriaKezelo {
 					letezo_kat.getFelhasznalok().add(ujtranzakciokezelo.getBejelentkezett_fh());
 					
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
-					// TODO idáig
 					
 					// visszatöltjük a tranzakciókezelőt
 					BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");

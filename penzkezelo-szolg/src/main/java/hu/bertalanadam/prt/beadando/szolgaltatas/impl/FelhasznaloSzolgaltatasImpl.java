@@ -216,14 +216,14 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 //		return null;
 //	}
 
-	// TODO nem kellene itt kategóriatárolóval operálni, dobjuk át a kategóriaszolgáltatásba és azt használjuk
-	@Override
-	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+//	@Override
+//	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
-		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
-		
-		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
-		
-		return KategoriaMapper.toVo(felhasznalo_kategoriai);
-	}
+//		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
+//		
+//		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
+//		
+//		return KategoriaMapper.toVo(felhasznalo_kategoriai);
+//		return null;
+//	}
 }

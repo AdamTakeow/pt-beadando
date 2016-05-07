@@ -74,10 +74,10 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	Map<String,Long> kiadDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
-	/**
-	 * @param felhasznalo
-	 * @return
-	 */
-	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
+//	/**
+//	 * @param felhasznalo
+//	 * @return
+//	 */
+//	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 }

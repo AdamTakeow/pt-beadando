@@ -133,9 +133,11 @@ public class UjTranzakcioKezelo {
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();	
 		
 		// felhozom azokat a kategóriákat az adatbázisból amelyek a felhasználóhoz tartoznak
-		List<KategoriaVo> kategoriak = 	
-				felhasznaloSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
-	
+//		List<KategoriaVo> kategoriak = 
+//				felhasznaloSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
+		List<KategoriaVo> kategoriak = 
+				kategoriaSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
+		
 		ObservableList<String> list = FXCollections.observableArrayList();
 
 		// belerakom a legördülőbe, hogy ki tudja onnan választani a megfelelőt
@@ -286,18 +288,21 @@ public class UjTranzakcioKezelo {
 				// felhozom ezt a létező kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev("Nincs");
 				
-				// TODO szolgáltatásba átfele vele
 				// elkérem a felhasználóit
-				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
+//				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
 				// megnézem hogy szerepel-e már ennél a felhasználónál ez a kategória
-				boolean isEmpty = fhk.stream()
-							    .filter( f -> f.getFelhasznalonev().equals( bejelentkezett_fh.getFelhasznalonev()) )
-								.collect(Collectors.toList()).isEmpty();
+//				boolean isEmpty = fhk.stream()
+//							    .filter( f -> f.getFelhasznalonev().equals( bejelentkezett_fh.getFelhasznalonev()) )
+//								.collect(Collectors.toList()).isEmpty();
+				boolean isEmpty =
+						kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(bejelentkezett_fh, letezo_kat);
 
 				// ha nem szerepel, hozzáadom
 				if( isEmpty ){
-					fhk.add(bejelentkezett_fh);
-					letezo_kat.setFelhasznalok(fhk);
+//					fhk.add(bejelentkezett_fh);
+//					letezo_kat.setFelhasznalok(fhk);
+					letezo_kat.getFelhasznalok().add(bejelentkezett_fh);
+					
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
 				}
 				kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);

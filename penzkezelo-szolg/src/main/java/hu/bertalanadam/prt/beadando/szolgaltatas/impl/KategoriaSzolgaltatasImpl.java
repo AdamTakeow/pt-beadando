@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 import hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo;
+import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.mapper.KategoriaMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
@@ -92,20 +94,25 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	@Override
 	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
-		// megkeressük az összes kategóriát
-		List<KategoriaVo> kategoriak = KategoriaMapper.toVo(kategoriaTarolo.findAll());
+		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
 		
-		// leszűrjük azokat a kategóriákat, amelyeknek a felhasználói között ott van a
-		// paraméterül kapott felhasználó
-		List<KategoriaVo> fh_kategoriai = 
-		kategoriak.stream()
-				  .filter( k -> !k.getFelhasznalok().stream()
-						 						    .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
-				 								    .collect(Collectors.toList())
-				 								    .isEmpty() )
-				  .collect(Collectors.toList());
+		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
 		
-		return fh_kategoriai;
+		return KategoriaMapper.toVo(felhasznalo_kategoriai);
+//		// megkeressük az összes kategóriát
+//		List<KategoriaVo> kategoriak = KategoriaMapper.toVo(kategoriaTarolo.findAll());
+//		
+//		// leszűrjük azokat a kategóriákat, amelyeknek a felhasználói között ott van a
+//		// paraméterül kapott felhasználó
+//		List<KategoriaVo> fh_kategoriai = 
+//		kategoriak.stream()
+//				  .filter( k -> !k.getFelhasznalok().stream()
+//						 						    .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
+//				 								    .collect(Collectors.toList())
+//				 								    .isEmpty() )
+//				  .collect(Collectors.toList());
+//		
+//		return fh_kategoriai;
 	}
 
 	@Override
