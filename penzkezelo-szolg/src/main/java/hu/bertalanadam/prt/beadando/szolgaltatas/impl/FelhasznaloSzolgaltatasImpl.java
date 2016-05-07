@@ -119,13 +119,10 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 
 	@Override
 	public long osszesBevetelAFelhasznalohoz(FelhasznaloVo felhasznalo) {
-		
-		// megkeressük a felhasználót az adatbázisban
-		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev()); // TODO nem szükséges felhozni újból szerintem
-		
+
 		// elkérjük a tranzakcióit
-		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
-		
+		List<TranzakcioVo> tranzakciok = felhasznalo.getTranzakciok();
+				
 		// összeszámoljuk az összese bevételét a megadott intervallumon belül
 		return tranzakciok.stream()
 				.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
@@ -134,17 +131,29 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				.filter( o -> o > 0 ? true : false )
 				.sum();
 		
+//		// TODO nem szükséges felhozni újból szerintem
+//		// megkeressük a felhasználót az adatbázisban
+//		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev());
+//		
+//		// elkérjük a tranzakcióit
+//		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
+//		
+//		// összeszámoljuk az összese bevételét a megadott intervallumon belül
+//		return tranzakciok.stream()
+//				.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+//							  t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+//				.mapToLong( t -> t.getOsszeg() )
+//				.filter( o -> o > 0 ? true : false )
+//				.sum();
+		
 	}
 
 	@Override
 	public long osszesKiadasAFelhasznalohoz(FelhasznaloVo felhasznalo) {
-		
-		// megkeressük a felhasználót az adatbázisban
-		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev()); // TODO nem szükséges felhozni újból szerintem
-		
+		 
 		// elkérjük a tranzakcióit
-		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
-		
+		List<TranzakcioVo> tranzakciok = felhasznalo.getTranzakciok();
+				
 		// összeszámoljuk a kiadásait a megfelelő intervallumban
 		return Math.abs(tranzakciok.stream()
 					.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
@@ -152,6 +161,20 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 					.mapToLong( t -> t.getOsszeg() )
 					.filter( o -> o < 0 ? true : false )
 					.sum());
+		
+//		// megkeressük a felhasználót az adatbázisban
+//		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev()); 
+//		
+//		// elkérjük a tranzakcióit
+//		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
+//		
+//		// összeszámoljuk a kiadásait a megfelelő intervallumban
+//		return Math.abs(tranzakciok.stream()
+//					.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+//								  t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
+//					.mapToLong( t -> t.getOsszeg() )
+//					.filter( o -> o < 0 ? true : false )
+//					.sum());
 	}
 
 	@Override
