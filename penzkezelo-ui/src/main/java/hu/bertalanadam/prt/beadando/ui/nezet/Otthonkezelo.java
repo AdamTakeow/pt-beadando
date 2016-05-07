@@ -127,8 +127,6 @@ public class Otthonkezelo {
 		bejelentkezett_fh = felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
 		
 		// lefrissítjük a táblázatot
-//		List<TranzakcioVo> felh_tranzakcioi = 
-//				felhasznaloSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 		List<TranzakcioVo> felh_tranzakcioi = 
 				tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 
@@ -328,11 +326,4 @@ public class Otthonkezelo {
 		return kivalasztott_trz;
 	}
 
-//	public TableView<TranzakcioData> getTranzakcioTable() {
-//		return tranzakcioTable;
-//	}
-//
-//	public void setTranzakcioTable(TableView<TranzakcioData> tranzakcioTable) {
-//		this.tranzakcioTable = tranzakcioTable;
-//	}
 }

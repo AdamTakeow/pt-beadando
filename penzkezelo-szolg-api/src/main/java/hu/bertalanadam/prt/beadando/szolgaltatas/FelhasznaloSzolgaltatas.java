@@ -1,11 +1,8 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas;
 
-import java.util.List;
 import java.util.Map;
 
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
-import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
 /**
  * A felhasználók kezelését leíró interfész. Megmondja hogy milyen szolgáltatásokat kell definiálni
@@ -56,12 +53,6 @@ public interface FelhasznaloSzolgaltatas {
 	 */
 	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
-//	/**
-//	 * @param felhasznalo
-//	 * @return
-//	 */
-//	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
-	
 	/**
 	 * @param felhasznalo
 	 * @return
@@ -73,11 +64,5 @@ public interface FelhasznaloSzolgaltatas {
 	 * @return
 	 */
 	Map<String,Long> kiadDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
-	
-//	/**
-//	 * @param felhasznalo
-//	 * @return
-//	 */
-//	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 }

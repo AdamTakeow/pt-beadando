@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
-import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo;
-import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.IsmetlodoVo;
 
 public class IsmetlodoMapper {

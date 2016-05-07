@@ -99,20 +99,6 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
 		
 		return KategoriaMapper.toVo(felhasznalo_kategoriai);
-//		// megkeressük az összes kategóriát
-//		List<KategoriaVo> kategoriak = KategoriaMapper.toVo(kategoriaTarolo.findAll());
-//		
-//		// leszűrjük azokat a kategóriákat, amelyeknek a felhasználói között ott van a
-//		// paraméterül kapott felhasználó
-//		List<KategoriaVo> fh_kategoriai = 
-//		kategoriak.stream()
-//				  .filter( k -> !k.getFelhasznalok().stream()
-//						 						    .filter( f -> f.getFelhasznalonev().equals(felhasznalo.getFelhasznalonev() ) )
-//				 								    .collect(Collectors.toList())
-//				 								    .isEmpty() )
-//				  .collect(Collectors.toList());
-//		
-//		return fh_kategoriai;
 	}
 
 	@Override

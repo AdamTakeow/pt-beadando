@@ -55,7 +55,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 
 	@Override
 	public TranzakcioVo ujTranzakcioLetrehozas(TranzakcioVo ujTranzakcio) {
-
+		logolo.info("Új tranzakció létrehozása");
 		Tranzakcio uj = TranzakcioMapper.toDto(ujTranzakcio);
 		return TranzakcioMapper.toVo(tranzakcioTarolo.save(uj));
 
@@ -63,12 +63,6 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 
 	@Override
 	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo ) {
-
-//		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
-//		
-//		List<Tranzakcio> trk = tranzakcioTarolo.findByFelhasznalo(felh);
-//		
-//		return TranzakcioMapper.toVo(trk);
 		
 		// elkérjük a felhasználó összes tranzakcióját
 		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));

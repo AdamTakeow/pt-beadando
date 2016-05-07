@@ -88,7 +88,6 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					ism.setUtolsoBeszuras(utolso_beszuras);
 					
 					// lefrissítjük az ismétlődőt mivel módosítottuk
-//					ujIsmetlodoLetrehozas(ism);
 					frissitIsmetlodot(ism);
 					
 					// és be kell szúrni egy új tranzakciót mert ismétlődött a tranzakció
@@ -102,9 +101,6 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					
 					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTr);
 					
-//					List<TranzakcioVo> felh_trzi = felhasznalo.getTranzakciok();
-//					felh_trzi.add(letezo_tr);
-//					felhasznalo.setTranzakciok(felh_trzi);
 					felhasznalo.getTranzakciok().add(letezo_tr);
 					
 					felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);

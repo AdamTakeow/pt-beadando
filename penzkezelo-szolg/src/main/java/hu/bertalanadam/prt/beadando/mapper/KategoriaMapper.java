@@ -13,7 +13,6 @@ public class KategoriaMapper {
 	/**
 	 * A mapper objektum ami a leképezést végzi.
 	 * */
-//	private static Mapper mapper = new DozerBeanMapper();
 	private static ModelMapper mapper = new ModelMapper();
 	
 	/**

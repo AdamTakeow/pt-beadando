@@ -14,19 +14,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
-import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
-import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
-import hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo;
-import hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
-import hu.bertalanadam.prt.beadando.mapper.KategoriaMapper;
-import hu.bertalanadam.prt.beadando.mapper.TranzakcioMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
-import hu.bertalanadam.prt.beadando.szolgaltatas.IsmetlodoSzolgaltatas;
-import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
 
@@ -54,20 +45,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * szükséges adatbázis műveletek.
 	 */
 	@Autowired
-	private FelhasznaloTarolo felhasznaloTarolo;
-	
-	@Autowired 
-	private KategoriaTarolo kategoriaTarolo;
-	
-	@Autowired
-	private TranzakcioTarolo tranzakcioTarolo;
-	
-	@Autowired
-	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
-
-	@Autowired
-	private IsmetlodoSzolgaltatas ismetlodoSzolgaltatas;
-	
+	private FelhasznaloTarolo felhasznaloTarolo;	
 
 	@Override
 	public FelhasznaloVo findByFelhasznalonev(String felhasznalonev) {
@@ -130,21 +108,6 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				.mapToLong( t -> t.getOsszeg() )
 				.filter( o -> o > 0 ? true : false )
 				.sum();
-		
-//		// megkeressük a felhasználót az adatbázisban
-//		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev());
-//		
-//		// elkérjük a tranzakcióit
-//		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
-//		
-//		// összeszámoljuk az összese bevételét a megadott intervallumon belül
-//		return tranzakciok.stream()
-//				.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-//							  t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-//				.mapToLong( t -> t.getOsszeg() )
-//				.filter( o -> o > 0 ? true : false )
-//				.sum();
-		
 	}
 
 	@Override
@@ -160,28 +123,11 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 					.mapToLong( t -> t.getOsszeg() )
 					.filter( o -> o < 0 ? true : false )
 					.sum());
-		
-//		// megkeressük a felhasználót az adatbázisban
-//		Felhasznalo felh = felhasznaloTarolo.findByFelhasznalonev(felhasznalo.getFelhasznalonev()); 
-//		
-//		// elkérjük a tranzakcióit
-//		List<Tranzakcio> tranzakciok = felh.getTranzakciok();
-//		
-//		// összeszámoljuk a kiadásait a megfelelő intervallumban
-//		return Math.abs(tranzakciok.stream()
-//					.filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-//								  t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-//					.mapToLong( t -> t.getOsszeg() )
-//					.filter( o -> o < 0 ? true : false )
-//					.sum());
 	}
 
 	@Override
 	public Map<String, Long> bevDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
-		
-		// felhozzuk az összes tranzakcióját a felhasználónak
-//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo); 
-		
+
 		List<TranzakcioVo> felh_tranzakcioi = felhasznalo.getTranzakciok();
 				
 		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
@@ -195,29 +141,11 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				);
 				
 		return res;
-		
-//		// felhozzuk az összes tranzakcióját a felhasználónak
-//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo); 
-//		
-//		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
-//		// ilyen kategóriabeli tranzakció összegét
-//		Map<String, Long> res = felh_tranzakcioi.stream()
-//						.filter( t -> t.getOsszeg() > 0 &&
-//									  t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-//								      t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-//						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
-//															Collectors.summingLong( t -> t.getOsszeg() ) )
-//				);
-//		
-//		return res;
 	}
 	
 	@Override
 	public Map<String, Long> kiadDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloVo felhasznalo) {
-		
-		// felhozzuk az összes tranzakcióját a felhasználónak
-//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
-//		habár lehet hogy ha nem hívok szolgáltatást, akkor nem frissülnek le az ismétlődők
+
 		List<TranzakcioVo> felh_tranzakcioi = felhasznalo.getTranzakciok();
 				
 		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
@@ -231,53 +159,5 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				);
 				
 		return res;
-		
-//		// felhozzuk az összes tranzakcióját a felhasználónak
-//		List<TranzakcioVo> felh_tranzakcioi = tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(felhasznalo);
-//		
-//		// ezeket bekategorizáljuk úgy hogy a kategóriáknak a nevei szerint összegyűjtjük az összes 
-//		// ilyen kategóriabeli tranzakció összegét
-//		Map<String, Long> res = felh_tranzakcioi.stream()
-//						.filter( t -> t.getOsszeg() < 0 &&
-//									  t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-//								      t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-//						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
-//															Collectors.summingLong( t -> t.getOsszeg() ) )
-//				);
-//		
-//		return res;
 	}
-
-//	@Override
-//	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz(FelhasznaloVo felhasznalo) {
-
-//		// elkérjük a felhasználó összes tranzakcióját
-//		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
-//		
-//		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
-//		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
-//
-//		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
-//		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
-//
-//		// megszűrjük a tranzakciókat a megfelelő időpontra
-//		felhasznalo_tranzakcioi = felhasznalo_tranzakcioi.stream()
-//													     .filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
-//													                   t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
-//													     .collect(Collectors.toList());
-//		
-//		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
-//		return null;
-//	}
-
-//	@Override
-//	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
-		
-//		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
-//		
-//		List<Kategoria> felhasznalo_kategoriai = kategoriaTarolo.findByFelhasznaloIn(felh);
-//		
-//		return KategoriaMapper.toVo(felhasznalo_kategoriai);
-//		return null;
-//	}
 }

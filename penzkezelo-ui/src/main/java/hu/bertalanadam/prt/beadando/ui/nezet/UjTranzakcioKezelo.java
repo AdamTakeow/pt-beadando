@@ -3,7 +3,6 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,8 +132,6 @@ public class UjTranzakcioKezelo {
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();	
 		
 		// felhozom azokat a kategóriákat az adatbázisból amelyek a felhasználóhoz tartoznak
-//		List<KategoriaVo> kategoriak = 
-//				felhasznaloSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
 		List<KategoriaVo> kategoriak = 
 				kategoriaSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
 		
@@ -251,13 +248,10 @@ public class UjTranzakcioKezelo {
 		String leiras = leiras_bevitel.getText();
 		
 		// ha nincs dátum kiválasztva akkor az aktuális dátum lesz
-//		Date datum = null;
 		java.time.LocalDate datum = null;
 		if( datum_bevitel.getValue() == null ){
-//			datum = new Date();
 			datum = java.time.LocalDate.now();
 		} else { 
-//			datum = Date.from(datum_bevitel.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 			datum = datum_bevitel.getValue();
 		}
 		
@@ -287,20 +281,12 @@ public class UjTranzakcioKezelo {
 			} else { // ha már van ilyen kategória 
 				// felhozom ezt a létező kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev("Nincs");
-				
-				// elkérem a felhasználóit
-//				List<FelhasznaloVo> fhk = letezo_kat.getFelhasznalok();
-				// megnézem hogy szerepel-e már ennél a felhasználónál ez a kategória
-//				boolean isEmpty = fhk.stream()
-//							    .filter( f -> f.getFelhasznalonev().equals( bejelentkezett_fh.getFelhasznalonev()) )
-//								.collect(Collectors.toList()).isEmpty();
+
 				boolean isEmpty =
 						kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(bejelentkezett_fh, letezo_kat);
 
 				// ha nem szerepel, hozzáadom
 				if( isEmpty ){
-//					fhk.add(bejelentkezett_fh);
-//					letezo_kat.setFelhasznalok(fhk);
 					letezo_kat.getFelhasznalok().add(bejelentkezett_fh);
 					
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);
@@ -345,20 +331,8 @@ public class UjTranzakcioKezelo {
 				ismetlodo = ismetlodoSzolgaltatas.ujIsmetlodoLetrehozas(ismetlodo);
 			}
 	
-//			// elkérem a felhasználótól a tranzakcióit
-//			List<TranzakcioVo> felh_trzi = bejelentkezett_fh.getTranzakciok();
-//			// hozzáadom a felhasználó tranzakciókhoz a frissített tranzakciót
-//			felh_trzi.add(letezo_trz);
-//			// beállítom a felhasználó tranzakcióit
-//			bejelentkezett_fh.setTranzakciok(felh_trzi);
 			bejelentkezett_fh.getTranzakciok().add(letezo_trz);
 			
-//			// elkérem a felhasználótól a kategóriáit
-//			List<KategoriaVo> felh_ktgi = bejelentkezett_fh.getKategoriak();
-//			// hozzáadom a felhasználó kategóriáihoz a kategóriát
-//			felh_ktgi.add(trz_kategoriaja);
-//			// beállítom a felhasználó kategóriáit.
-//			bejelentkezett_fh.setKategoriak(felh_ktgi);
 			bejelentkezett_fh.getKategoriak().add(trz_kategoriaja);
 			
 			felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
