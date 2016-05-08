@@ -28,7 +28,7 @@
 
 	<HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
       <Button mnemonicParsing="false" onAction="#regisztracioGombKezelo" text="Regisztráció" />
-		<Button onAction="#bejelentkezesGombKezelo" text="Bejelentkezés" />
+		<Button fx:id="bejelentkezoGomb" onAction="#bejelentkezesGombKezelo" text="Bejelentkezés" />
 	</HBox>
    <columnConstraints>
       <ColumnConstraints />

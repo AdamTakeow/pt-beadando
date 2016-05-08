@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +126,9 @@ public class Otthonkezelo {
 	// a tranzakciólistából éppen kiválasztott tranzakció
 	private TranzakcioVo kivalasztott_trz;
 	
+	private String[] pieColors = new String[]{"Blue","Black","Yellow","Red","Green","Orange",
+			"Pink","Purple","White","Brown","Cyan"};
+	
 	// az kezdőképernyő adatait frissíti
 	public void adatFrissites(){
 		
@@ -141,6 +145,9 @@ public class Otthonkezelo {
 		List<TranzakcioVo> felh_tranzakcioi = 
 				tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
 
+		// újra lefrissítem a fazba mostmár
+		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
+		
 		// kiírjuk az aktuális egyenlegét
 		long egyenleg = bejelentkezett_fh.getEgyenleg();
 		if( egyenleg < 0 ){
@@ -148,18 +155,18 @@ public class Otthonkezelo {
 		} else {
 			egyenleg_text.setFill(Color.web("#15bcb1"));
 		}
-		egyenleg_text.setText(""+egyenleg);
+		egyenleg_text.setText("" + egyenleg + " Ft");
 		
 		// kiszámoljuk hogy mennyit költhet még a hónapban
-		ennyitKolthetekMeg.setText( "" + felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(bejelentkezett_fh));
+		ennyitKolthetekMeg.setText( "" + felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(bejelentkezett_fh) + " Ft");
 		
 		// kiszámoljuk az összes bevételét és kiírjuk
 		long osszes_bev = felhasznaloSzolgaltatas.osszesBevetelAFelhasznalohoz(bejelentkezett_fh);
-		sum_bevetel.setText("" + osszes_bev);
+		sum_bevetel.setText("" + osszes_bev + " Ft");
 		
 		// kiszámoljuk az összes kiadását és kiírjuk
 		long osszes_kiad = felhasznaloSzolgaltatas.osszesKiadasAFelhasznalohoz(bejelentkezett_fh);
-		sum_kiadas.setText("" + osszes_kiad);
+		sum_kiadas.setText("" + osszes_kiad + " Ft");
 		
 		
 		// ha nem üres a lista akkor kitöröljük a tartalmát
@@ -194,6 +201,15 @@ public class Otthonkezelo {
 				bev_diagramAdatok.add( new PieChart.Data(elem.getKey(), elem.getValue()) );			
 			}			
 		}
+		
+		int i = 0;
+		for (PieChart.Data data : bev_diagramAdatok) {
+		  data.getNode().setStyle(
+		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+		  );
+		  i++;
+		}
+		
 		// újraszámoljuk a kiadásokat szemléltető diagram adatait
 		Map<String, Long> kiad_adatok = felhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(bejelentkezett_fh);
 		
@@ -205,6 +221,15 @@ public class Otthonkezelo {
 			for (Map.Entry<String, Long> elem : kiad_adatok.entrySet() ) {
 				kiad_diagramAdatok.add( new PieChart.Data(elem.getKey(), elem.getValue()) );			
 			}			
+		}
+		
+		i = 0;
+		for (PieChart.Data data : kiad_diagramAdatok) {
+		  data.getNode().setStyle(
+		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+		  );
+		 
+		  i++;
 		}
 
 		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
@@ -252,12 +277,33 @@ public class Otthonkezelo {
 					   .selectedItemProperty()
 		               .addListener( (observable, oldValue, newValue) -> showTranzakcioData(newValue) );
 		
+		osszegOszlop.setComparator( (c1, c2) -> { Long c_1 = Long.parseLong(c1);
+												  Long c_2 = Long.parseLong(c2);
+												  return c_1.compareTo(c_2);} );
 		
+		
+//		Color.
 		bev_diagram.setTitle("Bevételek kategóriánként");
 		bev_diagram.setData(bev_diagramAdatok);
 		
+//		int i = 0;
+//		for (PieChart.Data data : bev_diagramAdatok) {
+//		  data.getNode().setStyle(
+//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//		  );
+//		  i++;
+//		}
+		
 		kiad_diagram.setTitle("Kiadások kategóriánként");
 		kiad_diagram.setData(kiad_diagramAdatok);
+		
+//		i = 0;
+//		for (PieChart.Data data : kiad_diagramAdatok) {
+//		  data.getNode().setStyle(
+//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//		  );
+//		  i++;
+//		}
 		
 	}
 	
@@ -265,7 +311,9 @@ public class Otthonkezelo {
 	private void showTranzakcioData(TranzakcioData tData){
 		if( tData != null ){
 			// beállíjuk hogy melyik volt a kiválasztott tranzakció
+			logolo.info("tData id FONTOS: " + tData.getId());
 			kivalasztott_trz = tranzakcioSzolgaltatas.findById(tData.getId());
+			logolo.info("Kiválasztott tranzakció azonosítója: " + kivalasztott_trz.getId());
 			
 			// betöltjük a dialog-ot
 			BorderPane pane = (BorderPane)loader.load("/TranzakcioReszletezo.fxml");
@@ -360,6 +408,10 @@ public class Otthonkezelo {
 
 	public FelhasznaloVo getBejelentkezett_fh() {
 		return bejelentkezett_fh;
+	}
+	
+	public void setBejelentkezett_fh( FelhasznaloVo felhasznalo ){
+		bejelentkezett_fh = felhasznalo;
 	}
 
 	public TranzakcioVo getKivalasztott_trz() {

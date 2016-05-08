@@ -16,13 +16,12 @@ import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 @Component
@@ -44,6 +43,9 @@ public class BejelentkezesKezelo {
 	// ahová a bejelentkezéssel kapcsolatos üzeneteket írjuk ki
 	@FXML
 	private Text celszoveg;
+	
+	@FXML
+	private Button bejelentkezoGomb;
 	
 	// felhasználónév beviteli mező
 	@FXML
@@ -140,7 +142,7 @@ public class BejelentkezesKezelo {
 				ujfelhasznalo.setKiadasraSzantPenz(0L);
 				ujfelhasznalo.setJelszo(jelszo_bevitel.getText());
 				
-				LocalDate innentol = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+				LocalDate innentol = LocalDate.of(1970, 1, 1);
 				LocalDate idaig = LocalDate.now();
 				
 				ujfelhasznalo.setKezdoIdopont(innentol);

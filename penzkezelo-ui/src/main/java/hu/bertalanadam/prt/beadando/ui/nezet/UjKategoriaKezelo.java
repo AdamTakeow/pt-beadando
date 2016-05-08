@@ -126,7 +126,8 @@ public class UjKategoriaKezelo {
 				Scene scene = new Scene(pane);
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 				stage.setTitle("Új tranzakció létrehozása");
-				stage.setScene(scene);				
+				stage.setScene(scene);
+				stage.centerOnScreen();
 			}
 		}
 	}

@@ -79,8 +79,14 @@
                   <RadioButton fx:id="bevetel_radiogomb" mnemonicParsing="false" text="Bevétel" GridPane.columnIndex="0">
                      <toggleGroup>
                         <ToggleGroup fx:id="bevetel_kiadas" />
-                     </toggleGroup></RadioButton>
-                  <RadioButton fx:id="kiadas_radiogomb" mnemonicParsing="false" text="Kiadás" toggleGroup="$bevetel_kiadas" GridPane.columnIndex="1" />
+                     </toggleGroup>
+                     <GridPane.margin>
+                        <Insets left="30.0" />
+                     </GridPane.margin></RadioButton>
+                  <RadioButton fx:id="kiadas_radiogomb" mnemonicParsing="false" text="Kiadás" toggleGroup="$bevetel_kiadas" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="30.0" />
+                     </GridPane.margin></RadioButton>
                </children>
             </GridPane>
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -97,10 +103,23 @@
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Összeg:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <TextField fx:id="osszeg_bevitel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" right="30.0" />
-               </GridPane.margin></TextField>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="417.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="94.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ft" GridPane.columnIndex="1" />
+                  <TextField fx:id="osszeg_bevitel" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+               </children>
+            </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Leírás:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <TextArea fx:id="leiras_bevitel" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>

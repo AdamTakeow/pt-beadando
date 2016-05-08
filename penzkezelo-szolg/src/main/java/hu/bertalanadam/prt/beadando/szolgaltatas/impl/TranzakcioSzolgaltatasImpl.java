@@ -74,10 +74,11 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
 		ismetlodoSzolgaltatas.ismetlodoEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo));
 		
-		// ellenőrizzük a lekötéseket
+		// ellenőrizzük a lekötéseket ( új tranzakciók adódhatnak hozzá )
 		lekotesSzolgaltatas.lekotesEllenorzes(felhasznalo, TranzakcioMapper.toVo(findByFelhasznalo) );
+		// itt már nincs aktiv lekötése
 
-		// azért kell újra felhozni,mert ha közben egy ismétlődő hozzáadódott, akkor legyen benne
+		// azért kell újra felhozni,mert ha közben egy ismétlődő vagy lekötés hozzáadódott, akkor legyen benne
 		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
 				
 		// megszűrjük a tranzakciókat a megfelelő időpontra
@@ -142,7 +143,6 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		
 		List<TranzakcioVo> felh_tranzakcioi = osszesTranzakcioAFelhasznalohoz(felhasznalo);
 		
-		// TODO TESZTELNi
 		return felh_tranzakcioi.stream()
 						.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )
 						.findAny()

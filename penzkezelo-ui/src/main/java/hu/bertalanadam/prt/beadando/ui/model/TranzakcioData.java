@@ -16,9 +16,9 @@ public class TranzakcioData {
 	public TranzakcioData(){
 	}
 	
-	public TranzakcioData(long id, long osszeg, LocalDate datum, String leiras, String kategoria) {
+	public TranzakcioData(long id, Long osszeg, LocalDate datum, String leiras, String kategoria) {
 		this.setId(id);
-		this.osszeg = new SimpleStringProperty( "" + osszeg);
+		this.osszeg = new SimpleStringProperty( osszeg.toString() );
 		this.datum = new SimpleStringProperty( datum.toString() );
 		this.leiras = new SimpleStringProperty( leiras );
 		this.kategoria = new SimpleStringProperty( kategoria );

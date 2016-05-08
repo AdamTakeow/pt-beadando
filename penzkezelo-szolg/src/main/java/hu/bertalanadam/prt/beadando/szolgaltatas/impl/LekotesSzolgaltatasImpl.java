@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,7 +19,6 @@ import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.LekotesSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.IsmetlodoVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.LekotesVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
@@ -25,6 +26,8 @@ import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
+	
+	private static Logger logolo = LoggerFactory.getLogger(LekotesSzolgaltatasImpl.class);
 	
 	@Autowired
 	LekotesTarolo lekotesTarolo;
@@ -45,9 +48,11 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 		for (TranzakcioVo tranzakcioVo : tranzakciok) {
 			// ha van lekötés hozzá
 			if( tranzakcioVo.getLekotes() != null && !tranzakcioVo.getLekotes().isTeljesitett() ){
+				logolo.info("Van lekötés, ami nincs teljesítve!!");
 				return true;
 			}
 		}
+		logolo.info("Nincs lekötés, vagy mindegyik teljesítve van!");
 		return false;
 	}
 
@@ -96,7 +101,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 					lek.setTeljesitett(true);
 						
 					// lefrissítjük a lekötést mivel módosítottuk
-					frissitLekotest(lek);
+					lek = frissitLekotest(lek);
 							
 					// és be kell szúrni egy új tranzakciót mert lejárt a lekötés
 					TranzakcioVo ujTr = new TranzakcioVo();
@@ -111,7 +116,6 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 							
 					felhasznalo.getTranzakciok().add(letezo_tr);
 							
-					felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);
 							
 					// beállítom a tranzakciónak a frissített kategóriát
 					letezo_tr.setKategoria(trz_kategoriaja);
@@ -120,6 +124,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 							
 					tranzakcioSzolgaltatas.frissitTranzakciot(letezo_tr);
 						
+					felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);
 					}
 			}
 		}
@@ -129,7 +134,6 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	@Override
 	public LekotesVo getLekotesAFelhasznalohoz(FelhasznaloVo felhasznalo) {
 		
-		// TODO TESZTELNI
 		return felhasznalo.getTranzakciok().stream()
 									.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )
 									.map( t -> t.getLekotes() )

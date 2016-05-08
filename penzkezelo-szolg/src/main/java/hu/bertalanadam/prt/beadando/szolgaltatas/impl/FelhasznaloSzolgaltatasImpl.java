@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -83,6 +84,8 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		
 		// újraszámoljuk a felhasználó egyenlegét
 		long egyenleg = felhasznalo.getTranzakciok().stream()
+												    .filter( t -> t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
+												    			  t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
 													.mapToLong( t -> t.getOsszeg() )
 													.sum();
 		
@@ -171,20 +174,22 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 		if( felhasznalo.getEgyenleg() <= 0 ){
 			return 0L; // akkor semennyit nem költhet
 		} else
-		if( kiadasra == 0 ){ // ha nem adta meg hogy mennyit költene
+		if( kiadasra == 0 || felhasznalo.getEgyenleg() < kiadasra){ 
+			// ha nem adta meg hogy mennyit költene vagy kevesebb pénze van mint amennyit megadott
 			return felhasznalo.getEgyenleg(); // akkor annyit amennyi az egyenlege
 		}
-		
 		// ha meg van adva hogy mennyit szeretne költeni maximum egy hónapban
 		
 		// ha hó eleje van akkor a költésre szánt összeget költhetjük
 		int aktualisHonap = LocalDate.now().getMonthValue();
+		int aktualisEv = LocalDate.now().getYear();
 			
 		// a kiadásra szánt összegből levonjuk az aktuális hónap kiadásait
 			
 		long eztvondki = felhasznalo.getTranzakciok().stream()
 				.filter( t -> t.getDatum().getMonthValue() == aktualisHonap &&
-				              t.getOsszeg() < 0 )
+				              t.getOsszeg() < 0 &&
+				              t.getDatum().getYear() == aktualisEv )
 				.mapToLong( t -> t.getOsszeg() )
 				.sum();
 		

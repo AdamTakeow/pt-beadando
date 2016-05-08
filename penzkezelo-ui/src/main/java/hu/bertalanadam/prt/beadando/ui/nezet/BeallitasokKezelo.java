@@ -100,7 +100,9 @@ public class BeallitasokKezelo {
 		if( ok ){
 			otthonkezelo.getBejelentkezett_fh().setKiadasraSzantPenz(osszeg);
 			
-			felhasznaloSzolgaltatas.frissitFelhasznalot(otthonkezelo.getBejelentkezett_fh());
+			otthonkezelo.setBejelentkezett_fh( felhasznaloSzolgaltatas.frissitFelhasznalot(otthonkezelo.getBejelentkezett_fh()) );
+			
+			jelenlegi_kiadasraszant.setText( otthonkezelo.getBejelentkezett_fh().getKiadasraSzantPenz().toString() + " Ft");
 			
 			celszoveg.setText("Beállítás sikeres!");
 		}
