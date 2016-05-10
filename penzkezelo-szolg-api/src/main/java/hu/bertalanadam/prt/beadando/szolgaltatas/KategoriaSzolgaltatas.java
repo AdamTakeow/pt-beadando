@@ -18,7 +18,7 @@ public interface KategoriaSzolgaltatas {
 	 * @param ujKategoria Az adatbázisba lementeni kívánt kategória.
 	 * @return Az immár adatbázisban szereplő kategória.
 	 */
-	KategoriaVo ujKategoriaLetrehozas( KategoriaVo ujKategoria );
+	KategoriaVo letrehozKategoriat( KategoriaVo ujKategoria );
 	
 	/**
 	 * Megkeresi az adatbázisban azt a kategóriát, amelynek megegyezik a neve a paraméterül kapott
@@ -27,13 +27,13 @@ public interface KategoriaSzolgaltatas {
 	 * @param kategoriaNev Az a kategórianév amely megegyezik a keresett kategória nevével.
 	 * @return A megtalált kategória.
 	 */
-	KategoriaVo getKategoriaByNev( String kategoriaNev );
+	KategoriaVo keresKategoriat( String kategoriaNev );
 	
 	/**
 	 * Visszaadja az adatbázisban szereplő összes kategróiát egy listában.
 	 * @return Egy lista az adatbázisban lévő összes kategóriáról.
 	 */
-	List<KategoriaVo> getAllKategoria();
+	List<KategoriaVo> osszesKategoria();
 	
 	/**
 	 * Egy adatbázisban jelen lévő kategória értékeit módosítja úgy, hogy megfeleljen a 
@@ -50,12 +50,14 @@ public interface KategoriaSzolgaltatas {
 	 * @param felhasznalo Az a felhasználó akinek a kategóriáit keressük.
 	 * @return Egy lista amely csak a felhasználó kategóriáit tartalmazza.
 	 */
-	List<KategoriaVo> osszesKategoriaAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	List<KategoriaVo> felhasznaloOsszesKategoriaja( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @param kategoria
-	 * @return
+	 * Megadja, hogy a paraméterül kapott felhasználó rendelkezik-e a paraméterül kapott
+	 * kategóriával, vagy sem.
+	 * @param felhasznalo A felhasználó akinél kérdéses hogy birtokolja-e ezt a kategóriát.
+	 * @param kategoria A kategória amire kíváncsiak vagyunk hogy hozzá tartozik-e a felhasználóhoz.
+	 * @return {@code true} ha rendelkezik a felhasználó ezzel a kategóriával és {@code false} ha nem rendelkezik.
 	 */
 	boolean vanIlyenKategoriajaAFelhasznalonak( FelhasznaloVo felhasznalo, KategoriaVo kategoria );
 

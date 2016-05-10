@@ -6,36 +6,53 @@ import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import hu.bertalanadam.prt.beadando.vo.LekotesVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
+/**
+ * A Tranzakcióhoz tartozó lekötések kezelését leíró interfész.
+ * Leírja hogy milyen szolgáltatásokat kell definiálni
+ * a lekötések kezeléséhez.
+ */
 public interface LekotesSzolgaltatas {
 
 	/**
-	 * @param felhasznalo
-	 * @param tranzakciok
-	 * @return
+	 * Létrehozza az adatbázisban a paraméterül kapott lekötést. A perzisztáláshoz
+	 * az adatbázis rétegben lévő LekotesTarolo
+	 * nyújt segítséget.
+	 * @param lekotes Az adatbázisba lementeni kívánt lekötés.
+	 * @return Az immár adatbázisban szereplő lekötés.
 	 */
-	boolean vanLekotesAFelhasznalohoz( FelhasznaloVo felhasznalo, List<TranzakcioVo> tranzakciok );
+	LekotesVo letrehozLekotest( LekotesVo lekotes );
 	
 	/**
-	 * @param lekotes
-	 * @return
+	 * Egy adatbázisban jelen lévő lekötés értékeit módosítja úgy, hogy megfeleljen a 
+	 * paraméterül kapott kategória értékeinek.
+	 * @param lekotes Az a lekötés amely tartalmazza azokat a módosított értékeket, amelyeket
+	 * szeretnénk az adatbázisba rögzíteni.
+	 * @return Az immár frissített lekötés.
 	 */
-	LekotesVo ujLekotesLetrehozas( LekotesVo lekotes );
+	LekotesVo frissitLekotest( LekotesVo lekotes );
+
+	/**
+	 * Meghatározza, hogy a paraméterül kapott felhasználónak van-e aktív lekötése jelenleg.
+	 * Aktív lekötésnek számít az a lekötés amely még nem járt le valamilyen módon.
+	 * @param felhasznalo A felhasználó akinek kíváncsiak vagyunk arra hogy van-e aktív lekötése.
+	 * @param tranzakciok A felhasználó tranzakciói, akinek kérdéses hogy van-e aktív lekötése.
+	 * @return {@code true} ha van aktív lekötése a felhasználónak, {@code false} ha nincs.
+	 */
+	boolean vanAktivLekoteseAFelhasznalonak( FelhasznaloVo felhasznalo, List<TranzakcioVo> tranzakciok );
 	
 	/**
-	 * @param felhasznalo
-	 * @param felh_tranzakcioi
+	 * Ez a metódus felügyeli a lekötéseket.
+	 * Végrehajtásakor ellenőrzi, hogy lejárt-e már a felhasználó lekötése és be lett-e szúrva már az eredménye, 
+	 * ha szükséges újabb tranzakciókat szúr be.
+	 * @param felhasznalo A felhasználó akinek az lekötéseit ellenőrizzük.
+	 * @param felh_tranzakcioi A felhasználó összes tranzakciójának listája.
 	 */
 	void lekotesEllenorzes( FelhasznaloVo felhasznalo, List<TranzakcioVo> felh_tranzakcioi );
 	
 	/**
-	 * @param lekotes
-	 * @return
+	 * Megkeresi a felhasználó aktív lekötését és visszaadja.
+	 * @param felhasznalo A felhasználó akinek a lekötését keressük.
+	 * @return A felhasználó lekötése, ha van aktív, ha nincs akkor {@code null};
 	 */
-	LekotesVo frissitLekotest( LekotesVo lekotes );
-	
-	/**
-	 * @param felhasznalo
-	 * @return
-	 */
-	LekotesVo getLekotesAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	LekotesVo felhasznaloLekotese( FelhasznaloVo felhasznalo );
 }

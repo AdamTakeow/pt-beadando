@@ -60,7 +60,7 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 	private static Logger logolo = LoggerFactory.getLogger(IsmetlodoSzolgaltatasImpl.class);
 
 	@Override
-	public IsmetlodoVo ujIsmetlodoLetrehozas(IsmetlodoVo ismetlodo) {
+	public IsmetlodoVo letrehozIsmetlodot(IsmetlodoVo ismetlodo) {
 		// átmappeljük az ismétlődőt
 		Ismetlodo ism = IsmetlodoMapper.toDto( ismetlodo );
 		
@@ -72,7 +72,7 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 	}
 
 	@Override
-	public void ismetlodoEllenorzes( FelhasznaloVo felhasznalo, List<TranzakcioVo> felh_tranzakcioi ) {
+	public void ismetlodoEllenorzes( FelhasznaloVo felhasznalo, List<TranzakcioVo> felh_tranzakcioi  ) {
 
 		// ez a metódus ellenőrzi minden indításkor, hogy kell-e új tranzakciót beszúrni,
 		// vagy sem az ismétlődő alapján
@@ -115,9 +115,9 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					ujTr.setDatum(utolso_beszuras);
 					
 					// magic
-					KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.getKategoriaByNev(tranzakcioVo.getKategoria().getNev());
+					KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat(tranzakcioVo.getKategoria().getNev());
 					
-					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTr);
+					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
 					
 					felhasznalo.getTranzakciok().add(letezo_tr);
 					

@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * Egyszerű osztály a tranzakcióhoz tartozó adatok szállítására az adatbázis réteg
- * és a szolgáltatás réteg között (POJO). 
+ * Egyszerű osztály a tranzakcióhoz tartozó adatok szállítására az egyes rétegek között (POJO). 
  */
 public class TranzakcioVo implements Serializable{
 	
@@ -54,7 +53,7 @@ public class TranzakcioVo implements Serializable{
 	
 	/**
 	 * Ha ez a tranzakció nem egy kiadás és nem is egy bevétel, hanem egy
-	 * Lekotes, akkor az ehhez
+	 * lekötés, akkor az ehhez
 	 * a tranzakcióhoz tartozó lekötés.
 	 * */
 	private LekotesVo lekotes;

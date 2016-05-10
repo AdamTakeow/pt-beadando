@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * Egyszerű osztály az ismétlődőhöz tartozó adatok szállítására az adatbázis réteg
- * és a szolgáltatás réteg között (POJO). 
+ * Egyszerű osztály az ismétlődőhöz tartozó adatok szállítására az egyes rétegek között (POJO). 
  */
 public class IsmetlodoVo implements Serializable {
 
@@ -21,7 +20,7 @@ public class IsmetlodoVo implements Serializable {
 	}
 	
 	/**
-	 * Az ismétlődő azonosítója
+	 * Az ismétlődő azonosítója.
 	 */
 	private Long id;
 
@@ -32,7 +31,8 @@ public class IsmetlodoVo implements Serializable {
 	private Long ido;
 
 	/**
-	 * 
+	 * Az a dátum amikor az ismétlődő tranzakciót utóljára beszúrtuk, és ezzel arra a napra
+	 * teljesítettük.
 	 */
 	private LocalDate utolsoBeszuras;
 
@@ -69,22 +69,21 @@ public class IsmetlodoVo implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * Visszaadja azt a dátumot amikor az utolsó ismétlődő tranzakciót beszúrtuk.
+	 * @return Az utolsó ismétlődő tranzakció beszúrásának dátuma.
 	 */
 	public LocalDate getUtolsoBeszuras() {
 		return utolsoBeszuras;
 	}
 
 	/**
-	 * @param utolsoBeszuras
+	 * Beállítja az utolsó ismétlődő tranzakció beszúrásának dátumát.
+	 * @param utolsoBeszuras Az a dátum amikor az utolsó ismétlődő tranzakció be lett szúrva.
 	 */
 	public void setUtolsoBeszuras(LocalDate utolsoBeszuras) {
 		this.utolsoBeszuras = utolsoBeszuras;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "IsmetlodoVo [id=" + id + ", ido=" + ido + ", utolsoBeszuras=" + utolsoBeszuras + "]";

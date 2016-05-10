@@ -67,7 +67,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	private LekotesSzolgaltatas lekotesSzolgaltatas;
 
 	@Override
-	public TranzakcioVo ujTranzakcioLetrehozas(TranzakcioVo ujTranzakcio) {
+	public TranzakcioVo letrehozTranzakciot(TranzakcioVo ujTranzakcio) {
 		logolo.info("Új tranzakció létrehozása");
 		Tranzakcio uj = TranzakcioMapper.toDto(ujTranzakcio);
 		return TranzakcioMapper.toVo(tranzakcioTarolo.save(uj));
@@ -75,7 +75,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	}
 
 	@Override
-	public List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo ) {
+	public List<TranzakcioVo> felhasznaloOsszesTranzakcioja( FelhasznaloVo felhasznalo ) {
 		
 		// elkérjük a felhasználó összes tranzakcióját
 		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
@@ -111,7 +111,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	}
 
 	@Override
-	public TranzakcioVo findById( Long id ) {
+	public TranzakcioVo keresTranzakciot( Long id ) {
 		
 		Tranzakcio found = tranzakcioTarolo.findOne(id);
 		
@@ -138,7 +138,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	}
 
 	@Override
-	public TranzakcioVo getLegkorabbiTranzakcioFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public TranzakcioVo felhasznaloLegkorabbiTranzakcioja(FelhasznaloVo felhasznalo) {
 		
 		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
 		
@@ -148,9 +148,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	}
 
 	@Override
-	public TranzakcioVo getLekotesesTranzakciotAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public TranzakcioVo felhasznaloLekotesiTranzakcioja(FelhasznaloVo felhasznalo) {
 		
-		List<TranzakcioVo> felh_tranzakcioi = osszesTranzakcioAFelhasznalohoz(felhasznalo);
+		List<TranzakcioVo> felh_tranzakcioi = felhasznaloOsszesTranzakcioja(felhasznalo);
 		
 		return felh_tranzakcioi.stream()
 						.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )

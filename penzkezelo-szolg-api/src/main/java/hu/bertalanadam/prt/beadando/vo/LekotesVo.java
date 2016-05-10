@@ -3,8 +3,7 @@ package hu.bertalanadam.prt.beadando.vo;
 import java.io.Serializable;
 
 /**
- * Egyszerű osztály a lekötéshez tartozó adatok szállítására az adatbázis réteg
- * és a szolgáltatás réteg között (POJO). 
+ * Egyszerű osztály a lekötéshez tartozó adatok szállítására az egyes rétegek között (POJO). 
  */
 public class LekotesVo implements Serializable {
 	
@@ -30,7 +29,7 @@ public class LekotesVo implements Serializable {
 	private Long osszeg;
 	
 	/**
-	 * Az a mennyiség (nap) amely megahározza hogy mennyi időre szeretnénk lekötni a pénzünket.
+	 * Az a mennyiség (év) amely megahározza hogy mennyi időre szeretnénk lekötni a pénzünket.
 	 * */
 	private Long futamido;
 	

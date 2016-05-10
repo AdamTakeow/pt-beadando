@@ -60,7 +60,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 
 	@Override
-	public boolean vanLekotesAFelhasznalohoz(FelhasznaloVo felhasznalo, List<TranzakcioVo> tranzakciok) {
+	public boolean vanAktivLekoteseAFelhasznalonak(FelhasznaloVo felhasznalo, List<TranzakcioVo> tranzakciok) {
 		
 		// végigmegyünk az összes tranzakción
 		for (TranzakcioVo tranzakcioVo : tranzakciok) {
@@ -75,7 +75,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	}
 
 	@Override
-	public LekotesVo ujLekotesLetrehozas(LekotesVo lekotes) {
+	public LekotesVo letrehozLekotest(LekotesVo lekotes) {
 		Lekotes ujLekotes = LekotesMapper.toDto(lekotes);
 		
 		Lekotes mentett = lekotesTarolo.save(ujLekotes);
@@ -128,9 +128,9 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 					ujTr.setDatum(lejarat);
 							
 					// magic
-					KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.getKategoriaByNev("Lekötés");
+					KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 							
-					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTr);
+					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
 							
 					felhasznalo.getTranzakciok().add(letezo_tr);
 							
@@ -150,7 +150,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	}
 
 	@Override
-	public LekotesVo getLekotesAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public LekotesVo felhasznaloLekotese(FelhasznaloVo felhasznalo) {
 		
 		return felhasznalo.getTranzakciok().stream()
 									.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )

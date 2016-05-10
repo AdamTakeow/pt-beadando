@@ -17,7 +17,7 @@ public interface TranzakcioSzolgaltatas {
 	 * @param ujTranzakcio Az adatbázisba elmenteni kívánt tranzakció.
 	 * @return Az immár adatbázisban jelen lévő tranzakció.
 	 */
-	TranzakcioVo ujTranzakcioLetrehozas( TranzakcioVo ujTranzakcio );
+	TranzakcioVo letrehozTranzakciot( TranzakcioVo ujTranzakcio );
 	
 	/**
 	 * Egy módosított tranzakció változásait vezeti át az adatbázisba.
@@ -32,7 +32,7 @@ public interface TranzakcioSzolgaltatas {
 	 * @param id A keresett tranzakció azonosítója.
 	 * @return A paraméterül kapott azonosítóval rendelkező tranzakció.
 	 */
-	TranzakcioVo findById( Long id );
+	TranzakcioVo keresTranzakciot( Long id );
 	
 	/**
 	 * Visszaadja azokat a tranzakciókat az adatbázisból, melyek a paraméterül kapott felhasználóhoz
@@ -40,23 +40,27 @@ public interface TranzakcioSzolgaltatas {
 	 * @param felhasznalo Az a felhasználó amely tranzakcióit szeretnénk visszakapni.
 	 * @return Egy lista a paraméterül kapott felhasználó tranzakcióiról.
 	 */
-	List<TranzakcioVo> osszesTranzakcioAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	List<TranzakcioVo> felhasznaloOsszesTranzakcioja( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Megkeresi a paraméterül kapott felhasználóhoz tartozó legkorábbi tranzakciót.
+	 * @param felhasznalo A felhasználó akinek a legkorábbi tranzakcióját keressük.
+	 * @return A felhasználó lekorábbi tranzakciója.
 	 */
-	TranzakcioVo getLegkorabbiTranzakcioFelhasznalohoz( FelhasznaloVo felhasznalo );
+	TranzakcioVo felhasznaloLegkorabbiTranzakcioja( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param tranzakcio
+	 * Kitörli az adatbázisból a paraméterül kapott tranzakciót.
+	 * @param tranzakcio A törlendő tranzakció.
 	 */
 	void tranzakcioTorles( TranzakcioVo tranzakcio );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Visszaadja a paraméterül kapott felhasználó azon tranzakcióját amelyik rendelkezik
+	 * aktív lekötéssel.
+	 * @param felhasznalo A felhasználó akinek a lekötéses tranzakcióját akarjuk elkérni.
+	 * @return A felhasználó tranzakciója amelyikhez aktív lekötés tartozik.
 	 */
-	TranzakcioVo getLekotesesTranzakciotAFelhasznalohoz(FelhasznaloVo felhasznalo);
+	TranzakcioVo felhasznaloLekotesiTranzakcioja(FelhasznaloVo felhasznalo);
 
 }

@@ -5,13 +5,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Egyszerű osztály a felhasználóhoz tartozó adatok szállítására az adatbázis réteg
- * és a szolgáltatás réteg között (POJO). 
+ * Egyszerű osztály a felhasználóhoz tartozó adatok szállítására az egyes régegek között (POJO). 
  */
 public class FelhasznaloVo implements Serializable {
 
 	/**
-	 * Alapértelmezet sorozat azonosító a szerializáláshoz.
+	 * Alapértelmezet szerializációs azonosító.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -42,17 +41,18 @@ public class FelhasznaloVo implements Serializable {
 	private Long egyenleg;
 	
 	/**
-	 * 
+	 * A felhasználó kiadásra szánt összege. Ezt a felhasználó adhatja meg, ezt az alkalmazás 
+	 * felhasználja a kiadások követéséhez.
 	 */
 	private Long kiadasraSzantPenz;
 	
 	/**
-	 * 
+	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciói.
 	 */
 	private LocalDate kezdoIdopont;
 	
 	/**
-	 * 
+	 * A felhasználó számára ezzel a dátummal befejezőleg fognak látszódni a tranzakciói.
 	 */
 	private LocalDate vegIdopont;
 	
@@ -155,7 +155,7 @@ public class FelhasznaloVo implements Serializable {
 	}
 	
 	/**
-	 * Beállít a felhasználóhoz tartozó kategóriákat.
+	 * Beállítja a felhasználóhoz tartozó kategóriákat.
 	 * @param kategoriak A beállítandó kategórialista.
 	 */
 	public void setKategoriak(List<KategoriaVo> kategoriak) {
@@ -163,55 +163,57 @@ public class FelhasznaloVo implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * Visszaadja azt a dátumot amitől kezdődően látszanak a felhasználó tranzakciói.
+	 * @return Az a dátum ahol a tranzakciók követése kezdődik.
 	 */
 	public LocalDate getKezdoIdopont() {
 		return kezdoIdopont;
 	}
 
 	/**
-	 * @param kezdoIdopont
+	 * Beállítja azt a dátumot amitől kezdődően a felhasználó a tranzakcióit látni fogja.
+	 * @param kezdoIdopont Az a dátum amitől számítva látszanak a tranzakciók.
 	 */
 	public void setKezdoIdopont(LocalDate kezdoIdopont) {
 		this.kezdoIdopont = kezdoIdopont;
 	}
 
 	/**
-	 * @return
+	 * Visszaadja azt a dátumot ameddig a felhasználó tranzakciói látszanak.
+	 * @return Az a dátum ameddig a felhasználó tranzakciói még látszanak.
 	 */
 	public LocalDate getVegIdopont() {
 		return vegIdopont;
 	}
 
 	/**
-	 * @param vegIdopont
+	 * Beállítja hogy meddig lássa a felhasználó a tranzakcióit.
+	 * @param vegIdopont Az a dátum ameddig a felhasználó a tranzakcióit még látja.
 	 */
 	public void setVegIdopont(LocalDate vegIdopont) {
 		this.vegIdopont = vegIdopont;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "FelhasznaloVo [id=" + id + ", felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
-				+ egyenleg + ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok="
-				+ tranzakciok + ", kategoriak=" + kategoriak + "]";
-	}
-
 	/**
-	 * @return
+	 * Visszaadja a felhasználó havi kiadásra szánt pénzösszegét.
+	 * @return A felhasználó havi kiadásra szánt pénzösszege.
 	 */
 	public Long getKiadasraSzantPenz() {
 		return kiadasraSzantPenz;
 	}
 
 	/**
-	 * @param kiadasraSzantPenz
+	 * Beállítja a felhasználó havi kiadásra szánt összegét.
+	 * @param kiadasraSzantPenz A beállítandó pénzösszeg.
 	 */
 	public void setKiadasraSzantPenz(Long kiadasraSzantPenz) {
 		this.kiadasraSzantPenz = kiadasraSzantPenz;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "FelhasznaloVo [id=" + id + ", felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg="
+				+ egyenleg + ", kiadasraSzantPenz=" + kiadasraSzantPenz + ", kezdoIdopont=" + kezdoIdopont
+				+ ", vegIdopont=" + vegIdopont + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak + "]";
+	}
 }

@@ -61,7 +61,7 @@ public class BejelentkezesKezelo {
 		logolo.info("Bejelentkezes gomb megnyomva");
 		
 		// megkeressük a felhasználónevet amit beírt a felhasználó
-		FelhasznaloVo felh = felhasznaloSzolgaltatas.findByFelhasznalonev(felhnev_bevitel.getText());
+		FelhasznaloVo felh = felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText());
 
 		// ha nincs ilyen fhnév
 		if( felh == null ){
@@ -128,7 +128,7 @@ public class BejelentkezesKezelo {
 		// ha minden rendben
 		if( ok ){
 			// megnézzük hogy van-e már ilyen felhasználónév az adatbázisban
-			if( felhasznaloSzolgaltatas.findByFelhasznalonev(felhnev_bevitel.getText()) != null ){
+			if( felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText()) != null ){
 				// ha van már ilyen felhasználó
 				celszoveg.setText(celszoveg.getText() + "Ilyen felhasználónév már létezik!\n");
 			} else {
@@ -152,7 +152,7 @@ public class BejelentkezesKezelo {
 				ujfelhasznalo.setKategoriak(new ArrayList<KategoriaVo>());
 				
 				// elmentjük az új felhasználót
-				felhasznaloSzolgaltatas.ujFelhasznaloLetrehozas(ujfelhasznalo);	
+				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujfelhasznalo);	
 				celszoveg.setText(celszoveg.getText() + "Sikeres regisztráció!");
 			}
 		}

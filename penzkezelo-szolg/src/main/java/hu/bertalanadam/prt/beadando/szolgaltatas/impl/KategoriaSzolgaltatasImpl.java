@@ -46,7 +46,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	KategoriaTarolo kategoriaTarolo;
 
 	@Override
-	public KategoriaVo ujKategoriaLetrehozas(KategoriaVo ujKategoria) {
+	public KategoriaVo letrehozKategoriat(KategoriaVo ujKategoria) {
 		
 		Kategoria uj = KategoriaMapper.toDto(ujKategoria);
 		
@@ -56,7 +56,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	}
 
 	@Override
-	public KategoriaVo getKategoriaByNev(String kategoriaNev) {
+	public KategoriaVo keresKategoriat(String kategoriaNev) {
 		
 		logolo.info("Kategória keresése az adatbázisban ilyen névvel: " + kategoriaNev);
 		
@@ -72,7 +72,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	}
 
 	@Override
-	public List<KategoriaVo> getAllKategoria() {
+	public List<KategoriaVo> osszesKategoria() {
 		logolo.info("Összes kategória lekérése");
 		
 		List<Kategoria> kategoriak = kategoriaTarolo.findAll();
@@ -92,7 +92,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	}
 
 	@Override
-	public List<KategoriaVo> osszesKategoriaAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public List<KategoriaVo> felhasznaloOsszesKategoriaja(FelhasznaloVo felhasznalo) {
 		
 		Felhasznalo felh = FelhasznaloMapper.toDto(felhasznalo);
 		

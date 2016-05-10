@@ -141,7 +141,7 @@ public class UjLekotesKezelo {
 				
 			ujLekotes.setVarhato( Math.round(ertek) );
 			
-			LekotesVo letezo_lek = lekotesSzolgaltatas.ujLekotesLetrehozas(ujLekotes);
+			LekotesVo letezo_lek = lekotesSzolgaltatas.letrehozLekotest(ujLekotes);
 			
 			// levonjuk a felhasználó egyenlegéből a lekötött pénzt egy tranzakció formájában
 			TranzakcioVo ujTranzakcio = new TranzakcioVo();
@@ -156,7 +156,7 @@ public class UjLekotesKezelo {
 			// lekötés kategóriája?
 
 			// van már lekötés kategória?
-			KategoriaVo letezo = kategoriaSzolgaltatas.getKategoriaByNev("Lekötés");
+			KategoriaVo letezo = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 			if( letezo == null ){
 			
 				KategoriaVo kategoria = new KategoriaVo();
@@ -165,10 +165,10 @@ public class UjLekotesKezelo {
 				kategoria.setFelhasznalok(new ArrayList<FelhasznaloVo>());
 				kategoria.getFelhasznalok().add(bejelentkezett_fh);
 				
-				letezo = kategoriaSzolgaltatas.ujKategoriaLetrehozas(kategoria);
+				letezo = kategoriaSzolgaltatas.letrehozKategoriat(kategoria);
 			}
 						
-			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTranzakcio);
+			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTranzakcio);
 			
 			letezo_trz.setLekotes(letezo_lek);
 			

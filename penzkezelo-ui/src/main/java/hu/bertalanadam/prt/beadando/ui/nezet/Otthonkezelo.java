@@ -133,7 +133,7 @@ public class Otthonkezelo {
 	public void adatFrissites(){
 		
 		// újból felhozza az adatbázisból a felhasználót hogy a módosított adatai frissek legyenek a felületen.
-		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
+		bejelentkezett_fh = felhasznaloSzolgaltatas.keresFelhasznalot(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
 
 		// beállítjuk a dátum választókat a felhasználónak megfelelőre
 		lebontas_innentol.setValue(bejelentkezett_fh.getKezdoIdopont());
@@ -143,10 +143,10 @@ public class Otthonkezelo {
 		
 		// lefrissítjük a táblázatot
 		List<TranzakcioVo> felh_tranzakcioi = 
-				tranzakcioSzolgaltatas.osszesTranzakcioAFelhasznalohoz(bejelentkezett_fh);
+				tranzakcioSzolgaltatas.felhasznaloOsszesTranzakcioja(bejelentkezett_fh);
 
 		// újra lefrissítem a fazba mostmár
-		bejelentkezett_fh = felhasznaloSzolgaltatas.findByFelhasznalonev(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
+		bejelentkezett_fh = felhasznaloSzolgaltatas.keresFelhasznalot(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
 		
 		// kiírjuk az aktuális egyenlegét
 		long egyenleg = bejelentkezett_fh.getEgyenleg();
@@ -161,11 +161,11 @@ public class Otthonkezelo {
 		ennyitKolthetekMeg.setText( "" + felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(bejelentkezett_fh) + " Ft");
 		
 		// kiszámoljuk az összes bevételét és kiírjuk
-		long osszes_bev = felhasznaloSzolgaltatas.osszesBevetelAFelhasznalohoz(bejelentkezett_fh);
+		long osszes_bev = felhasznaloSzolgaltatas.felhasznaloOsszesBevetele(bejelentkezett_fh);
 		sum_bevetel.setText("" + osszes_bev + " Ft");
 		
 		// kiszámoljuk az összes kiadását és kiírjuk
-		long osszes_kiad = felhasznaloSzolgaltatas.osszesKiadasAFelhasznalohoz(bejelentkezett_fh);
+		long osszes_kiad = felhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(bejelentkezett_fh);
 		sum_kiadas.setText("" + osszes_kiad + " Ft");
 		
 		
@@ -232,7 +232,7 @@ public class Otthonkezelo {
 //		  i++;
 //		}
 
-		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
+		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			lekotesGomb.setText("Lekötés megtekintése");
 		} else {
 			lekotesGomb.setText("Új lekötés");
@@ -312,7 +312,7 @@ public class Otthonkezelo {
 		if( tData != null ){
 			// beállíjuk hogy melyik volt a kiválasztott tranzakció
 			logolo.info("tData id FONTOS: " + tData.getId());
-			kivalasztott_trz = tranzakcioSzolgaltatas.findById(tData.getId());
+			kivalasztott_trz = tranzakcioSzolgaltatas.keresTranzakciot(tData.getId());
 			logolo.info("Kiválasztott tranzakció azonosítója: " + kivalasztott_trz.getId());
 			
 			// betöltjük a dialog-ot
@@ -351,7 +351,7 @@ public class Otthonkezelo {
 	protected void ujLekotesKezelo(ActionEvent event) {
 		logolo.info("Új lekötés gomb megnyomva");
 		
-		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
+		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			// ha már van lekötésünk
 			
 			BorderPane pane = (BorderPane)loader.load("/MeglevoLekotesFelulet.fxml");

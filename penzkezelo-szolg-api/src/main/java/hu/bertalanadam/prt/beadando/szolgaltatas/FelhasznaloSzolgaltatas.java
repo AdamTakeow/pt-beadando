@@ -5,7 +5,8 @@ import java.util.Map;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 
 /**
- * A felhasználók kezelését leíró interfész. Megmondja hogy milyen szolgáltatásokat kell definiálni
+ * A felhasználók kezelését leíró interfész.
+ * Leírja hogy milyen szolgáltatásokat kell definiálni
  * a felhasználók kezeléséhez.
  */
 public interface FelhasznaloSzolgaltatas {
@@ -20,7 +21,7 @@ public interface FelhasznaloSzolgaltatas {
 	 * ami FelhasznaloVo-vá lett alakítva a FelhasznaloMapper
 	 * segítségével.
 	 */
-	FelhasznaloVo findByFelhasznalonev( String felhasznalonev );
+	FelhasznaloVo keresFelhasznalot( String felhasznalonev );
 	
 	/**
 	 * Ez a szolgáltatás létrehozza a paraméterül kapott felhasználót az adatbázisban.
@@ -29,7 +30,7 @@ public interface FelhasznaloSzolgaltatas {
 	 * @param felhasznalo Az a felhasználó amelyet perzisztálni kell az adatbázisba.
 	 * @return Az immár perzisztált adatbáziselem.
 	 */
-	FelhasznaloVo ujFelhasznaloLetrehozas( FelhasznaloVo felhasznalo );
+	FelhasznaloVo letrehozFelhasznalot( FelhasznaloVo felhasznalo );
 	
 	/**
 	 * Ez a szolgáltatás egy adatbázsiban már szereplő felhasználó adatait frissíti, azaz
@@ -44,30 +45,39 @@ public interface FelhasznaloSzolgaltatas {
 	 * @param felhasznalo A felhasználó akinek az eddigi összes bevételére kíváncsiak vagyunk.
 	 * @return A felhasználó eddigi összes bevétele.
 	 */
-	long osszesBevetelAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	long felhasznaloOsszesBevetele( FelhasznaloVo felhasznalo );
 	
 	/**
 	 * Kiszámolja a felhasználó összes eddigi kiadását és visszaadja eredményül.
 	 * @param felhasznalo A felhasználó akinek az eddigi összes kiadására kíváncsiak vagyunk.
 	 * @return A felhasználó eddigi összes kiadása.
 	 */
-	long osszesKiadasAFelhasznalohoz( FelhasznaloVo felhasznalo );
+	long felhasznaloOsszesKiadasa( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Meghatározza a felhasználó egyes kategóriáihoz a bevételeinek összegét, majd visszaadja
+	 * csoportosítva.
+	 * @param felhasznalo A felhasználó akinek a kategóriánkénti bevételeire kíváncsiak vagyunk.
+	 * @return Egy {@link java.util.Map Map} amiben a kulcsok a kategóriák nevei, az értékek
+	 * pedig az ahhoz a kategóriához tartozó összes bevétel összege.
 	 */
 	Map<String,Long> bevDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Meghatározza a felhasználó egyes kategóriáihoz a kiadásainak összegét, majd visszaadja
+	 * csoportosítva.
+	 * @param felhasznalo A felhasználó akinek a kategóriánkénti kiadásaira kíváncsiak vagyunk.
+	 * @return Egy {@link java.util.Map Map} amiben a kulcsok a kategóriák nevei, az értékek
+	 * pedig az ahhoz a kategóriához tartozó összes kiadás összege.
 	 */
 	Map<String,Long> kiadDiagramAdatokSzamitasaFelhasznalohoz( FelhasznaloVo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Kiszámolja hogy a felhasználó a jelenlegi hónapban mennyit költhet még.
+	 * Ezt az értéket a felhasználó {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo#kiadasraSzantPenz kiadasraSzantPenz}
+	 * alapján számolja ki.
+	 * @param felhasznalo A felhasználó akinek kiszámoljuk hogy mennyit költhet még.
+	 * @return Az az összeg amit a hónap hátralévő részében a felhasználó költhet.
 	 */
 	Long szamolMennyitKolthetMegAFelhasznalo( FelhasznaloVo felhasznalo );
 	

@@ -69,8 +69,8 @@ public class MeglevoLekotesKezelo {
 	@FXML
 	private void initialize(){
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();
-		lekotes = lekotesSzolgaltatas.getLekotesAFelhasznalohoz(bejelentkezett_fh);
-		lekoteses_tranzakcio = tranzakcioSzolgaltatas.getLekotesesTranzakciotAFelhasznalohoz(bejelentkezett_fh);
+		lekotes = lekotesSzolgaltatas.felhasznaloLekotese(bejelentkezett_fh);
+		lekoteses_tranzakcio = tranzakcioSzolgaltatas.felhasznaloLekotesiTranzakcioja(bejelentkezett_fh);
 		
 		if( lekoteses_tranzakcio == null ){
 			
@@ -112,9 +112,9 @@ public class MeglevoLekotesKezelo {
 		ujTr.setDatum(LocalDate.now());
 				
 		// magic
-		KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.getKategoriaByNev("Lekötés");
+		KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 				
-		TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTr);
+		TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
 				
 		bejelentkezett_fh.getTranzakciok().add(letezo_tr);
 				

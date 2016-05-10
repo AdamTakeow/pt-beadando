@@ -49,7 +49,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	private FelhasznaloTarolo felhasznaloTarolo;	
 
 	@Override
-	public FelhasznaloVo findByFelhasznalonev(String felhasznalonev) {
+	public FelhasznaloVo keresFelhasznalot(String felhasznalonev) {
 		
 		// a felhasználótároló segítségével megkeressük az adatbázisban a felhasználót
 		Felhasznalo f = felhasznaloTarolo.findByFelhasznalonev(felhasznalonev);
@@ -66,7 +66,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	}
 
 	@Override
-	public FelhasznaloVo ujFelhasznaloLetrehozas(FelhasznaloVo felhasznalo) {
+	public FelhasznaloVo letrehozFelhasznalot(FelhasznaloVo felhasznalo) {
 
 		// átmappeljük Felhasznalo-ra a Vo-t
 		Felhasznalo ujfelhasznalo = FelhasznaloMapper.toDto(felhasznalo);
@@ -99,7 +99,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	}
 
 	@Override
-	public long osszesBevetelAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public long felhasznaloOsszesBevetele(FelhasznaloVo felhasznalo) {
 
 		// elkérjük a tranzakcióit
 		List<TranzakcioVo> tranzakciok = felhasznalo.getTranzakciok();
@@ -114,7 +114,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	}
 
 	@Override
-	public long osszesKiadasAFelhasznalohoz(FelhasznaloVo felhasznalo) {
+	public long felhasznaloOsszesKiadasa(FelhasznaloVo felhasznalo) {
 		 
 		// elkérjük a tranzakcióit
 		List<TranzakcioVo> tranzakciok = felhasznalo.getTranzakciok();

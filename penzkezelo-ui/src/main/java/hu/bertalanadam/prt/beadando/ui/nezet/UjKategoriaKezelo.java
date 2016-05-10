@@ -78,12 +78,12 @@ public class UjKategoriaKezelo {
 		} else {
 			
 			// ellenőrzés kell hogy van-e már ilyen nevű kategória az adatbázisban
-			if( kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText()) != null ){
+			if( kategoriaSzolgaltatas.keresKategoriat(ujKatNeve.getText()) != null ){
 				// van már ilyen kategórianév
 				logolo.info("Már létezik az adatbázisban ilyen kategória: " + ujKatNeve.getText());
 				
 				// felhozom azt a kategóriát
-				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev(ujKatNeve.getText());
+				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat(ujKatNeve.getText());
 
 				boolean isEmpty = kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(
 												ujtranzakciokezelo.getBejelentkezett_fh(),
@@ -120,7 +120,7 @@ public class UjKategoriaKezelo {
 				ujkat.setFelhasznalok(felhasznalok);
 				
 				// elmentjük az adatbázisba az új kategóriát
-				kategoriaSzolgaltatas.ujKategoriaLetrehozas(ujkat);
+				kategoriaSzolgaltatas.letrehozKategoriat(ujkat);
 				
 				BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
 				Scene scene = new Scene(pane);

@@ -133,7 +133,7 @@ public class UjTranzakcioKezelo {
 		
 		// felhozom azokat a kategóriákat az adatbázisból amelyek a felhasználóhoz tartoznak
 		List<KategoriaVo> kategoriak = 
-				kategoriaSzolgaltatas.osszesKategoriaAFelhasznalohoz(bejelentkezett_fh);
+				kategoriaSzolgaltatas.felhasznaloOsszesKategoriaja(bejelentkezett_fh);
 		
 		ObservableList<String> list = FXCollections.observableArrayList();
 
@@ -265,7 +265,7 @@ public class UjTranzakcioKezelo {
 		// ha nem lett megadva kategória, létrehozunk egy "nincs" nevűt
 		if( kategoria == null ){
 			// ha még nincs Nincs nevű kategória
-			if( kategoriaSzolgaltatas.getKategoriaByNev("Nincs") == null ){
+			if( kategoriaSzolgaltatas.keresKategoriat("Nincs") == null ){
 				// létrehozzuk
 				
 				KategoriaVo ujkat = new KategoriaVo();
@@ -279,13 +279,13 @@ public class UjTranzakcioKezelo {
 				// tranzakcióihoz pedig egy üres listát
 //				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
 	
-				kategoriaSzolgaltatas.ujKategoriaLetrehozas(ujkat);
+				kategoriaSzolgaltatas.letrehozKategoriat(ujkat);
 				
 				kategoria = "Nincs";
 				
 			} else { // ha már van ilyen kategória 
 				// felhozom ezt a létező kategóriát
-				KategoriaVo letezo_kat = kategoriaSzolgaltatas.getKategoriaByNev("Nincs");
+				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat("Nincs");
 
 				boolean isEmpty =
 						kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(bejelentkezett_fh, letezo_kat);
@@ -321,10 +321,10 @@ public class UjTranzakcioKezelo {
 			
 			
 			// felhozom a létező kategóriát
-			KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.getKategoriaByNev(kategoria);
+			KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat(kategoria);
 						
 			// létrehozom a tranzakciót az adatbázisban
-			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.ujTranzakcioLetrehozas(ujTranzakcio);
+			TranzakcioVo letezo_trz = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTranzakcio);
 
 			// létrehozzuk az új ismétlődőt, ha ismétlődik a tranzakció
 			IsmetlodoVo ismetlodo = new IsmetlodoVo();
@@ -333,7 +333,7 @@ public class UjTranzakcioKezelo {
 				
 				ismetlodo.setIdo( new Long( ismetlodo_napvalaszto.getValue() ) );
 				ismetlodo.setUtolsoBeszuras(datum);
-				ismetlodo = ismetlodoSzolgaltatas.ujIsmetlodoLetrehozas(ismetlodo);
+				ismetlodo = ismetlodoSzolgaltatas.letrehozIsmetlodot(ismetlodo);
 			}
 	
 			bejelentkezett_fh.getTranzakciok().add(letezo_trz);
