@@ -1,9 +1,8 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
-import org.junit.Assert;
-import org.junit.Ignore;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring-szolg.xml")
@@ -27,7 +24,7 @@ public class SzolgaltatasTest {
 	@Autowired
 	FelhasznaloTarolo felhasznaloTarolo;
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void tesztFelhasznaloBeszuras() throws Exception{
 		
@@ -35,7 +32,6 @@ public class SzolgaltatasTest {
 		felh.setFelhasznalonev("tesztFelhasznalo");
 		felh.setEgyenleg(0L);
 		felh.setJelszo("jelszo");
-//		felh.setLebontas(1);
 		felh.setTranzakciok(new ArrayList<Tranzakcio>());
 
 		felhasznaloTarolo.save(felh);

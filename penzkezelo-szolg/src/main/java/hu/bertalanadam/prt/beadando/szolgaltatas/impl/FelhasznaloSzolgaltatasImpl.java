@@ -24,10 +24,10 @@ import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
 /**
  * A felhasználók kezelését támogató osztály.
- * Ez az osztály a {@link org.springframework.stereotype.Service} annotációval van ellátva,
- * azaz ez egy {@link org.springframework.stereotype.Component} csak specifikáltabb.
- * A {@link org.springframework.transaction.annotation.Transactional} annotáció révén
- * Az itt végzett tranzakciók bekapcsolódnak a meglévő tranzakcióba, vagy létrehoznak egyet ha
+ * Ez az osztály a {@link org.springframework.stereotype.Service Service} annotációval van ellátva,
+ * azaz ez egy {@link org.springframework.stereotype.Component Component} csak specifikáltabb.
+ * A {@link org.springframework.transaction.annotation.Transactional Transactional} annotáció révén
+ * az itt végzett tranzakciók bekapcsolódnak a meglévő tranzakcióba, vagy létrehoznak egyet ha
  * nincs még.
  */
 @Service
@@ -35,7 +35,7 @@ import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 
 	/**
-	 * A logoláshoz szükséges {@link org.slf4j.Logger}.
+	 * A logoláshoz szükséges {@link org.slf4j.Logger Logger}.
 	 */
 	private static Logger logolo = LoggerFactory.getLogger(FelhasznaloSzolgaltatasImpl.class);
 	
