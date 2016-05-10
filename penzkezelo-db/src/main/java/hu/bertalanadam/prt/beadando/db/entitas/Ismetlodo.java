@@ -30,7 +30,8 @@ public class Ismetlodo extends FoEntitas {
 	private Long ido;
 	
 	/**
-	 * Az a dátum amikor az ismétlődő tranzakciót utoljára beszúrtuk.
+	 * Az a dátum amikor az ismétlődő tranzakciót utóljára beszúrtuk, és ezzel arra a napra
+	 * teljesítettük.
 	 */
 	private LocalDate utolsoBeszuras;
 
@@ -66,9 +67,6 @@ public class Ismetlodo extends FoEntitas {
 		this.utolsoBeszuras = utolsoBeszuras;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Ismetlodo [ido=" + ido + ", utolsoBeszuras=" + utolsoBeszuras + "]";

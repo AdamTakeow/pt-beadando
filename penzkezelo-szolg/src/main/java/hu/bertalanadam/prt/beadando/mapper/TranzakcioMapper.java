@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
-import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
+/**
+ *
+ */
 public class TranzakcioMapper {
 
 	/**
@@ -45,9 +47,9 @@ public class TranzakcioMapper {
 
 	/**
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo} objektumokat tartalmazó
-	 * Listát a {@link #toVo(Felhasznalo) toVo} segítségével {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat
+	 * Listát a {@link #toVo(Tranzakcio) toVo} segítségével {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat
 	 * tartalmazó listává.
-	 * @param felhasznaloDtos A {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo} objektumokat tartalmazó 
+	 * @param tranzakcioDtos A {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */
@@ -63,7 +65,7 @@ public class TranzakcioMapper {
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.vo.TranzakcioVo} objektumokat tartalmazó
 	 * Listát a {@link #toDto(TranzakcioVo) toDto} segítségével {@link hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio} objektumokat
 	 * tartalmazó listává.
-	 * @param tranzakcioDtos A {@link hu.bertalanadam.prt.beadando.vo.TranzakcioVo} objektumokat tartalmazó 
+	 * @param tranzakcioVos A {@link hu.bertalanadam.prt.beadando.vo.TranzakcioVo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */

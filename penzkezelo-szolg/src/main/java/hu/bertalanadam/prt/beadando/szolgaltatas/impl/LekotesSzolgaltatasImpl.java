@@ -23,21 +23,39 @@ import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.LekotesVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
+/**
+ *
+ */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	
+	/**
+	 * 
+	 */
 	private static Logger logolo = LoggerFactory.getLogger(LekotesSzolgaltatasImpl.class);
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	LekotesTarolo lekotesTarolo;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	KategoriaSzolgaltatas kategoriaSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 

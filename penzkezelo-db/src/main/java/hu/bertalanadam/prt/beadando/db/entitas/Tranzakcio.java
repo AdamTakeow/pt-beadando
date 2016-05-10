@@ -46,33 +46,48 @@ public class Tranzakcio extends FoEntitas {
 	
 	/**
 	 * Az a felhasználó akihez ez a tranzació tartozik.
-	 * Több tranzakció is tartozhat egy felhasználóhoz.
+	 * Több tranzakció is tartozhat egy felhasználóhoz, ezért ez az adattag a
+	 * {@link javax.persistence.ManyToOne ManyToOne} annotációval van ellátva, amellyel azt is
+	 * konfiguráljuk, hogy kaszkádolást hajtson végre minden esetben, kivéve MERGE-nél és REMOVE-nál.
+	 * Ez szükséges hiszen ha egy tranzakciót törlünk, nem szeretnénk ha törlődne a hozzá tartozó felhasználó
+	 * is, valamint azt sem, hogy a tranzakció módosulásánál módosuljon a felhasználó is.
 	 * */
-	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, /*CascadeType.REMOVE*/},
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH },
 			fetch=FetchType.LAZY)
 	@JoinColumn(name="felhasznalo_id")
 	private Felhasznalo felhasznalo;
 	
 	/**
 	 * Az a kategória amihez ez a tranzakció tartozik.
-	 * Több tranzakció sorolható egy kategóriába.
+	 * Több tranzakció is sorolható egy kategóriába, ezért ez az adattag
+	 * a {@link javax.persistence.ManyToOne ManyToOne} annotációval van ellátva, amellyel azt is
+	 * konfiguráljuk, hogy kaszkádolást hajtson végre minden esetben, kivéve MERGE-nél és REMOVE-nál.
+	 * Ez szükséges hiszen ha egy tranzakciót törlünk, nem szeretnénk ha törlődne a hozzá tartozó 
+	 * kategória is, valamint azt sem hogy tranzakció módosításnál módosuljon a kategória is.
 	 * */
-	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH/*, CascadeType.REMOVE*/},
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH },
 			fetch=FetchType.LAZY)
 	@JoinColumn(name="kategoria_id")
 	private Kategoria kategoria;
 	
 	/**
 	 * Ha ez a tranzakció nem egy kiadás és nem is egy bevétel, hanem egy
-	 * {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes}, akkor az ehhez
+	 * {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes Lekotes}, akkor az ehhez
 	 * a tranzakcióhoz tartozó lekötés.
+	 * Eggy tranzakcióhoz csak eggy lekötés tartozhat és fordítva is. Ezt a 
+	 * {@link javax.persistence.OneToOne OneToOne} annotációval jelezzük, amivel azt is konfiguráljuk,
+	 * hogy minden esetben kaszkádolást hajtson végre.
 	 * */
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Lekotes lekotes;
 	
 	/**
 	 * Ha ez a tranzakció egy olyan trazakció ami bizonyos időközönként ismétlődik automatikusan,
-	 * akkor az ehhez a tranzakcióhoz tartozó ismétlődési információk.
+	 * akkor az ehhez a tranzakcióhoz tartozó ismétlődési információk egy
+	 * {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo Ismetlodo} objektumként.
+	 * Eggy tranzakcióhoz csak eggy ismétlődő tartozhat és fordítva is. Ezt a 
+	 * {@link javax.persistence.OneToOne OneToOne} annotációval jelezzük, amivel azt is konfiguráljuk,
+	 * hogy minden esetben kaszkádolást hajtson végre.
 	 * */
 	@OneToOne(cascade=CascadeType.ALL)
 	private Ismetlodo ismetlodo;

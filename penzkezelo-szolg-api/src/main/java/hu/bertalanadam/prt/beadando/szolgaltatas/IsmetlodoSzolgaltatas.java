@@ -20,7 +20,6 @@ public interface IsmetlodoSzolgaltatas {
 	/**
 	 * @param felhasznalo
 	 * @param felh_tranzakcioi
-	 * @return
 	 */
 	void ismetlodoEllenorzes( FelhasznaloVo felhasznalo, List<TranzakcioVo> felh_tranzakcioi );
 	

@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo;
 import hu.bertalanadam.prt.beadando.vo.IsmetlodoVo;
 
+/**
+ *
+ */
 public class IsmetlodoMapper {
 
 	/**
@@ -62,7 +65,7 @@ public class IsmetlodoMapper {
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.vo.IsmetlodoVo IsmetlodoVo} objektumokat tartalmazó
 	 * Listát a {@link #toDto(IsmetlodoVo) toDto} segítségével {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo} objektumokat
 	 * tartalmazó listává.
-	 * @param ismetlodoDtos A {@link hu.bertalanadam.prt.beadando.vo.IsmetlodoVo IsmetlodoVo} objektumokat tartalmazó 
+	 * @param ismetlodoVos A {@link hu.bertalanadam.prt.beadando.vo.IsmetlodoVo IsmetlodoVo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo Ismetlodo} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */

@@ -12,10 +12,10 @@ import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 
 /**
  * A tranzakciókhoz tartozó DAO aminek segítségével műveleteket hajthatunk végre a tranzakciókon.
- * Ez az osztály egy DAO amit a {@link org.springframework.stereotype.Repository} annotációval jelzünk.
- * A {@link org.springframework.transaction.annotation.Transactional} annotáció Propagation.SUPPORTS annotációval
+ * Ez az osztály egy DAO amit a {@link org.springframework.stereotype.Repository Repository} annotációval jelzünk.
+ * A {@link org.springframework.transaction.annotation.Transactional Transactional} annotáció Propagation.SUPPORTS konfigurációjával
  * elérjük hogy egy éppen futó tranzakcióba képes legyen egy művelet bekapcsolódni.
- * Ez az osztály a {@link org.springframework.data.jpa.repository.JpaRepository} leszármazottja,
+ * Ez az osztály a {@link org.springframework.data.jpa.repository.JpaRepository JpaRepository} leszármazottja,
  * ezáltal az alapvető CRUD műveletek előre definiáltak.
  * */
 @Repository
@@ -33,8 +33,12 @@ public interface TranzakcioTarolo extends JpaRepository<Tranzakcio, Long> {
 	List<Tranzakcio> findByFelhasznalo( Felhasznalo felhasznalo );
 	
 	/**
-	 * @param felhasznalo
-	 * @return
+	 * Megkeresi a paraméterben kapott felhasználó legkorábbi tranzakcióját.
+	 * A metódushoz tartozó lekérdezést a spring készíti el a metódus neve alapján a következőképpen:
+	 * Sorba rendezi a tranzakciókat a Datum adattag szerint növekvően a metódus nevében szepelő "OrderByDatumAsc" 
+	 * kifejezésnek köszönhetően, majd ennek a sorbarendezett listának az első elemét veszi ki és adja vissza. 
+	 * @param felhasznalo Az a felhasználó akinek a legkorábbi tranzakciója kell.
+	 * @return A felhasználó lekorábbi tranzakciója.
 	 */
 	Tranzakcio findFirstByFelhasznaloOrderByDatumAsc( Felhasznalo felhasznalo );
 

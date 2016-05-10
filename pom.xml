@@ -38,13 +38,6 @@
 		<developerConnection>scm:git:git@github.com:AdamTakeow/pt-beadando.git</developerConnection>
 	</scm>
 
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>file:///tmp/fake.com/</url>
-		</site>
-	</distributionManagement>
-
 	<inceptionYear>2016</inceptionYear>
 	<organization>
 		<name>Debreceni Egyetem Informatika Kar</name>
@@ -64,21 +57,38 @@
 		<module>penzkezelo-szolg</module>
 		<module>penzkezelo-ui</module>
 	</modules>
+	
+	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>file:///tmp/fake.com/</url>
+		</site>
+	</distributionManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
-		</dependency>
-	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+	
+			<!-- logolás -->
+			
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>1.1.7</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.7</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

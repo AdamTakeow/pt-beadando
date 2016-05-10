@@ -16,15 +16,15 @@ public interface FelhasznaloSzolgaltatas {
 	 * ami lekérdezi az adatbázisból azt a felhasználót amelyiknek megeggyezik a felhasználóneve
 	 * a paraméterben szereplővel.
 	 * @param felhasznalonev A keresendő felhasználónév
-	 * @return Az adatbázisból lekérdezett {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo}
-	 * ami {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo}-vá lett alakítva a {@link hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper}
+	 * @return Az adatbázisból lekérdezett Felhasznalo
+	 * ami FelhasznaloVo-vá lett alakítva a FelhasznaloMapper
 	 * segítségével.
 	 */
 	FelhasznaloVo findByFelhasznalonev( String felhasznalonev );
 	
 	/**
 	 * Ez a szolgáltatás létrehozza a paraméterül kapott felhasználót az adatbázisban.
-	 * Az implementációban szereplő adatbázis modulban lévő {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo FelhasznaloTarolo}
+	 * Az implementációban szereplő adatbázis modulban lévő FelhasznaloTarolo
 	 * segítségével perzistenssé alakítjuk a felhasználót.
 	 * @param felhasznalo Az a felhasználó amelyet perzisztálni kell az adatbázisba.
 	 * @return Az immár perzisztált adatbáziselem.

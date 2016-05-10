@@ -30,41 +30,48 @@ public class Felhasznalo extends FoEntitas {
 	}
 
 	/**
-	 * Egy felhasználó felhasználóneve.
+	 * A felhasználó felhasználóneve.
+	 * Ez egy egyedi felhasználónév, csak egyszer szerepelhet.
+	 * Ezt a {@link javax.persistence.Column Column} annotáció unique=true tagja biztosítja.
 	 * */
 	@Column(unique=true)
 	private String felhasznalonev;
 	
 	/**
-	 * Egy felhasználó jelszava.
+	 * A felhasználó jelszava.
 	 * */
 	private String jelszo;
 	
 	/**
-	 * Egy felhasználó egyenlege, azaz az a pénzösszeg ami a felhasználónak rendelkezésére áll.
+	 * A felhasználó egyenlege, azaz az a pénzösszeg ami a felhasználónak rendelkezésére áll.
 	 * */
 	private Long egyenleg;
 	
 	/**
-	 * 
+	 * A felhasználó kiadásra szánt összege. Ezt a felhasználó adhatja meg, ezt az alkalmazás 
+	 * felhasználja a kiadások követéséhez.
 	 */
 	private Long kiadasraSzantPenz;
 	
 	
 	/**
-	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciók.
+	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciói.
 	 */
 	private LocalDate kezdoIdopont;
 	
 	/**
-	 * A felhasználó számára ezzel a dátummal befejezőleg fognak látszódni a tranzakciók.
+	 * A felhasználó számára ezzel a dátummal befejezőleg fognak látszódni a tranzakciói.
 	 */
 	private LocalDate vegIdopont;
 	
 	/**
 	 * A felhasználóhoz tartozó tranzakciók (azaz a kiadásai, bevételei és lekötései).
 	 * Minden egyes bevételt, kiadást és lekötést egy-egy tranzakcióként kezelünk, így 
-	 * minden felhasználó rendelkezik egy listáról amelyben a tranzakciói szerepelnek.
+	 * minden felhasználó rendelkezik egy listával, amelyben a tranzakciói szerepelnek.
+	 * A {@link javax.persistence.OneToMany OneToMany} annotáció megmondja, hogy
+	 * egy felhasználóhoz több tranzakció tartozik. A mappedBy taggal megadjuk hogy hol
+	 * találja a Hibernate a konfigurációt ehhez az adattaghoz, ezesetben a kapcsolat másik
+	 * oldalán a "felhasznalo" nevű adattagon lesz megadva a konfiguráció.
 	 * */
 	@OneToMany(mappedBy="felhasznalo")
 	private List<Tranzakcio> tranzakciok;
@@ -72,7 +79,10 @@ public class Felhasznalo extends FoEntitas {
 	/**
 	 * A felhasználóhoz tartozó kategóriák listája.
 	 * Egy felhasználóhoz több kategória is tartozhat és egy kategória
-	 * több felhasználóhoz is tartozhat.
+	 * több felhasználóhoz is tartozhat, ezért ez az adattag a {@link javax.persistence.ManyToMany ManyToMany }
+	 * annotációval van ellátva, aminek a konfigurációját a kapcsolat másik oldalán a "felhasznalok" adattagon
+	 * találja meg a Hibernate. A fetch=FetchType.LAZY konfigurációval megmondjuk hogy az adatbázisból a felhasználóhoz
+	 * a kategóriákat csak akkor kérdezze le, ha ténylegesen használja a kód.
 	 */
 	@ManyToMany(mappedBy="felhasznalok", fetch=FetchType.LAZY)
 	private List<Kategoria> kategoriak;
@@ -128,7 +138,7 @@ public class Felhasznalo extends FoEntitas {
 	
 	/**
 	 * Visszaadja a felhasználó tranzakcióit.
-	 * @return Egy {@link java.util.List} amiben a felhasználó tranzakciói szerepelnek.
+	 * @return Egy {@link java.util.List List} amiben a felhasználó tranzakciói szerepelnek.
 	 */
 	public List<Tranzakcio> getTranzakciok() {
 		return tranzakciok;
@@ -136,7 +146,7 @@ public class Felhasznalo extends FoEntitas {
 	
 	/**
 	 * Beállítja a felhasználó tranzakcióit.
-	 * @param tranzakciok A {@link java.util.List} amiben a felhasználó tranzakciói vannak.
+	 * @param tranzakciok A {@link java.util.List List} amiben a felhasználó tranzakciói vannak.
 	 */
 	public void setTranzakciok(List<Tranzakcio> tranzakciok) {
 		this.tranzakciok = tranzakciok;
@@ -189,23 +199,28 @@ public class Felhasznalo extends FoEntitas {
 	public void setVegIdopont(LocalDate vegIdopont) {
 		this.vegIdopont = vegIdopont;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	
+	/**
+	 * Visszaadja a felhasználó havi kiadásra szánt pénzösszegét.
+	 * @return A felhasználó havi kiadásra szánt pénzösszege.
 	 */
-	@Override
-	public String toString() {
-		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
-				+ ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont=" + vegIdopont + ", tranzakciok=" + tranzakciok
-				+ ", kategoriak=" + kategoriak + "]";
-	}
-
 	public Long getKiadasraSzantPenz() {
 		return kiadasraSzantPenz;
 	}
 
+	/**
+	 * Beállítja a felhasználó havi kiadásra szánt összegét.
+	 * @param kiadasraSzantPenz A beállítandó pénzösszeg.
+	 */
 	public void setKiadasraSzantPenz(Long kiadasraSzantPenz) {
 		this.kiadasraSzantPenz = kiadasraSzantPenz;
+	}
+
+	@Override
+	public String toString() {
+		return "Felhasznalo [felhasznalonev=" + felhasznalonev + ", jelszo=" + jelszo + ", egyenleg=" + egyenleg
+				+ ", kiadasraSzantPenz=" + kiadasraSzantPenz + ", kezdoIdopont=" + kezdoIdopont + ", vegIdopont="
+				+ vegIdopont + ", tranzakciok=" + tranzakciok + ", kategoriak=" + kategoriak + "]";
 	}
 	
 }

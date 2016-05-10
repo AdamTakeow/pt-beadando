@@ -22,7 +22,7 @@ public class FoEntitas implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Egyedi {@link java.lang.Long} típusú azonosító.
+	 * Egyedi {@link java.lang.Long Long} típusú azonosító.
 	 * Az adatbázisban a megfelelő típusként fog megjelenni a {@link javax.persistence.GeneratedValue}
 	 * annotációnak köszönhetően.
 	 * */
@@ -39,7 +39,6 @@ public class FoEntitas implements Serializable{
 		return id;
 	}
 
-	
 	/**
 	 * Beállítja az id-t.
 	 * @param id A beállítandó id.

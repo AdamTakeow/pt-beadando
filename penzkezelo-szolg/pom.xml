@@ -12,8 +12,8 @@
 	<name>Pénzügyi menedzser szolgáltatás réteg</name>
 
 	<description>
-  Ez a modul felelős az üzleti logika megvalósításáért. TODO folytatás
-  </description>
+  		Ez a modul felelős az üzleti logika megvalósításáért. TODO folytatás
+  	</description>
 
 	<dependencies>
 		<dependency>
@@ -21,6 +21,7 @@
 			<artifactId>penzkezelo-szolg-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>hu.bertalanadam.prt.beadando</groupId>
 			<artifactId>penzkezelo-db</artifactId>
@@ -32,18 +33,6 @@
 		  <artifactId>modelmapper</artifactId>
 		  <version>0.7.5</version>
 		</dependency>
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>net.sf.dozer</groupId> -->
-<!-- 			<artifactId>dozer</artifactId> -->
-<!-- 			<version>5.5.1</version> -->
-<!-- 		</dependency> -->
-
-		<!-- 		<dependency> -->
-<!-- 			<groupId>commons-collections</groupId> -->
-<!-- 			<artifactId>commons-collections</artifactId> -->
-<!-- 			<version>20040616</version> -->
-<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -58,7 +47,27 @@
 			<version>4.2.5.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>hu.bertalanadam.prt.beadando</groupId>
+			<artifactId>eszkozok</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

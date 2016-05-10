@@ -72,6 +72,10 @@ public class MeglevoLekotesKezelo {
 		lekotes = lekotesSzolgaltatas.getLekotesAFelhasznalohoz(bejelentkezett_fh);
 		lekoteses_tranzakcio = tranzakcioSzolgaltatas.getLekotesesTranzakciotAFelhasznalohoz(bejelentkezett_fh);
 		
+		if( lekoteses_tranzakcio == null ){
+			
+		}
+		
 		lekotes_azonosito.setText(lekotes.getId().toString());
 		lekotes_osszeg.setText(lekotes.getOsszeg().toString() + " Ft");
 		lekotes_futamido.setText(lekotes.getFutamido().toString() + " év");

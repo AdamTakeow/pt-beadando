@@ -13,10 +13,10 @@ import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 
 /**
  * A kategóriákhoz tartozó DAO aminek segítségével műveleteket hajthatunk végre a kategóriákon.
- * Ez az osztály egy DAO amit a {@link org.springframework.stereotype.Repository} annotációval jelzünk.
- * A {@link org.springframework.transaction.annotation.Transactional} annotáció Propagation.SUPPORTS annotációval
+ * Ez az osztály egy DAO amit a {@link org.springframework.stereotype.Repository Repository} annotációval jelzünk.
+ * A {@link org.springframework.transaction.annotation.Transactional Transactional} annotáció Propagation.SUPPORTS konfigurációjával
  * elérjük hogy egy éppen futó tranzakcióba képes legyen egy művelet bekapcsolódni.
- * Ez az osztály a {@link org.springframework.data.jpa.repository.JpaRepository} leszármazottja,
+ * Ez az osztály a {@link org.springframework.data.jpa.repository.JpaRepository JpaRepository} leszármazottja,
  * ezáltal az alapvető CRUD műveletek előre definiáltak.
  * */
 @Repository
@@ -35,6 +35,13 @@ public interface KategoriaTarolo extends JpaRepository<Kategoria, Long> {
 	 */
 	Kategoria findByNev(String nev);
 	
+	/**
+	 * Megkeresi az adatbázisban azokat a kategóriákat, amelyek a paraméterként kapott felhasználóhoz tartoznak.
+	 * A metódushoz tartozó lekérdezést a {@link org.springframework.data.jpa.repository.Query Query} annotációban
+	 * JPQL segítségével hajtom végre.
+	 * @param felhasznalo Az a felhasználó akinehez a hozzátartozó kategóriáit keressük.
+	 * @return Egy lista a felhasználó kategóriáiról.
+	 */
 	@Query("SELECT k FROM Kategoria k WHERE ?1 MEMBER OF k.felhasznalok")
 	List<Kategoria> findByFelhasznaloIn( Felhasznalo felhasznalo );
 

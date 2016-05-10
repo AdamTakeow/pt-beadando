@@ -6,7 +6,7 @@
 	version="2.0">
 
 	<persistence-unit name="hu.bertalanadam.prt.beadando.postgresql">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 		<class>hu.bertalanadam.prt.beadando.db.entitas.FoEntitas</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo</class>
@@ -33,7 +33,7 @@
 	</persistence-unit>
 
 	<persistence-unit name="hu.bertalanadam.prt.beadando.h2" >
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		
 		<class>hu.bertalanadam.prt.beadando.db.entitas.FoEntitas</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo</class>

@@ -23,12 +23,12 @@ public class Lekotes extends FoEntitas {
 	}
 
 	/**
-	 * Az a pénzösszeg amelyről a lekötés szól.
+	 * Az a pénzösszeg amelyet a felhasználó lekötött.
 	 * */
 	private Long osszeg;
 	
 	/**
-	 * Az a mennyiség (nap) amely megahározza hogy mennyi időre szeretnénk lekötni a pénzünket.
+	 * Az a mennyiség (év) amely megahározza hogy mennyi időre szeretnénk lekötni a pénzünket.
 	 * */
 	private Long futamido;
 	
@@ -43,7 +43,8 @@ public class Lekotes extends FoEntitas {
 	private Long varhato;
 	
 	/**
-	 * Jelzi hogy az adott lekötés lejárt-e már vagy sem.
+	 * Jelzi hogy az adott lekötés lejárt-e már vagy sem. Ha az adott lekötés lejárt valamilyen módon,
+	 * (feltöréssel vagy teljesítéssel) akkor {@code true} értékű lesz, egyébként {@code false}.
 	 * */
 	private boolean teljesitett;
 
@@ -121,7 +122,7 @@ public class Lekotes extends FoEntitas {
 
 	/**
 	 * Beállítja hogy ez a lekötés teljesített-e.
-	 * @param teljesitett A beállítandó true vagy false érték.
+	 * @param teljesitett A beállítandó {@code true} vagy {@code false} érték.
 	 */
 	public void setTeljesitett(boolean teljesitett) {
 		this.teljesitett = teljesitett;

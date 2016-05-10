@@ -23,22 +23,40 @@ import hu.bertalanadam.prt.beadando.vo.IsmetlodoVo;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
+/**
+ *
+ */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	IsmetlodoTarolo ismetlodoTarolo;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	KategoriaSzolgaltatas kategoriaSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	private static Logger logolo = LoggerFactory.getLogger(IsmetlodoSzolgaltatasImpl.class);
 
 	@Override

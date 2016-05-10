@@ -200,10 +200,16 @@ public class FelhasznaloVo implements Serializable {
 				+ tranzakciok + ", kategoriak=" + kategoriak + "]";
 	}
 
+	/**
+	 * @return
+	 */
 	public Long getKiadasraSzantPenz() {
 		return kiadasraSzantPenz;
 	}
 
+	/**
+	 * @param kiadasraSzantPenz
+	 */
 	public void setKiadasraSzantPenz(Long kiadasraSzantPenz) {
 		this.kiadasraSzantPenz = kiadasraSzantPenz;
 	}

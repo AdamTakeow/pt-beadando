@@ -13,7 +13,7 @@ public interface KategoriaSzolgaltatas {
 	
 	/**
 	 * Létrehozza az adatbázisban a paraméterül kapott kategóriát. A perzisztáláshoz
-	 * az adatbázis rétegben lévő {@link hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo KategoriaTarolo}
+	 * az adatbázis rétegben lévő KategoriaTarolo
 	 * nyújt segítséget.
 	 * @param ujKategoria Az adatbázisba lementeni kívánt kategória.
 	 * @return Az immár adatbázisban szereplő kategória.
@@ -23,7 +23,7 @@ public interface KategoriaSzolgaltatas {
 	/**
 	 * Megkeresi az adatbázisban azt a kategóriát, amelynek megegyezik a neve a paraméterül kapott
 	 * String értékével, majd visszaadja. A művelet végrehajtásához az adatbázis modul-beli 
-	 * {@link hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo KategoriaTarolo} nyújt segítséget.
+	 * KategoriaTarolo nyújt segítséget.
 	 * @param kategoriaNev Az a kategórianév amely megegyezik a keresett kategória nevével.
 	 * @return A megtalált kategória.
 	 */

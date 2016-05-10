@@ -48,12 +48,21 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	@Autowired
 	private TranzakcioTarolo tranzakcioTarolo;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private IsmetlodoSzolgaltatas ismetlodoSzolgaltatas;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private LekotesSzolgaltatas lekotesSzolgaltatas;
 
@@ -146,6 +155,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		return felh_tranzakcioi.stream()
 						.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )
 						.findAny()
-						.get();
+//						.get();
+						.orElse(null);
 	}
 }

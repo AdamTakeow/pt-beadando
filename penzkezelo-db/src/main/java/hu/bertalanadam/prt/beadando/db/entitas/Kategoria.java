@@ -39,11 +39,16 @@ public class Kategoria extends FoEntitas {
 	 * A kategóriát birtokló felhasználók listája.
 	 * Egy kategóriát több felhasználó is birtokolhat, valamint
 	 * egy felhasználó több kategóriával is rendelkezhet.
+	 * Ezért a {@link javax.persistence.ManyToMany ManyToMany} annotációval van ellátva.
+	 * A fetch = FetchType.LAZY konfigurációnak köszönhetően a felhasználókat csak akkor kérdezi
+	 * le az adatbázisból, ha ténylegesen használja a kód.
+	 * A {@link javax.persistence.JoinTable JoinTable} annotáció segítségével megadhatjuk a
+	 * kapcsolótáblához tartozó információkat.
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "felhasznalo_to_kategoria", joinColumns = 
-	@JoinColumn(name = "kategoria_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "felhasznalo_id", referencedColumnName = "id"))
+	@JoinTable(name = "felhasznalo_to_kategoria",
+		joinColumns = @JoinColumn(name = "kategoria_id", referencedColumnName = "id"), 
+		inverseJoinColumns = @JoinColumn(name = "felhasznalo_id", referencedColumnName = "id"))
 	private List<Felhasznalo> felhasznalok;
 
 	/**
@@ -72,7 +77,7 @@ public class Kategoria extends FoEntitas {
 
 	/**
 	 * Beállítja hogy a kategória melyik felhasználóhoz tartozzon.
-	 * @param felhasznalo Az a felhasználó akié a kategória.
+	 * @param felhasznalok Az a felhasználó akié a kategória.
 	 */
 	public void setFelhasznalok(List<Felhasznalo> felhasznalok) {
 		this.felhasznalok = felhasznalok;

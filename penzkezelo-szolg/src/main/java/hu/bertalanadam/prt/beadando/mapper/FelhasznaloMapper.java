@@ -20,7 +20,6 @@ public class FelhasznaloMapper {
 	/**
 	 * A mapper objektum ami a leképezést végzi.
 	 * */
-//	private static Mapper mapper = new DozerBeanMapper();
 	private static ModelMapper mapper = new ModelMapper();
 	
 	/**
@@ -70,7 +69,7 @@ public class FelhasznaloMapper {
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat tartalmazó
 	 * Listát a {@link #toDto(FelhasznaloVo) toDto} segítségével {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo} objektumokat
 	 * tartalmazó listává.
-	 * @param felhasznaloDtos A {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat tartalmazó 
+	 * @param felhasznaloVos A {@link hu.bertalanadam.prt.beadando.vo.FelhasznaloVo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */

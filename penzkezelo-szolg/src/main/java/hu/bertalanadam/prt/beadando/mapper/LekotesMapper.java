@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import hu.bertalanadam.prt.beadando.db.entitas.Lekotes;
 import hu.bertalanadam.prt.beadando.vo.LekotesVo;
 
+/**
+ *
+ */
 public class LekotesMapper {
 
 	/**
@@ -62,7 +65,7 @@ public class LekotesMapper {
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.vo.LekotesVo LekotesVo} objektumokat tartalmazó
 	 * Listát a {@link #toDto(LekotesVo) toDto} segítségével {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes Lekotes} objektumokat
 	 * tartalmazó listává.
-	 * @param lekotesDtos A {@link hu.bertalanadam.prt.beadando.vo.LekotesVo LekotesVo} objektumokat tartalmazó 
+	 * @param lekotesVos A {@link hu.bertalanadam.prt.beadando.vo.LekotesVo LekotesVo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes Lekotes} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */

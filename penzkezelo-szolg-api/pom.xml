@@ -10,9 +10,9 @@
   <name>Pénzügyi menedzser szolgáltatás felület</name>
   
   <description>
-  Ez a modul tartalmazza azokat az interfészeket amelyek leírják a szolgáltatások működését,
-  ezzel is magasabb absztrakciós szintre helyezve a funkciók leírását.
-  A szolgáltatás réteg ezeket a terveket fogja megvalósítani.
+	  Ez a modul tartalmazza azokat az interfészeket amelyek leírják a szolgáltatások működését,
+	  ezzel is magasabb absztrakciós szintre helyezve a funkciók leírását.
+	  A szolgáltatás réteg ezeket a terveket fogja megvalósítani.
   </description>
   
 </project>

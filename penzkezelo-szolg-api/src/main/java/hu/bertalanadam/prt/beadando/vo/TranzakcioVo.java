@@ -54,7 +54,7 @@ public class TranzakcioVo implements Serializable{
 	
 	/**
 	 * Ha ez a tranzakció nem egy kiadás és nem is egy bevétel, hanem egy
-	 * {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes}, akkor az ehhez
+	 * Lekotes, akkor az ehhez
 	 * a tranzakcióhoz tartozó lekötés.
 	 * */
 	private LekotesVo lekotes;
@@ -147,7 +147,7 @@ public class TranzakcioVo implements Serializable{
 
 	/**
 	 * Ha ez a tranzakció egy lekötés, akkor visszaadja a lekötésről szóló információkat tarzalmazó
-	 * {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes} objektumot.
+	 * Lekotes objektumot.
 	 * @return A tranzakció lekötési információit tartalmazó objektum.
 	 */
 	public LekotesVo getLekotes() {
@@ -156,24 +156,24 @@ public class TranzakcioVo implements Serializable{
 
 	/**
 	 * Beállítja a tranzakció lekötéséhez tartozó objektumot.
-	 * @param lekotes A beállítandó {@link hu.bertalanadam.prt.beadando.db.entitas.Lekotes} objektum.
+	 * @param lekotes A beállítandó Lekotes objektum.
 	 */
 	public void setLekotes(LekotesVo lekotes) {
 		this.lekotes = lekotes;
 	}
 
 	/**
-	 * Ha ez a tranzakció automatikusan ismétlődik, akkor az ismétlődést reprezentáló {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo} objektumot
+	 * Ha ez a tranzakció automatikusan ismétlődik, akkor az ismétlődést reprezentáló Ismetlodo objektumot
 	 * adja vissza.
-	 * @return A tranzakcióhoz tartozó {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo} objektum.
+	 * @return A tranzakcióhoz tartozó Ismetlodo objektum.
 	 */
 	public IsmetlodoVo getIsmetlodo() {
 		return ismetlodo;
 	}
 
 	/**
-	 * Beállítja a tranzakcióhoz tartozó {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo} objektumot.
-	 * @param ismetlodo A beállítandó {@link hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo} objektum.
+	 * Beállítja a tranzakcióhoz tartozó Ismetlodo objektumot.
+	 * @param ismetlodo A beállítandó Ismetlodo objektum.
 	 */
 	public void setIsmetlodo(IsmetlodoVo ismetlodo) {
 		this.ismetlodo = ismetlodo;

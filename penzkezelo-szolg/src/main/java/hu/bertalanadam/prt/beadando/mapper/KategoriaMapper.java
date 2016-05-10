@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
 import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 
+/**
+ *
+ */
 public class KategoriaMapper {
 
 	/**
@@ -62,7 +65,7 @@ public class KategoriaMapper {
 	 * Átalakít egy {@link hu.bertalanadam.prt.beadando.vo.KategoriaVo} objektumokat tartalmazó
 	 * Listát a {@link #toDto(KategoriaVo) toDto} segítségével {@link hu.bertalanadam.prt.beadando.db.entitas.Kategoria} objektumokat
 	 * tartalmazó listává.
-	 * @param kategoriaDtos A {@link hu.bertalanadam.prt.beadando.vo.KategoriaVo} objektumokat tartalmazó 
+	 * @param kategoriaVos A {@link hu.bertalanadam.prt.beadando.vo.KategoriaVo} objektumokat tartalmazó 
 	 * {@link java.util.List} típusú lista.
 	 * @return Az átalakított {@link hu.bertalanadam.prt.beadando.db.entitas.Kategoria} objektumokat tartalmazó {@link java.util.List} típusú lista.
 	 */
