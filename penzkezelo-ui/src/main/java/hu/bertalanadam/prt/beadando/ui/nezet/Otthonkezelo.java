@@ -202,13 +202,13 @@ public class Otthonkezelo {
 			}			
 		}
 		
-		int i = 0;
-		for (PieChart.Data data : bev_diagramAdatok) {
-		  data.getNode().setStyle(
-		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-		  );
-		  i++;
-		}
+//		int i = 0;
+//		for (PieChart.Data data : bev_diagramAdatok) {
+//		  data.getNode().setStyle(
+//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//		  );
+//		  i++;
+//		}
 		
 		// újraszámoljuk a kiadásokat szemléltető diagram adatait
 		Map<String, Long> kiad_adatok = felhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(bejelentkezett_fh);
@@ -223,14 +223,14 @@ public class Otthonkezelo {
 			}			
 		}
 		
-		i = 0;
-		for (PieChart.Data data : kiad_diagramAdatok) {
-		  data.getNode().setStyle(
-		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-		  );
-		 
-		  i++;
-		}
+//		i = 0;
+//		for (PieChart.Data data : kiad_diagramAdatok) {
+//		  data.getNode().setStyle(
+//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//		  );
+//		 
+//		  i++;
+//		}
 
 		if (lekotesSzolgaltatas.vanLekotesAFelhasznalohoz(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			lekotesGomb.setText("Lekötés megtekintése");

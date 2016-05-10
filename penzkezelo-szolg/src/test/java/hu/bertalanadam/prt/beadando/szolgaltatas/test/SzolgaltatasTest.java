@@ -16,6 +16,7 @@ import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
 import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
 import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
 import org.junit.Assert;
+import org.junit.Ignore;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring-szolg.xml")
@@ -26,6 +27,7 @@ public class SzolgaltatasTest {
 	@Autowired
 	FelhasznaloTarolo felhasznaloTarolo;
 
+	@Ignore
 	@Test
 	public void tesztFelhasznaloBeszuras() throws Exception{
 		

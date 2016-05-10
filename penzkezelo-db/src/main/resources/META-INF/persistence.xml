@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 			 					 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-			 version="2.0">
+	version="2.0">
 
-	<persistence-unit name="hu.bertalanadam.prt.beadando">
+	<persistence-unit name="hu.bertalanadam.prt.beadando.postgresql">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		
+
 		<class>hu.bertalanadam.prt.beadando.db.entitas.FoEntitas</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo</class>
 		<class>hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo</class>
@@ -18,33 +18,42 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
-
-<!-- hsqldb -->
-			
-<!-- 		    <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/> -->
-<!-- 		    <property name="hibernate.flushMode" value="FLUSH_AUTO" /> -->
-<!-- 		    <property name="hibernate.hbm2ddl.auto" value="update"/> -->
-		    
-<!-- 		    <property name="hibernate.archive.autodetection" value="class" /> -->
-<!-- 		    <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" /> -->
-<!-- 			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:target/PTBeadando;shutdown=true" /> -->
-<!-- 			<property name="hibernate.connection.user" value="sa" /> -->
-			
-<!-- postgresql -->
-
 			<property name="hibernate.archive.autodetection" value="class, hbm" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
 			<property name="hibernate.connection.username" value="postgres" />
 			<property name="hibernate.connection.password" value="adamtakeow" />
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/PTBeadando" />
 			<property name="hibernate.default_schema" value="public" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.hbm2ddl.import_files" value="create.sql"/>
+			<property name="hibernate.hbm2ddl.import_files" value="create.sql" />
 			<property name="hibernate.flushMode" value="FLUSH_AUTO" />
-			
 		</properties>
-
 	</persistence-unit>
+
+	<persistence-unit name="hu.bertalanadam.prt.beadando.h2" >
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>hu.bertalanadam.prt.beadando.db.entitas.FoEntitas</class>
+		<class>hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo</class>
+		<class>hu.bertalanadam.prt.beadando.db.entitas.Ismetlodo</class>
+		<class>hu.bertalanadam.prt.beadando.db.entitas.Kategoria</class>
+		<class>hu.bertalanadam.prt.beadando.db.entitas.Lekotes</class>
+		<class>hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
+		<properties>
+			<property name="hibernate.archive.autodetection" value="class, hbm" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:h2:./target/ptBeadando" />
+			<property name="hibernate.connection.user" value="sa" />
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.flushMode" value="FLUSH_AUTO" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+	
 </persistence>
