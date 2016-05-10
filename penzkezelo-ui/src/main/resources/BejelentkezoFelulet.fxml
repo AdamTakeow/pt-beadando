@@ -16,7 +16,7 @@
 		<Insets bottom="10" left="25" right="25" top="25" />
 	</padding>
 
-	<Text fx:id="celszoveg" text="Üdvözöljük" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+	<Text fx:id="uzenet" text="Üdvözöljük" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
 
 	<Label text="Felhasználónév:" GridPane.rowIndex="2" />
 
@@ -27,7 +27,7 @@
 	<PasswordField fx:id="jelszo_bevitel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
 	<HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
-      <Button mnemonicParsing="false" onAction="#regisztracioGombKezelo" text="Regisztráció" />
+      <Button fx:id="regisztraloGomb" mnemonicParsing="false" onAction="#regisztracioGombKezelo" text="Regisztráció" />
 		<Button fx:id="bejelentkezoGomb" onAction="#bejelentkezesGombKezelo" text="Bejelentkezés" />
 	</HBox>
    <columnConstraints>

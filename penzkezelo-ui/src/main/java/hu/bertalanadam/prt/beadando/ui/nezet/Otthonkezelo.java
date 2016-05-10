@@ -1,6 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +37,9 @@ import javafx.stage.Stage;
 @Component
 public class Otthonkezelo {
 
-	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
-	
 	private static Logger logolo = LoggerFactory.getLogger(Otthonkezelo.class);
+
+	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 	
 	// szolgáltatások
 	
@@ -56,9 +55,37 @@ public class Otthonkezelo {
 	@Autowired
 	private BejelentkezesKezelo bejelentkezesKezelo;
 	
+	// adattagok
+
+	// a tranzakciólistából éppen kiválasztott tranzakció
+	private TranzakcioVo kivalasztott_trz;
+	
 	// az aktuálisan bejelentkezett felhasználó
 	private FelhasznaloVo bejelentkezett_fh;
+
+	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
+	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
 	
+	// a bevételeket szemléltető diagram adatait tartalmazó lista
+	private ObservableList<PieChart.Data> bev_diagramAdatok = FXCollections.observableArrayList();
+	
+	// a kiadásokat szemléltető diagram adatait tartalmazó lista
+	private ObservableList<PieChart.Data> kiad_diagramAdatok = FXCollections.observableArrayList();
+	
+	// fxml komponensek
+	
+	@FXML
+	private DatePicker lebontas_innentol;
+	
+	@FXML
+	private DatePicker lebontas_idaig;
+
+	@FXML
+	private Button lekotesGomb;
+	
+	@FXML
+	private Text ennyitKolthetekMeg;
+
 	// üdvözlet a felhasználónak
 	@FXML
 	private Text welcome_user;
@@ -99,35 +126,127 @@ public class Otthonkezelo {
 	@FXML
 	private PieChart kiad_diagram;
 	
+	// a képernyő betöltődése előtt lefutó metódus
 	@FXML
-	private DatePicker lebontas_innentol;
+	private void initialize(){
+
+		adatFrissites();
+		
+		// üdvözöljük a felhasználót
+		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
+		
+		// beállítjuk hogy az összeg oszlopba honnan származzanak az értékek
+		osszegOszlop.setCellValueFactory( celldata -> celldata.getValue().getOsszegProperty() );
+		// beállítjuk hogy a dátum oszlopba honnan származzanak az értékek
+		datumOszlop.setCellValueFactory( celldata -> celldata.getValue().getDatumProperty() );
+		// beállítjuk hogy a kategória oszlopba honnan származzanak az értékek
+		kategoriaOszlop.setCellValueFactory( celldata -> celldata.getValue().getKategoriaProperty() );
+		
+		// beállítjuk a táblázatnak hogy melyik adatlistát használja
+		tranzakcioTable.setItems(tranzakcioTablazatAdatok);
+		
+		// beállítjuk hogy mi történjen a táblázat egy sorára kattintva
+		tranzakcioTable.getSelectionModel()
+					   .selectedItemProperty()
+		               .addListener( (observable, oldValue, newValue) -> showTranzakcioData(newValue) );
+			
+		osszegOszlop.setComparator( (c1, c2) -> { Long c_1 = Long.parseLong(c1);
+												  Long c_2 = Long.parseLong(c2);
+												  return c_1.compareTo(c_2);} );
+					
+		bev_diagram.setData(bev_diagramAdatok);
+			
+		kiad_diagram.setData(kiad_diagramAdatok);
+			
+	}
 	
 	@FXML
-	private DatePicker lebontas_idaig;
+	protected void beallitasokGombKezelo( ActionEvent event ){
+		
+		BorderPane pane = (BorderPane)loader.load("/BeallitasokFelulet.fxml");
+		Scene scene = new Scene(pane);
+
+		Stage stage = new Stage();
+		stage.setTitle("Beállítások");
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	// ez a metódus fut le az új lekötés gombra kattintva
+	@FXML
+	protected void ujLekotesKezelo(ActionEvent event) {
+		logolo.info("Új lekötés gomb megnyomva");
+			
+		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
+			// ha már van lekötésünk
+			
+			BorderPane pane = (BorderPane)loader.load("/MeglevoLekotesFelulet.fxml");
+			Scene scene = new Scene(pane);
+				
+			Stage stage = new Stage();
+			stage.setTitle("Lekötés Részletei");
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.setScene(scene);
+			stage.show();
+				
+		} else {
+			// ha még nincs lekötésünk
+			BorderPane pane = (BorderPane)loader.load("/UjLekotesFelulet.fxml");
+			Scene scene = new Scene(pane);
+			
+			Stage stage = new Stage();
+			stage.setTitle("Új Lekötés létrehozása");
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.setScene(scene);
+			stage.show();
+		}
+	}
+	
+	// ez a metódus fut le az új tranzakció gombra kattintva
+	@FXML
+	protected void ujTranzakcioKezelo(ActionEvent event) {
+		logolo.info("Új tranzakció gomb megnyomva");
+			
+		BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
+		Scene scene = new Scene(pane);
+
+		Stage stage = new Stage();
+		stage.setTitle("Új Tranzakció létrehozása");
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+		stage.setScene(scene);
+		stage.show();
+	}
 	
 	@FXML
-	private Button lekotesGomb;
+	public void valtozottALebontas(){
+		// lefut, ha a lebontásos dátumokat piszkálják
+		bejelentkezett_fh.setKezdoIdopont( lebontas_innentol.getValue() );
+		
+		bejelentkezett_fh.setVegIdopont( lebontas_idaig.getValue() );
+		
+		felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
+		
+		adatFrissites();
+	}
 	
-	@FXML
-	private Button beallitasok_gomb;
-	
-	@FXML
-	private Text ennyitKolthetekMeg;
-	
-	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
-	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
-	
-	// a bevételeket szemléltető diagram adatait tartalmazó lista
-	private ObservableList<PieChart.Data> bev_diagramAdatok = FXCollections.observableArrayList();
-	
-	// a kiadásokat szemléltető diagram adatait tartalmazó lista
-	private ObservableList<PieChart.Data> kiad_diagramAdatok = FXCollections.observableArrayList();
-	
-	// a tranzakciólistából éppen kiválasztott tranzakció
-	private TranzakcioVo kivalasztott_trz;
-	
-	private String[] pieColors = new String[]{"Blue","Black","Yellow","Red","Green","Orange",
-			"Pink","Purple","White","Brown","Cyan"};
+	// ez a metódus fut le a kijelentkezés gombra kattintva
+		@FXML
+		protected void kijelentkezesGombKezelo(ActionEvent event) {
+			
+			logolo.info("Kijelentkezés gomb megnyomva");
+			
+			Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
+			Scene scene = new Scene(parent);
+			Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+			stage.setTitle("Bejelentkezés");
+			stage.setScene(scene);
+			stage.centerOnScreen();
+		}
 	
 	// az kezdőképernyő adatait frissíti
 	public void adatFrissites(){
@@ -202,14 +321,6 @@ public class Otthonkezelo {
 			}			
 		}
 		
-//		int i = 0;
-//		for (PieChart.Data data : bev_diagramAdatok) {
-//		  data.getNode().setStyle(
-//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-//		  );
-//		  i++;
-//		}
-		
 		// újraszámoljuk a kiadásokat szemléltető diagram adatait
 		Map<String, Long> kiad_adatok = felhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(bejelentkezett_fh);
 		
@@ -222,89 +333,12 @@ public class Otthonkezelo {
 				kiad_diagramAdatok.add( new PieChart.Data(elem.getKey(), elem.getValue()) );			
 			}			
 		}
-		
-//		i = 0;
-//		for (PieChart.Data data : kiad_diagramAdatok) {
-//		  data.getNode().setStyle(
-//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-//		  );
-//		 
-//		  i++;
-//		}
 
 		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			lekotesGomb.setText("Lekötés megtekintése");
 		} else {
 			lekotesGomb.setText("Új lekötés");
 		}
-	}
-	
-	@FXML
-	protected void beallitasokGombKezelo( ActionEvent event ){
-		
-		BorderPane pane = (BorderPane)loader.load("/BeallitasokFelulet.fxml");
-		Scene scene = new Scene(pane);
-
-		Stage stage = new Stage();
-		stage.setTitle("Beállítások");
-		stage.initModality(Modality.WINDOW_MODAL);
-		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	// a képernyő betöltődése előtt lefutó metódus
-	@FXML
-	private void initialize(){
-		
-		adatFrissites();
-		
-		// üdvözöljük a felhasználót
-		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
-		
-		// beállítjuk hogy az összeg oszlopba honnan származzanak az értékek
-		osszegOszlop.setCellValueFactory( celldata -> celldata.getValue().getOsszegProperty() );
-		// beállítjuk hogy a dátum oszlopba honnan származzanak az értékek
-		datumOszlop.setCellValueFactory( celldata -> celldata.getValue().getDatumProperty() );
-		// beállítjuk hogy a kategória oszlopba honnan származzanak az értékek
-		kategoriaOszlop.setCellValueFactory( celldata -> celldata.getValue().getKategoriaProperty() );
-		
-		// beállítjuk a táblázatnak hogy melyik adatlistát használja
-		tranzakcioTable.setItems(tranzakcioTablazatAdatok);
-		
-		// beállítjuk hogy mi történjen a táblázat egy sorára kattintva
-		tranzakcioTable.getSelectionModel()
-					   .selectedItemProperty()
-		               .addListener( (observable, oldValue, newValue) -> showTranzakcioData(newValue) );
-		
-		osszegOszlop.setComparator( (c1, c2) -> { Long c_1 = Long.parseLong(c1);
-												  Long c_2 = Long.parseLong(c2);
-												  return c_1.compareTo(c_2);} );
-		
-		
-//		Color.
-		bev_diagram.setTitle("Bevételek kategóriánként");
-		bev_diagram.setData(bev_diagramAdatok);
-		
-//		int i = 0;
-//		for (PieChart.Data data : bev_diagramAdatok) {
-//		  data.getNode().setStyle(
-//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-//		  );
-//		  i++;
-//		}
-		
-		kiad_diagram.setTitle("Kiadások kategóriánként");
-		kiad_diagram.setData(kiad_diagramAdatok);
-		
-//		i = 0;
-//		for (PieChart.Data data : kiad_diagramAdatok) {
-//		  data.getNode().setStyle(
-//		    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-//		  );
-//		  i++;
-//		}
-		
 	}
 	
 	// ez történik a táblázat egy sorára kattintva
@@ -333,79 +367,6 @@ public class Otthonkezelo {
 		}
 	}
 	
-	// ez a metódus fut le a kijelentkezés gombra kattintva
-	@FXML
-	protected void kijelentkezesGombKezelo(ActionEvent event) {
-		
-		logolo.info("Kijelentkezés gomb megnyomva");
-		
-		Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
-		Scene scene = new Scene(parent);
-		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-		stage.setTitle("Bejelentkezés");
-		stage.setScene(scene);
-	}
-	
-	// ez a metódus fut le az új lekötés gombra kattintva
-	@FXML
-	protected void ujLekotesKezelo(ActionEvent event) {
-		logolo.info("Új lekötés gomb megnyomva");
-		
-		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
-			// ha már van lekötésünk
-			
-			BorderPane pane = (BorderPane)loader.load("/MeglevoLekotesFelulet.fxml");
-			Scene scene = new Scene(pane);
-			
-			Stage stage = new Stage();
-			stage.setTitle("Lekötés Részletei");
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-			stage.setScene(scene);
-			stage.show();
-			
-		} else {
-			// ha még nincs lekötésünk
-			BorderPane pane = (BorderPane)loader.load("/UjLekotesFelulet.fxml");
-			Scene scene = new Scene(pane);
-			
-			Stage stage = new Stage();
-			stage.setTitle("Új Lekötés létrehozása");
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-			stage.setScene(scene);
-			stage.show();
-		}
-	}
-	
-	// ez a metódus fut le az új tranzakció gombra kattintva
-	@FXML
-	protected void ujTranzakcioKezelo(ActionEvent event) {
-		logolo.info("Új tranzakció gomb megnyomva");
-		
-		BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
-		Scene scene = new Scene(pane);
-
-		Stage stage = new Stage();
-		stage.setTitle("Új Tranzakció létrehozása");
-		stage.initModality(Modality.WINDOW_MODAL);
-		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	@FXML
-	public void valtozottALebontas(){
-		// lefut, ha a lebontásos dátumokat piszkálják
-		bejelentkezett_fh.setKezdoIdopont( lebontas_innentol.getValue() );
-		
-		bejelentkezett_fh.setVegIdopont( lebontas_idaig.getValue() );
-		
-		felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
-		
-		adatFrissites();
-	}
-
 	public FelhasznaloVo getBejelentkezett_fh() {
 		return bejelentkezett_fh;
 	}

@@ -32,7 +32,7 @@ public class Main extends Application {
 	
 	@Override
 	public void stop() throws Exception {
-		logolo.info("JavaFX: Main: Shutting down javafx");
+		logolo.info("JavaFX: Main: Javafx leáll.");
 		SpringFxmlLoader.close();
 	}
 

@@ -154,7 +154,7 @@ public class UjTranzakcioKezelo {
 		
 		if( ismetlodo_checkbox.isSelected() ){
 			ismetlodo_napvalaszto.setDisable(false);
-			ismetlodo_napvalaszto.increment((int)spinner_ertek_mentes);
+			ismetlodo_napvalaszto.increment((int)spinner_ertek_mentes-1);
 		}
 		
 		if( datum_bevitel_mentes != null )

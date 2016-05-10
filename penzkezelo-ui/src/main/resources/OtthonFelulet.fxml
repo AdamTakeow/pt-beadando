@@ -164,8 +164,8 @@
                         </GridPane>
                         <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
                            <items>
-                              <PieChart fx:id="kiad_diagram" animated="false" legendVisible="false" />
-                              <PieChart fx:id="bev_diagram" animated="false" legendVisible="false" />
+                              <PieChart fx:id="bev_diagram" animated="false" legendVisible="false" title="Bevételek kategóriánként" />
+                              <PieChart fx:id="kiad_diagram" animated="false" legendVisible="false" title="Kiadások kategóriánként" />
                            </items>
                         </SplitPane>
                     </items>

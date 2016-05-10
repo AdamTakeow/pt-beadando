@@ -56,7 +56,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 
 		// logoljuk a történteket
 		if( f == null ){
-			logolo.error("FelhasznaloSzolgaltatasImpl: Nem sikerült lekérdezni a(z) " + felhasznalonev + " felhasználónevű felhasználót!");			
+			logolo.warn("FelhasznaloSzolgaltatasImpl: Nem sikerült lekérdezni a(z) " + felhasznalonev + " felhasználónevű felhasználót!");			
 		} else {
 
 		}
@@ -158,7 +158,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 									  t.getDatum().isAfter(felhasznalo.getKezdoIdopont().minusDays(1)) && 
 								      t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
 						.collect(Collectors.groupingBy( t -> t.getKategoria().getNev(),
-															Collectors.summingLong( t -> t.getOsszeg() ) )
+															Collectors.summingLong( t -> -1L * t.getOsszeg() ) )
 				);
 				
 		return res;

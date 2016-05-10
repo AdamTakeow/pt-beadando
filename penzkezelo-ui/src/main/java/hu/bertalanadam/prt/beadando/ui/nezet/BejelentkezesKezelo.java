@@ -31,18 +31,24 @@ public class BejelentkezesKezelo {
 	
 	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 	
+	// szolgáltatások
+	
 	@Autowired
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 	
 	@Autowired
 	TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
+	// adattagok
+	
 	// Az aktuálisan bejelentkezett felhasználó
 	private FelhasznaloVo bejelentkezett_fh;
+	
+	// fxml komponensek
 
 	// ahová a bejelentkezéssel kapcsolatos üzeneteket írjuk ki
 	@FXML
-	private Text celszoveg;
+	private Text uzenet;
 	
 	@FXML
 	private Button bejelentkezoGomb;
@@ -58,7 +64,7 @@ public class BejelentkezesKezelo {
 	// a bejelentkezés gombra lefutó metódus
 	@FXML
 	protected void bejelentkezesGombKezelo(ActionEvent event) {
-		logolo.info("Bejelentkezes gomb megnyomva");
+		logolo.debug("Bejelentkezes gomb megnyomva");
 		
 		// megkeressük a felhasználónevet amit beírt a felhasználó
 		FelhasznaloVo felh = felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText());
@@ -66,7 +72,7 @@ public class BejelentkezesKezelo {
 		// ha nincs ilyen fhnév
 		if( felh == null ){
 			logolo.info("Nem található ilyen nevű felhasználó még regisztrálva");
-			celszoveg.setText("Nincs ilyen nevű felhasználó regisztrálva!");
+			uzenet.setText("Nincs ilyen nevű felhasználó regisztrálva!");
 		} else { // ha van ilyen fhnév
 			logolo.info("Van ilyen nevű felhasználó regisztrálva!");
 			
@@ -87,7 +93,7 @@ public class BejelentkezesKezelo {
 				
 			} else {
 				// ha nem egyezik meg a jelszó
-				celszoveg.setText("Helytelen jelszó!");
+				uzenet.setText("Helytelen jelszó!");
 			}
 		}
 	}
@@ -100,28 +106,28 @@ public class BejelentkezesKezelo {
 		
 		boolean ok = true;
 		// kinullázzuk az üzeneteket
-		celszoveg.setText("");
+		uzenet.setText("");
 		
 		// nem írt be semmit a felhasználónévhez
 		if( felhnev_bevitel.getText().length() == 0 ){
-			celszoveg.setText(celszoveg.getText() + "Felhasználónév megadása kötelező!\n");
+			uzenet.setText(uzenet.getText() + "Felhasználónév megadása kötelező!\n");
 			ok = false;
 		}
 		// nem írt be semmit a jelszóhoz
 		if( jelszo_bevitel.getText().length() == 0 ){
-			celszoveg.setText(celszoveg.getText() + "Jelszó megadása kötelező!\n");
+			uzenet.setText(uzenet.getText() + "Jelszó megadása kötelező!\n");
 			ok = false;
 		}
 
 		// túl rövid felhasználónevet adott meg
 		if( felhnev_bevitel.getText().length() > 0 && felhnev_bevitel.getText().length() < 4 ){
-			celszoveg.setText(celszoveg.getText() + "A felhasználónév túl rövid!\n");
+			uzenet.setText(uzenet.getText() + "A felhasználónév túl rövid!\n");
 			ok = false;
 		}
 		
 		// túl rövid jelszót adott meg
 		if( jelszo_bevitel.getText().length() > 0 && jelszo_bevitel.getText().length() < 4 ){
-			celszoveg.setText(celszoveg.getText() + "A jelszó túl rövid!\n");
+			uzenet.setText(uzenet.getText() + "A jelszó túl rövid!\n");
 			ok = false;
 		}
 		
@@ -130,7 +136,7 @@ public class BejelentkezesKezelo {
 			// megnézzük hogy van-e már ilyen felhasználónév az adatbázisban
 			if( felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText()) != null ){
 				// ha van már ilyen felhasználó
-				celszoveg.setText(celszoveg.getText() + "Ilyen felhasználónév már létezik!\n");
+				uzenet.setText(uzenet.getText() + "Ilyen felhasználónév már létezik!\n");
 			} else {
 				// ha nincs még ilyen felhasználó
 				logolo.info("Új felhasználó létrehozása");
@@ -153,7 +159,7 @@ public class BejelentkezesKezelo {
 				
 				// elmentjük az új felhasználót
 				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujfelhasznalo);	
-				celszoveg.setText(celszoveg.getText() + "Sikeres regisztráció!");
+				uzenet.setText(uzenet.getText() + "Sikeres regisztráció!");
 			}
 		}
 	}
