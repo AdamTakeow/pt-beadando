@@ -61,7 +61,7 @@ public class IsmetlodoVo implements Serializable {
 	}
 
 	/**
-	 * Beállítja az ismétlődő azonosítóját
+	 * Beállítja az ismétlődő azonosítóját.
 	 * @param id A beállítandó azonosító.
 	 */
 	public void setId(Long id) {

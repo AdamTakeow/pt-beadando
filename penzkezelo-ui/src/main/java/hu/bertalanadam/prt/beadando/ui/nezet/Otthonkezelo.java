@@ -245,6 +245,14 @@ public class Otthonkezelo {
 			
 		logolo.info("Kijelentkezés gomb megnyomva");
 			
+		if( !bev_diagramAdatok.isEmpty() ){
+			bev_diagramAdatok.clear();
+		}
+		
+		if( !kiad_diagramAdatok.isEmpty() ){
+			kiad_diagramAdatok.clear();
+		}
+
 		Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
 		Scene scene = new Scene(parent);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -361,7 +369,7 @@ public class Otthonkezelo {
 			Stage stage = new Stage();
 			stage.setTitle("Tranzakció részletei");
 			stage.initModality(Modality.WINDOW_MODAL);
-			stage.centerOnScreen();
+			stage.centerOnScreen();	
 			stage.setScene(scene);
 			stage.show();
 			
