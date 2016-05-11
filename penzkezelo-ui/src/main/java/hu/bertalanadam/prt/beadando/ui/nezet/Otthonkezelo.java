@@ -167,9 +167,11 @@ public class Otthonkezelo {
 		Scene scene = new Scene(pane);
 
 		Stage stage = new Stage();
+		
 		stage.setTitle("Beállítások");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+		stage.centerOnScreen();
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -189,6 +191,7 @@ public class Otthonkezelo {
 			stage.setTitle("Lekötés Részletei");
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.centerOnScreen();
 			stage.setScene(scene);
 			stage.show();
 				
@@ -201,6 +204,7 @@ public class Otthonkezelo {
 			stage.setTitle("Új Lekötés létrehozása");
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+			stage.centerOnScreen();
 			stage.setScene(scene);
 			stage.show();
 		}
@@ -218,6 +222,7 @@ public class Otthonkezelo {
 		stage.setTitle("Új Tranzakció létrehozása");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
+		stage.centerOnScreen();
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -235,18 +240,18 @@ public class Otthonkezelo {
 	}
 	
 	// ez a metódus fut le a kijelentkezés gombra kattintva
-		@FXML
-		protected void kijelentkezesGombKezelo(ActionEvent event) {
+	@FXML
+	protected void kijelentkezesGombKezelo(ActionEvent event) {
 			
-			logolo.info("Kijelentkezés gomb megnyomva");
+		logolo.info("Kijelentkezés gomb megnyomva");
 			
-			Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
-			Scene scene = new Scene(parent);
-			Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-			stage.setTitle("Bejelentkezés");
-			stage.setScene(scene);
-			stage.centerOnScreen();
-		}
+		Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
+		Scene scene = new Scene(parent);
+		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		stage.setTitle("Bejelentkezés");
+		stage.centerOnScreen();
+		stage.setScene(scene);
+	}
 	
 	// az kezdőképernyő adatait frissíti
 	public void adatFrissites(){
@@ -356,6 +361,7 @@ public class Otthonkezelo {
 			Stage stage = new Stage();
 			stage.setTitle("Tranzakció részletei");
 			stage.initModality(Modality.WINDOW_MODAL);
+			stage.centerOnScreen();
 			stage.setScene(scene);
 			stage.show();
 			

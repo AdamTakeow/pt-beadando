@@ -22,7 +22,7 @@ public class SpringFxmlLoader {
 	public Object load(String url) {
 		try (InputStream fxmlStream = SpringFxmlLoader.class.getResourceAsStream(url)) {
 			
-			logolo.debug("Betöltés: ",SpringFxmlLoader.class.getResourceAsStream(url));
+			logolo.debug("Betoltes: " + url);
 			
 			FXMLLoader loader = new FXMLLoader();
 			
@@ -43,6 +43,7 @@ public class SpringFxmlLoader {
 	}
 	
 	public static void close(){
+		logolo.debug("Spring ApplicationContext leallitasa");
 		((ConfigurableApplicationContext)applicationContext).close();
 	}
 }

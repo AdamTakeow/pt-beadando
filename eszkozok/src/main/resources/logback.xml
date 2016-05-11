@@ -4,8 +4,8 @@
  <appender name="trace" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>TRACE</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--      	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+     	<onMismatch>DENY</onMismatch>
     </filter>
 	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>
@@ -17,8 +17,8 @@
  <appender name="debug" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>DEBUG</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--       	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+      	<onMismatch>DENY</onMismatch>
     </filter>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>
@@ -30,8 +30,8 @@
  <appender name="info" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>INFO</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--       	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+      	<onMismatch>DENY</onMismatch>
     </filter>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>
@@ -43,8 +43,8 @@
  <appender name="warn" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>WARN</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--      	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+     	<onMismatch>DENY</onMismatch>
     </filter>
 	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>
@@ -56,8 +56,8 @@
  <appender name="error" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>ERROR</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--       	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+      	<onMismatch>DENY</onMismatch>
     </filter>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>
@@ -69,8 +69,8 @@
  <appender name="fatal" class="ch.qos.logback.core.ConsoleAppender">
  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
         <level>FATAL</level>
-<!--         <onMatch>ACCEPT</onMatch> -->
-<!--       	<onMismatch>DENY</onMismatch> -->
+        <onMatch>ACCEPT</onMatch>
+      	<onMismatch>DENY</onMismatch>
     </filter>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 		<Pattern>

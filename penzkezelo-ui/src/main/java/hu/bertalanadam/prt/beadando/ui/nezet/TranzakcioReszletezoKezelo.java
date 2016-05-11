@@ -25,9 +25,6 @@ public class TranzakcioReszletezoKezelo {
 	@Autowired
 	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
-//	@FXML
-//	private Text azonosito_reszletezo;
-	
 	@FXML
 	private Text osszeg_reszletezo;
 
@@ -63,7 +60,6 @@ public class TranzakcioReszletezoKezelo {
 		logolo.info("Tranzakciórészletező: kival_trz azon: " + kival_trz.getId());
 		FelhasznaloVo bej_felh = otthonkezelo.getBejelentkezett_fh();
 		
-//		azonosito_reszletezo.setText("" + kival_trz.getId() );
 		osszeg_reszletezo.setText(""+ kival_trz.getOsszeg() );
 		datum_reszletezo.setText(kival_trz.getDatum().toString() );
 		leiras_reszletezo.setText(kival_trz.getLeiras());

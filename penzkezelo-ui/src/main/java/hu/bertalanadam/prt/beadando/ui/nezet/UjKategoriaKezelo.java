@@ -61,6 +61,7 @@ public class UjKategoriaKezelo {
 		Scene scene = new Scene(pane);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		stage.setTitle("Új tranzakció létrehozása");
+		stage.centerOnScreen();
 		stage.setScene(scene);
 	}
 	
@@ -101,6 +102,7 @@ public class UjKategoriaKezelo {
 					Scene scene = new Scene(pane);
 					Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 					stage.setTitle("Új tranzakció létrehozása");
+					stage.centerOnScreen();
 					stage.setScene(scene);
 					
 				} else {
@@ -126,8 +128,8 @@ public class UjKategoriaKezelo {
 				Scene scene = new Scene(pane);
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 				stage.setTitle("Új tranzakció létrehozása");
-				stage.setScene(scene);
 				stage.centerOnScreen();
+				stage.setScene(scene);
 			}
 		}
 	}

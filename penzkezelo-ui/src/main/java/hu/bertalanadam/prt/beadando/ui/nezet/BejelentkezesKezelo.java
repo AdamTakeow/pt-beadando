@@ -71,10 +71,10 @@ public class BejelentkezesKezelo {
 
 		// ha nincs ilyen fhnév
 		if( felh == null ){
-			logolo.info("Nem található ilyen nevű felhasználó még regisztrálva");
+			logolo.info("Nem talalható ilyen nevű felhasználó meg regisztralva!");
 			uzenet.setText("Nincs ilyen nevű felhasználó regisztrálva!");
 		} else { // ha van ilyen fhnév
-			logolo.info("Van ilyen nevű felhasználó regisztrálva!");
+			logolo.info("Van ilyen nevu felhasznalo regisztralva!");
 			
 			// ha megegyezik a beírt jelszó az adatbázisban lévővel
 			if( felh.getJelszo().equals(jelszo_bevitel.getText()) ){
@@ -85,11 +85,12 @@ public class BejelentkezesKezelo {
 				// átváltunk a kezdőlapra
 				Parent szulo = (Parent)loader.load("/OtthonFelulet.fxml");
 				Scene scene = new Scene(szulo);
+				
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 				
 				stage.setTitle("Kezdőlap");
+				stage.centerOnScreen();
 				stage.setScene(scene);
-				stage.centerOnScreen(); // TODO átdolgozni
 				
 			} else {
 				// ha nem egyezik meg a jelszó
