@@ -64,14 +64,14 @@ public class BejelentkezesKezelo {
 	// a bejelentkezés gombra lefutó metódus
 	@FXML
 	protected void bejelentkezesGombKezelo(ActionEvent event) {
-		logolo.debug("Bejelentkezes gomb megnyomva");
+		logolo.debug("Bejelentkezes gomb megnyomva!");
 		
 		// megkeressük a felhasználónevet amit beírt a felhasználó
 		FelhasznaloVo felh = felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText());
 
 		// ha nincs ilyen fhnév
 		if( felh == null ){
-			logolo.info("Nem talalható ilyen nevű felhasználó meg regisztralva!");
+			logolo.info("Nem talalhato ilyen nevu felhasznalo meg regisztralva!");
 			uzenet.setText("Nincs ilyen nevű felhasználó regisztrálva!");
 		} else { // ha van ilyen fhnév
 			logolo.info("Van ilyen nevu felhasznalo regisztralva!");
@@ -81,6 +81,7 @@ public class BejelentkezesKezelo {
 				
 				// beállítjuk a bejelentkezett felhasználót az adatbázisból felhozottra
 				bejelentkezett_fh = felh;
+				logolo.debug("Felhasznalo bejelentkezett: " + bejelentkezett_fh.getFelhasznalonev());
 				
 				// átváltunk a kezdőlapra
 				Parent szulo = (Parent)loader.load("/OtthonFelulet.fxml");
@@ -95,6 +96,7 @@ public class BejelentkezesKezelo {
 			} else {
 				// ha nem egyezik meg a jelszó
 				uzenet.setText("Helytelen jelszó!");
+				logolo.debug("Helytelen jelszo megadva: " + jelszo_bevitel.getText());
 			}
 		}
 	}
@@ -103,7 +105,7 @@ public class BejelentkezesKezelo {
 	@FXML
 	protected void regisztracioGombKezelo(ActionEvent event) {
 		
-		logolo.info("Regisztráció gomb megnyomva");
+		logolo.info("Regisztracio gomb megnyomva!");
 		
 		boolean ok = true;
 		// kinullázzuk az üzeneteket
@@ -138,10 +140,12 @@ public class BejelentkezesKezelo {
 			if( felhasznaloSzolgaltatas.keresFelhasznalot(felhnev_bevitel.getText()) != null ){
 				// ha van már ilyen felhasználó
 				uzenet.setText(uzenet.getText() + "Ilyen felhasználónév már létezik!\n");
+				logolo.debug("Ilyen felhasznalonev mar letezik: " + felhnev_bevitel.getText());
 			} else {
 				// ha nincs még ilyen felhasználó
-				logolo.info("Új felhasználó létrehozása");
+				logolo.info("Uj felhasználó regisztralasa:");
 				
+				// TODO szolgáltatásba talán?
 				// létrehozzuk az új felhasználót
 				FelhasznaloVo ujfelhasznalo = new FelhasznaloVo();
 				ujfelhasznalo.setFelhasznalonev(felhnev_bevitel.getText());
@@ -161,6 +165,7 @@ public class BejelentkezesKezelo {
 				// elmentjük az új felhasználót
 				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujfelhasznalo);	
 				uzenet.setText(uzenet.getText() + "Sikeres regisztráció!");
+				logolo.debug("Sikeres regisztracio: " + ujfelhasznalo.getFelhasznalonev());
 			}
 		}
 	}

@@ -50,48 +50,58 @@ public class TranzakcioReszletezoKezelo {
 	private Text lekotes_reszletezo;
 	
 	@FXML
-	private Button closeButton;
+	private Button torlesGomb;
 	
 	TranzakcioVo kival_trz;
 	
 	@FXML
 	private void initialize(){
 		kival_trz = otthonkezelo.getKivalasztott_trz();
-		logolo.info("Tranzakciórészletező: kival_trz azon: " + kival_trz.getId());
+		logolo.info("Kivalasztott tranzakcio azon: " + kival_trz.getId());
+		
 		FelhasznaloVo bej_felh = otthonkezelo.getBejelentkezett_fh();
 		
 		osszeg_reszletezo.setText(""+ kival_trz.getOsszeg() );
+		logolo.debug("Kivalasztott tranzakcio osszege: " + kival_trz.getOsszeg());
+		
 		datum_reszletezo.setText(kival_trz.getDatum().toString() );
+		logolo.debug("Kivalasztott tranzakcio datuma: " + kival_trz.getDatum());
+		
 		leiras_reszletezo.setText(kival_trz.getLeiras());
+		logolo.debug("Kivalasztott tranzakcio leirasa: " + kival_trz.getLeiras());
+		
 		felhasznalo_reszletezo.setText( bej_felh.getFelhasznalonev() );
-		kategoria_reszletezo.setText(kival_trz.getKategoria().getNev());			
+		logolo.debug("Kivalasztott tranzakcio felhasznaloja: " + bej_felh.getFelhasznalonev());
+		
+		kategoria_reszletezo.setText(kival_trz.getKategoria().getNev());
+		logolo.debug("Kivalasztott tranzakcio kategoriaja: " + kival_trz.getKategoria().getNev());
+		
 		ismetlodik_reszletezo.setText(kival_trz.getIsmetlodo() == null ? "Nem" : "Igen");
+		logolo.debug("Kivalasztott tranzakcio ismetlodik-e: " + ismetlodik_reszletezo.getText());
 		
 		if( kival_trz.getIsmetlodo() != null ){
 			nap_reszletezo.setText(kival_trz.getIsmetlodo().getIdo().toString());
+			logolo.debug("Kivalasztott tranzakcio ennyi naponta ismetlodik: " + kival_trz.getIsmetlodo().getIdo());
 		} else {
 			nap_reszletezo.setText("0");
 		}
 		
 		lekotes_reszletezo.setText(kival_trz.getLekotes() == null ? "Nem" : "Igen");
+		logolo.debug("Kivalasztott tranzakcio lekotes-e: " + lekotes_reszletezo.getText());
 		
 		if( kival_trz.getLekotes() != null ){
-			closeButton.setDisable(true);
+			torlesGomb.setDisable(true);
 		}
 		
 	}
 	
 	@FXML
 	public void tranzakcioTorlesKezelo( ActionEvent event ){
+		logolo.debug("Tranzakcio torlese gombra kattintva!");
 		tranzakcioSzolgaltatas.tranzakcioTorles(kival_trz);
 		
 		otthonkezelo.adatFrissites();
 		
-		((Stage)closeButton.getScene().getWindow()).close();
+		((Stage)torlesGomb.getScene().getWindow()).close();
 	}
-	
-	@FXML
-	public void stop(){
-	}
-
 }

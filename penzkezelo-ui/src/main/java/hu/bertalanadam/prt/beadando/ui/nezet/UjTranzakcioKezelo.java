@@ -125,11 +125,13 @@ public class UjTranzakcioKezelo {
 	private void initialize(){
 		
 		// spinner érték
+		logolo.debug("Spinner ertektartomanyanak beallitasa: [1, 365]");
 		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 365);
 		ismetlodo_napvalaszto.setValueFactory(svf);
 		
 		// beállítjuk a bejelentkezett felhasználót
-		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();	
+		logolo.debug("Bejelelentkezett felhasznalo beallitasa: " + otthonkezelo.getBejelentkezett_fh().getFelhasznalonev());
+		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();
 		
 		// felhozom azokat a kategóriákat az adatbázisból amelyek a felhasználóhoz tartoznak
 		List<KategoriaVo> kategoriak = 
@@ -138,14 +140,17 @@ public class UjTranzakcioKezelo {
 		ObservableList<String> list = FXCollections.observableArrayList();
 
 		// belerakom a legördülőbe, hogy ki tudja onnan választani a megfelelőt
+		logolo.debug("Legordulo feltoltese adatokkal:");
 		for (KategoriaVo kategoriaVo : kategoriak) {
 			list.add(kategoriaVo.getNev());
+			logolo.debug("Adat: " + kategoriaVo.getNev());
 		}
 		
 		// Beállítom a legördülő tartalmát
 		kategoria_bevitel.setItems(list);
 		
 		// beállítjuk az elmetett állapotot
+		logolo.debug("Elmentett adatok betoltese");
 		kiadas_radiogomb.setSelected(kiadas_radiogomb_mentes);
 		bevetel_radiogomb.setSelected(bevetel_radiogomb_mentes);
 		osszeg_bevitel.setText(osszeg_bevitel_mentes);
@@ -165,9 +170,10 @@ public class UjTranzakcioKezelo {
 	@FXML
 	protected void bezarasKezelo(ActionEvent event) {
 		
-		logolo.info("UjTranzakcioKezelo: bezaras gomb kattintva!");
+		logolo.info("Bezaras gomb kattintva!");
 		
 		// kitöröljük a mentést
+		logolo.debug("Mentes torlese");
 		kiadas_radiogomb_mentes = false;
 		bevetel_radiogomb_mentes = false;
 		osszeg_bevitel_mentes = null;
@@ -187,9 +193,10 @@ public class UjTranzakcioKezelo {
 	@FXML
 	protected void ujKategoriaLetrehozasKezelo(ActionEvent event) {
 		
-		logolo.info("UjTranzakcioKezelo: Új kategória létrehozása gomb megnyomva!");
+		logolo.info("Uj kategoria letrehozasa gomb megnyomva!");
 		
 		// elmentjük az állapotot
+		logolo.debug("Adatok elmentese");
 		kiadas_radiogomb_mentes = kiadas_radiogomb.isSelected();
 		bevetel_radiogomb_mentes = bevetel_radiogomb.isSelected();
 		osszeg_bevitel_mentes = osszeg_bevitel.getText();
@@ -214,7 +221,7 @@ public class UjTranzakcioKezelo {
 	@FXML
 	protected void mentesKezelo(ActionEvent event) {
 		
-		logolo.info("UjTranzakcioKezelo: Mentés gomb megnyomva");
+		logolo.info("Mentes gomb megnyomva");
 		
 		celszoveg.setText("");
 		
@@ -265,9 +272,10 @@ public class UjTranzakcioKezelo {
 		// ha nem lett megadva kategória, létrehozunk egy "nincs" nevűt
 		if( kategoria == null ){
 			// ha még nincs Nincs nevű kategória
+			logolo.debug("Nincs meg ilyen kategoria: " + kategoria);
 			if( kategoriaSzolgaltatas.keresKategoriat("Nincs") == null ){
 				// létrehozzuk
-				
+				logolo.debug("Nincs meg Nincs nevu kategoria!");
 				KategoriaVo ujkat = new KategoriaVo();
 				ujkat.setNev("Nincs");
 				
@@ -285,6 +293,7 @@ public class UjTranzakcioKezelo {
 				
 			} else { // ha már van ilyen kategória 
 				// felhozom ezt a létező kategóriát
+				logolo.debug("Van mar Nincs nevu kategoria!");
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat("Nincs");
 
 				boolean isEmpty =
@@ -355,6 +364,7 @@ public class UjTranzakcioKezelo {
 			tranzakcioSzolgaltatas.frissitTranzakciot(letezo_trz);	
 			
 			// kitöröljük a mentést
+			logolo.debug("Mentett adatok torlese");
 			kiadas_radiogomb_mentes = false;
 			bevetel_radiogomb_mentes = false;
 			osszeg_bevitel_mentes = null;

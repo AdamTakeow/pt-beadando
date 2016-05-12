@@ -14,10 +14,11 @@ public class Main extends Application {
 	
 	private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 	
-	Logger logolo = LoggerFactory.getLogger(Main.class);
+	private static Logger logolo = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-		  launch(args); 
+		logolo.debug("Javafx UI indul!");
+		launch(args); 
 	}
 
 	@Override public void start(Stage primaryStage) throws IOException {
@@ -32,7 +33,7 @@ public class Main extends Application {
 	
 	@Override
 	public void stop() throws Exception {
-		logolo.info("Javafx leall.");
+		logolo.info("Javafx UI leall.");
 		SpringFxmlLoader.close();
 	}
 

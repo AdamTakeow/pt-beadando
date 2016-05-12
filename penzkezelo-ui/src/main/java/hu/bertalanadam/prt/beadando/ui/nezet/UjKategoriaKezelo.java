@@ -54,7 +54,7 @@ public class UjKategoriaKezelo {
 	@FXML
 	protected void bezarasKezelo(ActionEvent event) {
 		
-		logolo.info("Ujkategoriakezelo: bezaras gomb megnyomva");
+		logolo.info("Bezaras gomb megnyomva");
 		
 		// visszatöltjük a tranzakciókezelőt
 		BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
@@ -69,7 +69,7 @@ public class UjKategoriaKezelo {
 	@FXML
 	protected void letrehozUjKategoriatGomb(ActionEvent event){
 		
-		logolo.info("Ujkategoriakezelo: új kategória létrhozása gomb megnyomva");
+		logolo.info("Uj kategoria letrhozasa gomb megnyomva");
 		
 		celszoveg.setText("");
 		
@@ -81,7 +81,7 @@ public class UjKategoriaKezelo {
 			// ellenőrzés kell hogy van-e már ilyen nevű kategória az adatbázisban
 			if( kategoriaSzolgaltatas.keresKategoriat(ujKatNeve.getText()) != null ){
 				// van már ilyen kategórianév
-				logolo.info("Már létezik az adatbázisban ilyen kategória: " + ujKatNeve.getText());
+				logolo.info("Mar letezik az adatbazisban ilyen kategoria: " + ujKatNeve.getText());
 				
 				// felhozom azt a kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat(ujKatNeve.getText());
@@ -107,10 +107,11 @@ public class UjKategoriaKezelo {
 					
 				} else {
 					celszoveg.setText("Ilyen kategórianév már létezik!");
+					logolo.debug("Ilyen kategorianev mar letezik: " + ujKatNeve.getText());
 				}
 				
 			} else {
-				logolo.info("Még nincs ilyen kategória az adatbázisban");
+				logolo.info("Meg nincs ilyen kategoria az adatbazisban: " + ujKatNeve.getText());
 				// nincs még ilyen nevű kategória az adatbázisban
 				// létrehozzuk az új kategóriát
 				KategoriaVo ujkat = new KategoriaVo();

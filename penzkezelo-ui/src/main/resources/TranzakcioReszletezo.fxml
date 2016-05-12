@@ -134,7 +134,7 @@
       </Label>
    </top>
    <bottom>
-      <Button fx:id="closeButton" mnemonicParsing="false" onAction="#tranzakcioTorlesKezelo" text="Törlés" BorderPane.alignment="CENTER">
+      <Button fx:id="torlesGomb" mnemonicParsing="false" onAction="#tranzakcioTorlesKezelo" text="Törlés" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" />
          </BorderPane.margin>

@@ -3,6 +3,8 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,8 @@ import javafx.stage.Stage;
 
 @Component
 public class UjLekotesKezelo {
+	
+	private static Logger logolo = LoggerFactory.getLogger(UjLekotesKezelo.class);
 	
 	@Autowired
 	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
@@ -67,11 +71,14 @@ public class UjLekotesKezelo {
 	
 	@FXML
 	private void initialize(){
+		logolo.debug("Bejelentkezett felhasznalo inicilaizalasa: " + otthonkezelo.getBejelentkezett_fh().getFelhasznalonev());
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();
 	}
 	
 	@FXML
 	protected void mentesGombKezeles(ActionEvent event) {
+		
+		logolo.debug("Mentes gombra kattintva");
 		
 		celszoveg.setText("");
 		boolean mehet = true;
@@ -127,7 +134,7 @@ public class UjLekotesKezelo {
 		}
 		
 		if( mehet ){
-			
+			logolo.debug("Uj lekotes letrehozasa");
 			// új lekötés létrehozása
 			LekotesVo ujLekotes = new LekotesVo();
 			ujLekotes.setFutamido(futamido);
@@ -137,12 +144,14 @@ public class UjLekotesKezelo {
 			
 			// várható összeg kiszámolása
 			// Kamatos kamat számítás
-			double ertek = osszeg * ( Math.pow(( 1 + ((double)kamat/(double)100) ), futamido));
+
+			long ertek = lekotesSzolgaltatas.kiszamolVarhatoOsszeget(osszeg, kamat, futamido);
 				
-			ujLekotes.setVarhato( Math.round(ertek) );
+			ujLekotes.setVarhato( ertek );
 			
 			LekotesVo letezo_lek = lekotesSzolgaltatas.letrehozLekotest(ujLekotes);
 			
+			logolo.debug("Levonjuk a felhasznalo egyenleget a lekotes miatt");
 			// levonjuk a felhasználó egyenlegéből a lekötött pénzt egy tranzakció formájában
 			TranzakcioVo ujTranzakcio = new TranzakcioVo();
 			ujTranzakcio.setOsszeg(-osszeg);
@@ -158,7 +167,8 @@ public class UjLekotesKezelo {
 			// van már lekötés kategória?
 			KategoriaVo letezo = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 			if( letezo == null ){
-			
+				logolo.debug("Nincs meg ilyen kategoria: Lekotes");
+				
 				KategoriaVo kategoria = new KategoriaVo();
 				kategoria.setNev("Lekötés");
 //				kategoria.setTranzakciok(new ArrayList<TranzakcioVo>());

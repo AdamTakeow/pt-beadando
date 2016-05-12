@@ -1,6 +1,7 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -250,6 +251,36 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 		}
 		
 		return res;
+	}
+
+	@Override
+	public Period mennyiIdoVanHatra(FelhasznaloVo felhasznalo, LekotesVo lekotes) {
+		
+		TranzakcioVo lekoteses_tranzakcio =
+				tranzakcioSzolgaltatas.felhasznaloLekotesiTranzakcioja(felhasznalo);
+		
+		if( lekoteses_tranzakcio == null ){
+			logolo.error("HIBA! nincs lekoteses tranzakcioja a felhasznalonak!");
+		}
+		LocalDate ma = LocalDate.now();
+
+		LocalDate befejezes = lekoteses_tranzakcio.getDatum().plus(lekotes.getFutamido(), ChronoUnit.YEARS);
+		logolo.debug("Lekotes befejezesenek ideje: " + befejezes);
+		
+		Period hatralevo = Period.between(ma, befejezes);
+		logolo.debug("Hatralevo ido: " + hatralevo.getYears() + " ev, " + hatralevo.getMonths() + " honap, " + hatralevo.getDays() + " nap.");
+		
+		return hatralevo;
+	}
+
+	@Override
+	public Long kiszamolVarhatoOsszeget(Long osszeg, Double kamat, Long futamido) {
+		
+		double ertek = osszeg * ( Math.pow(( 1 + ((double)kamat/(double)100) ), futamido));
+		
+		logolo.debug("Lekotes varhato osszege: " + Math.round(ertek));
+		
+		return Math.round(ertek);
 	}
 
 }

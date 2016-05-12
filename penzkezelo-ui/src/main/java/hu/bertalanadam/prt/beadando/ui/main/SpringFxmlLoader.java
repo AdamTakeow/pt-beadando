@@ -22,7 +22,7 @@ public class SpringFxmlLoader {
 	public Object load(String url) {
 		try (InputStream fxmlStream = SpringFxmlLoader.class.getResourceAsStream(url)) {
 			
-			logolo.debug("Betoltes: " + url);
+			logolo.debug("Felulet betoltese: " + url);
 			
 			FXMLLoader loader = new FXMLLoader();
 			

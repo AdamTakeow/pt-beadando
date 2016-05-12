@@ -135,6 +135,7 @@ public class Otthonkezelo {
 		// üdvözöljük a felhasználót
 		welcome_user.setText("Üdvözlöm, " + bejelentkezett_fh.getFelhasznalonev());
 		
+		logolo.debug("Tablazat oszlop ertekeinek beallitasa");
 		// beállítjuk hogy az összeg oszlopba honnan származzanak az értékek
 		osszegOszlop.setCellValueFactory( celldata -> celldata.getValue().getOsszegProperty() );
 		// beállítjuk hogy a dátum oszlopba honnan származzanak az értékek
@@ -142,9 +143,11 @@ public class Otthonkezelo {
 		// beállítjuk hogy a kategória oszlopba honnan származzanak az értékek
 		kategoriaOszlop.setCellValueFactory( celldata -> celldata.getValue().getKategoriaProperty() );
 		
+		logolo.debug("Tablazat adatainak inicializalasa");
 		// beállítjuk a táblázatnak hogy melyik adatlistát használja
 		tranzakcioTable.setItems(tranzakcioTablazatAdatok);
 		
+		logolo.debug("Tablazat kattintas esemeny figyelojenek beallitasa");
 		// beállítjuk hogy mi történjen a táblázat egy sorára kattintva
 		tranzakcioTable.getSelectionModel()
 					   .selectedItemProperty()
@@ -154,6 +157,7 @@ public class Otthonkezelo {
 												  Long c_2 = Long.parseLong(c2);
 												  return c_1.compareTo(c_2);} );
 					
+		logolo.debug("Diagram adatainak inicializalasa");
 		bev_diagram.setData(bev_diagramAdatok);
 			
 		kiad_diagram.setData(kiad_diagramAdatok);
@@ -162,6 +166,7 @@ public class Otthonkezelo {
 	
 	@FXML
 	protected void beallitasokGombKezelo( ActionEvent event ){
+		logolo.debug("Beallitasok gomb megnyomva!");
 		
 		BorderPane pane = (BorderPane)loader.load("/BeallitasokFelulet.fxml");
 		Scene scene = new Scene(pane);
@@ -179,7 +184,7 @@ public class Otthonkezelo {
 	// ez a metódus fut le az új lekötés gombra kattintva
 	@FXML
 	protected void ujLekotesKezelo(ActionEvent event) {
-		logolo.info("Új lekötés gomb megnyomva");
+		logolo.debug("Uj lekotes gomb megnyomva");
 			
 		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			// ha már van lekötésünk
@@ -213,7 +218,7 @@ public class Otthonkezelo {
 	// ez a metódus fut le az új tranzakció gombra kattintva
 	@FXML
 	protected void ujTranzakcioKezelo(ActionEvent event) {
-		logolo.info("Új tranzakció gomb megnyomva");
+		logolo.info("Uj tranzakcio gomb megnyomva");
 			
 		BorderPane pane = (BorderPane)loader.load("/UjTranzakcioFelulet.fxml");
 		Scene scene = new Scene(pane);
@@ -229,9 +234,12 @@ public class Otthonkezelo {
 	
 	@FXML
 	public void valtozottALebontas(){
+		logolo.debug("Valtozott a lebontas!");
 		// lefut, ha a lebontásos dátumokat piszkálják
+		logolo.debug("Uj kezdo idopont: " + lebontas_innentol.getValue() );
 		bejelentkezett_fh.setKezdoIdopont( lebontas_innentol.getValue() );
 		
+		logolo.debug("Uj vegidopont: " + lebontas_idaig.getValue());
 		bejelentkezett_fh.setVegIdopont( lebontas_idaig.getValue() );
 		
 		felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
@@ -243,7 +251,7 @@ public class Otthonkezelo {
 	@FXML
 	protected void kijelentkezesGombKezelo(ActionEvent event) {
 			
-		logolo.info("Kijelentkezés gomb megnyomva");
+		logolo.info("Kijelentkezes gomb megnyomva");
 			
 		if( !bev_diagramAdatok.isEmpty() ){
 			bev_diagramAdatok.clear();
@@ -264,11 +272,17 @@ public class Otthonkezelo {
 	// az kezdőképernyő adatait frissíti
 	public void adatFrissites(){
 		
+		logolo.debug("Adatfrissites!");
+		
 		// újból felhozza az adatbázisból a felhasználót hogy a módosított adatai frissek legyenek a felületen.
 		bejelentkezett_fh = felhasznaloSzolgaltatas.keresFelhasznalot(bejelentkezesKezelo.getBejelentkezett_fh().getFelhasznalonev());
 
+		logolo.debug("Datum valasztok inicializalasa");
 		// beállítjuk a dátum választókat a felhasználónak megfelelőre
+		logolo.debug("Kezdo idopont: " + bejelentkezett_fh.getKezdoIdopont());
 		lebontas_innentol.setValue(bejelentkezett_fh.getKezdoIdopont());
+		
+		logolo.debug("Veg idopont: " + bejelentkezett_fh.getVegIdopont());
 		lebontas_idaig.setValue(bejelentkezett_fh.getVegIdopont());
 		
 		bejelentkezett_fh = felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
@@ -283,8 +297,10 @@ public class Otthonkezelo {
 		// kiírjuk az aktuális egyenlegét
 		long egyenleg = bejelentkezett_fh.getEgyenleg();
 		if( egyenleg < 0 ){
+			logolo.debug("Az egyenleg szine piros!");
 			egyenleg_text.setFill(Color.web("#ff0303"));
 		} else {
+			logolo.debug("Az egyenleg szine kek!");
 			egyenleg_text.setFill(Color.web("#15bcb1"));
 		}
 		egyenleg_text.setText("" + egyenleg + " Ft");
@@ -306,6 +322,7 @@ public class Otthonkezelo {
 			tranzakcioTablazatAdatok.clear();
 		}
 		// végigmegyünk a felhasználó tranzakcióin
+		logolo.debug("Tablazat feltoltese adatokkal: ");
 		for (TranzakcioVo tranzakcioVo : felh_tranzakcioi) {
 
 			// hozzáadjuk a táblázat adatlistájához a tranzakciókat modellként
@@ -317,8 +334,9 @@ public class Otthonkezelo {
 						tranzakcioVo.getLeiras(),
 						tranzakcioVo.getKategoria().getNev() )
 			);	
+			// TODO nem biztos!!
+			logolo.debug("Adat: " + tranzakcioTablazatAdatok.get(tranzakcioTablazatAdatok.size()-1));
 		}
-		
 		
 		// frissítjük a diagramok adatait is.
 		// újraszámoljuk a bevételeket szemléltető diagram adatait 
@@ -349,18 +367,20 @@ public class Otthonkezelo {
 
 		if (lekotesSzolgaltatas.vanAktivLekoteseAFelhasznalonak(bejelentkezett_fh, bejelentkezett_fh.getTranzakciok()) ){
 			lekotesGomb.setText("Lekötés megtekintése");
+			logolo.debug("Lekotes gomb szovege: Lekotes megtekintese");
 		} else {
 			lekotesGomb.setText("Új lekötés");
+			logolo.debug("Lekotes gomb szovege: Uj lekotes");
 		}
 	}
 	
 	// ez történik a táblázat egy sorára kattintva
 	private void showTranzakcioData(TranzakcioData tData){
+		logolo.debug("A tablazat egy tranzakciojara kattintva!");
 		if( tData != null ){
 			// beállíjuk hogy melyik volt a kiválasztott tranzakció
-			logolo.info("tData id FONTOS: " + tData.getId());
 			kivalasztott_trz = tranzakcioSzolgaltatas.keresTranzakciot(tData.getId());
-			logolo.info("Kiválasztott tranzakció azonosítója: " + kivalasztott_trz.getId());
+			logolo.debug("Kivalasztott tranzakcio: " + kivalasztott_trz.getId());
 			
 			// betöltjük a dialog-ot
 			BorderPane pane = (BorderPane)loader.load("/TranzakcioReszletezo.fxml");

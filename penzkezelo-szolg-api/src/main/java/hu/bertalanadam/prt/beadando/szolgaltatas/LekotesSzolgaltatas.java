@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas;
 
+import java.time.Period;
 import java.util.List;
 
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
@@ -55,4 +56,20 @@ public interface LekotesSzolgaltatas {
 	 * @return A felhasználó lekötése, ha van aktív, ha nincs akkor {@code null};
 	 */
 	LekotesVo felhasznaloLekotese( FelhasznaloVo felhasznalo );
+	
+	/**
+	 * Kiszámolja hogy a felhasználó lekötésének lejártáig mennyi idő van még hátra.
+	 * @param felhasznalo A felhasználó akinek a lekötéséről szó van.
+	 * @param lekotes A lekötés aminek kiszámoljuk a hátra lévő idejét.
+	 * @return Egy {@link java.time.Period Period} objektum amelyben a hátra lévő idő van.
+	 */
+	Period mennyiIdoVanHatra(FelhasznaloVo felhasznalo, LekotesVo lekotes );
+	
+	/**
+	 * @param osszeg
+	 * @param kamat
+	 * @param futamido
+	 * @return
+	 */
+	Long kiszamolVarhatoOsszeget(Long osszeg, Double kamat, Long futamido);
 }

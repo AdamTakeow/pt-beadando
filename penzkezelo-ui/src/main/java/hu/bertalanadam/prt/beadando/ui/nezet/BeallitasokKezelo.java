@@ -1,5 +1,7 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,8 @@ import javafx.stage.Stage;
 
 @Component
 public class BeallitasokKezelo {
+	
+	private static Logger logolo = LoggerFactory.getLogger(BeallitasokKezelo.class);
 	
 	@Autowired
 	Otthonkezelo otthonkezelo;
@@ -45,12 +49,16 @@ public class BeallitasokKezelo {
 	
 	@FXML
 	public void initialize(){
+		logolo.debug("Kiadasra szant osszeg megjelenitese");
 		jelenlegi_kiadasraszant.setText(otthonkezelo.getBejelentkezett_fh().getKiadasraSzantPenz().toString() + " Ft");
 	}
 	
 	@FXML
 	protected void jelszoValtas(ActionEvent event){
 		
+		logolo.debug("Jelszo valtas gomb megnyomva!");
+		
+		// TODO szolgáltatásba talán?
 		celszoveg.setText("");
 		
 		boolean ok = true;
@@ -71,11 +79,14 @@ public class BeallitasokKezelo {
 			felhasznaloSzolgaltatas.frissitFelhasznalot(otthonkezelo.getBejelentkezett_fh());
 			
 			celszoveg.setText("Jelszó sikeresen megváltoztatva!");
+			logolo.debug("Jelszo megvaltoztatva: " + ujJelszo_bevitel.getText());
 		}
 	}
 	
 	@FXML
 	protected void koltekezesMentesKezeles( ActionEvent event ){
+		
+		logolo.debug("Felhasznalo kiadasra szant penzenek beallitasa gomb megnyomva!");
 		
 		celszoveg.setText("");
 		
@@ -105,11 +116,15 @@ public class BeallitasokKezelo {
 			jelenlegi_kiadasraszant.setText( otthonkezelo.getBejelentkezett_fh().getKiadasraSzantPenz().toString() + " Ft");
 			
 			celszoveg.setText("Beállítás sikeres!");
+			logolo.debug("Uj kiadasra szant osszeg beallitva: " + osszeg);
 		}
 	}
 	
 	@FXML
 	protected void bezarasKezelo( ActionEvent event ){
+		
+		logolo.debug("Bezaras gomb megnyomva!");
+		
 		otthonkezelo.adatFrissites();
 		((Stage)closeButton.getScene().getWindow()).close();
 	}

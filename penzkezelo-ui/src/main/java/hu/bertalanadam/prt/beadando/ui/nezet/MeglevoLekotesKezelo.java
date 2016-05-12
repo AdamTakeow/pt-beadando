@@ -2,8 +2,9 @@ package hu.bertalanadam.prt.beadando.ui.nezet;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,8 @@ import javafx.stage.Stage;
 
 @Component
 public class MeglevoLekotesKezelo {
+	
+	private static Logger logolo = LoggerFactory.getLogger(MeglevoLekotesKezelo.class);
 
 	@Autowired
 	private Otthonkezelo otthonkezelo;
@@ -60,7 +63,7 @@ public class MeglevoLekotesKezelo {
 	@FXML
 	private Button feltoresGomb;
 	
-	private TranzakcioVo lekoteses_tranzakcio;
+//	private TranzakcioVo lekoteses_tranzakcio;
 	
 	private LekotesVo lekotes;
 	
@@ -69,23 +72,23 @@ public class MeglevoLekotesKezelo {
 	@FXML
 	private void initialize(){
 		bejelentkezett_fh = otthonkezelo.getBejelentkezett_fh();
+		logolo.debug("Bejelentkezett felhasznalo: " + otthonkezelo.getBejelentkezett_fh().getFelhasznalonev());
+
 		lekotes = lekotesSzolgaltatas.felhasznaloLekotese(bejelentkezett_fh);
-		lekoteses_tranzakcio = tranzakcioSzolgaltatas.felhasznaloLekotesiTranzakcioja(bejelentkezett_fh);
-		
-		if( lekoteses_tranzakcio == null ){
-			
-		}
 		
 		lekotes_azonosito.setText(lekotes.getId().toString());
+		logolo.debug("Lekotes azonositoja: " + lekotes.getId() );
+		
 		lekotes_osszeg.setText(lekotes.getOsszeg().toString() + " Ft");
+		logolo.debug("Lekotes osszege: " + lekotes.getOsszeg() ); 
+		
 		lekotes_futamido.setText(lekotes.getFutamido().toString() + " év");
+		logolo.debug("Lekotes futamideje: " + lekotes.getFutamido() + " ev" ); 
+		
 		lekotes_kamat.setText("" + lekotes.getKamat() + "%");
+		logolo.debug("Lekotes kamata: " + lekotes.getKamat() + " %");
 		
-		LocalDate ma = LocalDate.now();
-		
-		LocalDate befejezes = lekoteses_tranzakcio.getDatum().plus(lekotes.getFutamido(), ChronoUnit.YEARS);
-		
-		Period hatralevo = Period.between(ma, befejezes);
+		Period hatralevo = lekotesSzolgaltatas.mennyiIdoVanHatra(bejelentkezett_fh, lekotes);
 		
 		lekotes_hatralevo_ido.setText("" + hatralevo.getYears() + " év, " + hatralevo.getMonths() + " hónap és " + hatralevo.getDays() + " nap");
 		
@@ -93,13 +96,17 @@ public class MeglevoLekotesKezelo {
 	
 	@FXML
 	protected void visszaGombKezelo( ActionEvent event ){
+		logolo.debug("Vissza gomb megnyomva!");
 		((Stage)visszaGomb.getScene().getWindow()).close();
 	}
 	
 	@FXML
 	protected void feltoresGombKezelo( ActionEvent event ){
+		logolo.debug("Feltores gomb megnyomva!");
+		
 		// ha feltöri idő előtt, akkor csak a lekötött pénzt kapja vissza
 		
+		// TODO szolgaltatasba talán?
 		lekotes.setTeljesitett(true);
 			
 		// lefrissítjük a lekötést mivel módosítottuk
@@ -111,7 +118,6 @@ public class MeglevoLekotesKezelo {
 		ujTr.setLeiras("Lekötés feltörve");
 		ujTr.setDatum(LocalDate.now());
 				
-		// magic
 		KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 				
 		TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);

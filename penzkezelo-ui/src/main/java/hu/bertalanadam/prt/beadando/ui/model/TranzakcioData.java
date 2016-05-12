@@ -80,4 +80,10 @@ public class TranzakcioData {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "TranzakcioData [id=" + id + ", osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras
+				+ ", kategoria=" + kategoria + "]";
+	}
+
 }
