@@ -176,8 +176,8 @@ public class Otthonkezelo {
 		stage.setTitle("Beállítások");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-		stage.centerOnScreen();
 		stage.setScene(scene);
+		stage.centerOnScreen();
 		stage.show();
 	}
 	
@@ -196,8 +196,8 @@ public class Otthonkezelo {
 			stage.setTitle("Lekötés Részletei");
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-			stage.centerOnScreen();
 			stage.setScene(scene);
+			stage.centerOnScreen();
 			stage.show();
 				
 		} else {
@@ -209,8 +209,8 @@ public class Otthonkezelo {
 			stage.setTitle("Új Lekötés létrehozása");
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-			stage.centerOnScreen();
 			stage.setScene(scene);
+			stage.centerOnScreen();
 			stage.show();
 		}
 	}
@@ -227,8 +227,8 @@ public class Otthonkezelo {
 		stage.setTitle("Új Tranzakció létrehozása");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner((Stage)((Node) event.getSource()).getScene().getWindow());
-		stage.centerOnScreen();
 		stage.setScene(scene);
+		stage.centerOnScreen();
 		stage.show();
 	}
 	
@@ -265,8 +265,8 @@ public class Otthonkezelo {
 		Scene scene = new Scene(parent);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		stage.setTitle("Bejelentkezés");
-		stage.centerOnScreen();
 		stage.setScene(scene);
+		stage.centerOnScreen();
 	}
 	
 	// az kezdőképernyő adatait frissíti
@@ -389,8 +389,8 @@ public class Otthonkezelo {
 			Stage stage = new Stage();
 			stage.setTitle("Tranzakció részletei");
 			stage.initModality(Modality.WINDOW_MODAL);
-			stage.centerOnScreen();	
 			stage.setScene(scene);
+			stage.centerOnScreen();	
 			stage.show();
 			
 			// majd kivesszük a kijelölést a táblázatból

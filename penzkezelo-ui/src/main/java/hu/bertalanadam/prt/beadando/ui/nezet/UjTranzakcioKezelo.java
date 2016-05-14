@@ -213,8 +213,8 @@ public class UjTranzakcioKezelo {
 		Scene scene = new Scene(pane);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		stage.setTitle("Új kategória létrehozása");
-		stage.centerOnScreen();
 		stage.setScene(scene);
+		stage.centerOnScreen();
 	}
 	
 	// a mentés gombra kattintáskor lefutó metódus

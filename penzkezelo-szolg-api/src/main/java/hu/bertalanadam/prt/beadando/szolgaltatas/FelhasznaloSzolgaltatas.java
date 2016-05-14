@@ -25,7 +25,11 @@ public interface FelhasznaloSzolgaltatas {
 	
 	/**
 	 * Ez a szolgáltatás létrehozza a paraméterül kapott felhasználót az adatbázisban.
-	 * Az implementációban szereplő adatbázis modulban lévő FelhasznaloTarolo
+	 * Tekintettel arra hogy új felhasználóról van szó, alapértelmezetten beállítunk neki
+	 * néhány értéket, például a kezdő egyenlegét nullára, a kiadásra szánt pénzét nullára,
+	 * valamint hogy miylen időszakot szeretne vizsgálni kezdetben 1970.01.01-től a mai 
+	 * napig fogja látni a tranzakcióit.
+	 * Ezek után az implementációban szereplő adatbázis modulban lévő FelhasznaloTarolo
 	 * segítségével perzistenssé alakítjuk a felhasználót.
 	 * @param felhasznalo Az a felhasználó amelyet perzisztálni kell az adatbázisba.
 	 * @return Az immár perzisztált adatbáziselem.

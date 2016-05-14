@@ -1,8 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +9,6 @@ import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
-import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -90,8 +85,8 @@ public class BejelentkezesKezelo {
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 				
 				stage.setTitle("Kezdőlap");
-				stage.centerOnScreen();
 				stage.setScene(scene);
+				stage.centerOnScreen();
 				
 			} else {
 				// ha nem egyezik meg a jelszó
@@ -145,22 +140,10 @@ public class BejelentkezesKezelo {
 				// ha nincs még ilyen felhasználó
 				logolo.info("Uj felhasználó regisztralasa:");
 				
-				// TODO szolgáltatásba talán?
 				// létrehozzuk az új felhasználót
 				FelhasznaloVo ujfelhasznalo = new FelhasznaloVo();
 				ujfelhasznalo.setFelhasznalonev(felhnev_bevitel.getText());
-				ujfelhasznalo.setEgyenleg(0L);
-				ujfelhasznalo.setKiadasraSzantPenz(0L);
 				ujfelhasznalo.setJelszo(jelszo_bevitel.getText());
-				
-				LocalDate innentol = LocalDate.of(1970, 1, 1);
-				LocalDate idaig = LocalDate.now();
-				
-				ujfelhasznalo.setKezdoIdopont(innentol);
-				ujfelhasznalo.setVegIdopont(idaig);
-				
-				ujfelhasznalo.setTranzakciok(new ArrayList<TranzakcioVo>());
-				ujfelhasznalo.setKategoriak(new ArrayList<KategoriaVo>());
 				
 				// elmentjük az új felhasználót
 				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujfelhasznalo);	

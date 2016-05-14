@@ -3,6 +3,7 @@ package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
 import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
+import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
 
@@ -82,6 +84,17 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * */
 	@Override
 	public FelhasznaloVo letrehozFelhasznalot(FelhasznaloVo felhasznalo) {
+		
+		felhasznalo.setEgyenleg(0L);
+		felhasznalo.setKiadasraSzantPenz(0L);
+		
+		LocalDate innentol = LocalDate.of(1970, 1, 1);
+		LocalDate idaig = LocalDate.now();
+		felhasznalo.setKezdoIdopont(innentol);
+		felhasznalo.setVegIdopont(idaig);
+		
+		felhasznalo.setTranzakciok(new ArrayList<TranzakcioVo>());
+		felhasznalo.setKategoriak(new ArrayList<KategoriaVo>());
 
 		// átmappeljük Felhasznalo-ra a Vo-t
 		Felhasznalo ujfelhasznalo = FelhasznaloMapper.toDto(felhasznalo);
@@ -321,7 +334,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 				.mapToLong( t -> t.getOsszeg() )
 				.sum();
 		
-		if( (kiadasra - Math.abs(eztvondki)) < 0 ){
+		if( (kiadasra - Math.abs(eztvondki)) <= 0 ){
 			logolo.debug("A felhasznalo mar nem kolthet tobbet ebben a honapban.");
 			return 0L;
 		} else {

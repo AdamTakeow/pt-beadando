@@ -61,8 +61,8 @@ public class UjKategoriaKezelo {
 		Scene scene = new Scene(pane);
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		stage.setTitle("Új tranzakció létrehozása");
-		stage.centerOnScreen();
 		stage.setScene(scene);
+		stage.centerOnScreen();
 	}
 	
 	// a mentés gombra kattintáskor lefutó metódus
@@ -102,8 +102,8 @@ public class UjKategoriaKezelo {
 					Scene scene = new Scene(pane);
 					Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 					stage.setTitle("Új tranzakció létrehozása");
-					stage.centerOnScreen();
 					stage.setScene(scene);
+					stage.centerOnScreen();
 					
 				} else {
 					celszoveg.setText("Ilyen kategórianév már létezik!");
@@ -129,8 +129,8 @@ public class UjKategoriaKezelo {
 				Scene scene = new Scene(pane);
 				Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 				stage.setTitle("Új tranzakció létrehozása");
-				stage.centerOnScreen();
 				stage.setScene(scene);
+				stage.centerOnScreen();
 			}
 		}
 	}

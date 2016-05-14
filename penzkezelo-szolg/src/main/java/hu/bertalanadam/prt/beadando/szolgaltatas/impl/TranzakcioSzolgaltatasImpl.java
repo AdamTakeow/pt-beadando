@@ -147,9 +147,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		List<Tranzakcio> felhasznalo_tranzakcioi = tranzakcioTarolo.findByFelhasznalo( FelhasznaloMapper.toDto(felhasznalo) );
 		logolo.debug("Az ellenorzesek utan:");
 		if( felhasznalo_tranzakcioi == null ){
-			logolo.warn("A " + felhasznalo.getFelhasznalonev() + " felhasználonevu felhasznalonak nincsenek tranzakcioi!");
+			logolo.warn("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak nincsenek tranzakcioi!");
 		} else {
-			logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasználonevu felhasznalonak " + felhasznalo_tranzakcioi.size() + " db tranzakcioja van.");
+			logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak " + felhasznalo_tranzakcioi.size() + " db tranzakcioja van.");
 		}
 				
 		// megszűrjük a tranzakciókat a megfelelő időpontra
@@ -158,7 +158,10 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 															           t.getDatum().isBefore(felhasznalo.getVegIdopont().plusDays(1)) )
 														 .collect(Collectors.toList());
 		
-		logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalo tranzakcioi a megadott idointervallumon belul: " + felhasznalo_tranzakcioi);
+		logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalo tranzakcioi a megadott idointervallumon belul: ");
+		for (Tranzakcio tranzakcio : felhasznalo_tranzakcioi) {
+			logolo.debug("Tranzakcio id: " + tranzakcio.getId());
+		}
 				
 		return TranzakcioMapper.toVo(felhasznalo_tranzakcioi);
 	}
