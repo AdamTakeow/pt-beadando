@@ -99,7 +99,7 @@
               </rowConstraints>
                <children>
                   <ComboBox fx:id="kategoria_bevitel" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#ujKategoriaLetrehozasKezelo" text="New Category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#ujKategoriaLetrehozasKezelo" text="Új kategória" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Összeg:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
