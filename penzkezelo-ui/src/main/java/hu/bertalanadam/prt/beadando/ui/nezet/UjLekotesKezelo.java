@@ -1,6 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -144,11 +143,6 @@ public class UjLekotesKezelo {
 			
 			// várható összeg kiszámolása
 			// Kamatos kamat számítás
-
-			long ertek = lekotesSzolgaltatas.kiszamolVarhatoOsszeget(osszeg, kamat, futamido);
-				
-			ujLekotes.setVarhato( ertek );
-			
 			LekotesVo letezo_lek = lekotesSzolgaltatas.letrehozLekotest(ujLekotes);
 			
 			logolo.debug("Levonjuk a felhasznalo egyenleget a lekotes miatt");
@@ -156,9 +150,7 @@ public class UjLekotesKezelo {
 			TranzakcioVo ujTranzakcio = new TranzakcioVo();
 			ujTranzakcio.setOsszeg(-osszeg);
 			
-			if( datum_kivalasztas.getValue() == null ){
-				ujTranzakcio.setDatum(LocalDate.now());
-			} else {
+			if( datum_kivalasztas.getValue() != null ){
 				ujTranzakcio.setDatum(datum_kivalasztas.getValue());
 			}
 			ujTranzakcio.setLeiras("Lekötés");
@@ -171,7 +163,6 @@ public class UjLekotesKezelo {
 				
 				KategoriaVo kategoria = new KategoriaVo();
 				kategoria.setNev("Lekötés");
-//				kategoria.setTranzakciok(new ArrayList<TranzakcioVo>());
 				kategoria.setFelhasznalok(new ArrayList<FelhasznaloVo>());
 				kategoria.getFelhasznalok().add(bejelentkezett_fh);
 				

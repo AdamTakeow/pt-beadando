@@ -1,6 +1,5 @@
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
-import java.time.LocalDate;
 import java.time.Period;
 
 import org.slf4j.Logger;
@@ -8,14 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
-import hu.bertalanadam.prt.beadando.szolgaltatas.KategoriaSzolgaltatas;
 import hu.bertalanadam.prt.beadando.szolgaltatas.LekotesSzolgaltatas;
-import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
 import hu.bertalanadam.prt.beadando.vo.LekotesVo;
-import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,15 +26,6 @@ public class MeglevoLekotesKezelo {
 	
 	@Autowired
 	private LekotesSzolgaltatas lekotesSzolgaltatas;
-	
-	@Autowired
-	private TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
-	
-	@Autowired
-	private KategoriaSzolgaltatas kategoriaSzolgaltatas;
-	
-	@Autowired
-	private FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
 	
 	@FXML
 	private Label lekotes_azonosito;
@@ -62,8 +47,6 @@ public class MeglevoLekotesKezelo {
 	
 	@FXML
 	private Button feltoresGomb;
-	
-//	private TranzakcioVo lekoteses_tranzakcio;
 	
 	private LekotesVo lekotes;
 	
@@ -106,32 +89,7 @@ public class MeglevoLekotesKezelo {
 		
 		// ha feltöri idő előtt, akkor csak a lekötött pénzt kapja vissza
 		
-		// TODO szolgaltatasba talán?
-		lekotes.setTeljesitett(true);
-			
-		// lefrissítjük a lekötést mivel módosítottuk
-		lekotesSzolgaltatas.frissitLekotest(lekotes);
-				
-		// és be kell szúrni egy új tranzakciót mert lejárt a lekötés
-		TranzakcioVo ujTr = new TranzakcioVo();
-		ujTr.setOsszeg(lekotes.getOsszeg());
-		ujTr.setLeiras("Lekötés feltörve");
-		ujTr.setDatum(LocalDate.now());
-				
-		KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
-				
-		TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
-				
-		bejelentkezett_fh.getTranzakciok().add(letezo_tr);
-				
-		felhasznaloSzolgaltatas.frissitFelhasznalot(bejelentkezett_fh);
-				
-		// beállítom a tranzakciónak a frissített kategóriát
-		letezo_tr.setKategoria(trz_kategoriaja);
-		// beállítom a tranzakciónak a felhasználót
-		letezo_tr.setFelhasznalo(bejelentkezett_fh);
-				
-		tranzakcioSzolgaltatas.frissitTranzakciot(letezo_tr);
+		lekotesSzolgaltatas.lekotesFeltorese(lekotes, bejelentkezett_fh);
 		
 		otthonkezelo.adatFrissites();
 		

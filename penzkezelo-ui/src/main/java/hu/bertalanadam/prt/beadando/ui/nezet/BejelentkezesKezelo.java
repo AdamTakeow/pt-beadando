@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
-import hu.bertalanadam.prt.beadando.szolgaltatas.TranzakcioSzolgaltatas;
 import hu.bertalanadam.prt.beadando.ui.main.SpringFxmlLoader;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
 import javafx.event.ActionEvent;
@@ -30,9 +29,6 @@ public class BejelentkezesKezelo {
 	
 	@Autowired
 	FelhasznaloSzolgaltatas felhasznaloSzolgaltatas;
-	
-	@Autowired
-	TranzakcioSzolgaltatas tranzakcioSzolgaltatas;
 	
 	// adattagok
 	

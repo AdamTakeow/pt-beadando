@@ -29,7 +29,6 @@ public class FoEntitas implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
 	
 	/**
 	 * Visszaadja az id-t.

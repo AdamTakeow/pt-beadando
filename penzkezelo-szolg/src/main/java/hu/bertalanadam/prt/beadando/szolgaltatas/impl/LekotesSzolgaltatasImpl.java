@@ -115,13 +115,20 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	 * 
 	 * Ebben az implementációban
 	 * a metódus létrehozza az adatbázisban a paraméterül kapott lekötést.
-	 * A műveletet a {@link hu.bertalanadam.prt.beadando.db.tarolo.LekotesTarolo#save(Lekotes) LekotesTarolo.save}
+	 * Létrehozás előtt a kapott adatokból kiszámolja a lekötés várható értékét, majd a lekötés
+	 * ezzel az adattal kiegészítve kerül perzisztálásra.
+	 * A műveletet a {@link org.springframework.data.repository.CrudRepository#save(Object) }
 	 * metódus segítségével hajtja végre, aminek paraméterül az átmappelt lekötés objektumot adjuk. A metódus visszaadja
 	 * eredményül az adatbázisban immár generált ID-val rendelkező lekötés objektumot, amelyet a szolgáltatás visszamappelve
 	 * ad vissza eredményül.
 	 * */
 	@Override
 	public LekotesVo letrehozLekotest(LekotesVo lekotes) {
+		
+		// kiszámoljuk és beállítjuk a várható összeget
+		long ertek = kiszamolVarhatoOsszeget(lekotes.getOsszeg(), lekotes.getKamat(), lekotes.getFutamido());
+		lekotes.setVarhato( ertek );
+		
 		Lekotes ujLekotes = LekotesMapper.toDto(lekotes);
 		
 		Lekotes mentett = lekotesTarolo.save(ujLekotes);
@@ -140,7 +147,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 	 * Ebben az implementációban
 	 * a metódus frissít egy már az adatbázisban szereplő lekötést. Mivel már létezik ez az elem az
 	 * adatbázisban, ezért a frissítéshez használt 
-	 * {@link hu.bertalanadam.prt.beadando.db.tarolo.LekotesTarolo#save(Lekotes) LekotesTarolo.save} metódus
+	 * {@link org.springframework.data.repository.CrudRepository#save(Object) }metódus
 	 * ahelyett hogy létrehozná újra az adatbázisban az elemet, a meglévő ID alapján csak frissíti a meglévőt.
 	 * A metódusnak paraméterül az átmappelt lekötést adjuk, amely eredményül az immár frissített lekötést adja vissza.
 	 * Ezt a lekötés objektumot visszamappelve adja eredményül a szolgáltatás.
@@ -190,7 +197,6 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 				LocalDate ma = LocalDate.now();
 						
 				if ( ma.isAfter( tranzakcioVo.getDatum().plus(lek.getFutamido(), ChronoUnit.YEARS).minus(1, ChronoUnit.DAYS) ) ){
-						
 					// beállítjuk a lejárati dátumot
 					LocalDate lejarat = tranzakcioVo.getDatum().plus(lek.getFutamido(), ChronoUnit.YEARS);
 					lek.setTeljesitett(true);
@@ -203,7 +209,7 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 					ujTr.setOsszeg(lek.getVarhato());
 					ujTr.setLeiras("Lekötés lejárt");
 					ujTr.setDatum(lejarat);
-							
+					
 					KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 							
 					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
@@ -281,6 +287,37 @@ public class LekotesSzolgaltatasImpl implements LekotesSzolgaltatas {
 		logolo.debug("Lekotes varhato osszege: " + Math.round(ertek));
 		
 		return Math.round(ertek);
+	}
+
+	@Override
+	public void lekotesFeltorese(LekotesVo lekotes, FelhasznaloVo felhasznalo) {
+
+		// beállítom a lekötést teljesítettre
+		lekotes.setTeljesitett(true);
+					
+		// lefrissítjük a lekötést mivel módosítottuk
+		frissitLekotest(lekotes);
+						
+		// és be kell szúrni egy új tranzakciót mert lejárt a lekötés
+		TranzakcioVo ujTr = new TranzakcioVo();
+		ujTr.setOsszeg(lekotes.getOsszeg());
+		ujTr.setLeiras("Lekötés feltörve");
+						
+		KategoriaVo trz_kategoriaja = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
+						
+		TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
+						
+		felhasznalo.getTranzakciok().add(letezo_tr);
+						
+		felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);
+						
+		// beállítom a tranzakciónak a frissített kategóriát
+		letezo_tr.setKategoria(trz_kategoriaja);
+		// beállítom a tranzakciónak a felhasználót
+		letezo_tr.setFelhasznalo(felhasznalo);
+						
+		tranzakcioSzolgaltatas.frissitTranzakciot(letezo_tr);
+		
 	}
 
 }

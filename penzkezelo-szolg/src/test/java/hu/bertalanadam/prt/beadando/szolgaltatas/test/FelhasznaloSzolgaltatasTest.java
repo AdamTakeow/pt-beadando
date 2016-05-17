@@ -1,54 +1,122 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
-import hu.bertalanadam.prt.beadando.szolgaltatas.FelhasznaloSzolgaltatas;
+import hu.bertalanadam.prt.beadando.db.entitas.Felhasznalo;
+import hu.bertalanadam.prt.beadando.db.entitas.Kategoria;
+import hu.bertalanadam.prt.beadando.db.entitas.Tranzakcio;
+import hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo;
+import hu.bertalanadam.prt.beadando.mapper.FelhasznaloMapper;
 import hu.bertalanadam.prt.beadando.szolgaltatas.impl.FelhasznaloSzolgaltatasImpl;
 import hu.bertalanadam.prt.beadando.vo.FelhasznaloVo;
-import hu.bertalanadam.prt.beadando.vo.KategoriaVo;
-import hu.bertalanadam.prt.beadando.vo.TranzakcioVo;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("/spring-szolg.xml")
-@Transactional
-@Rollback(true)
+@RunWith(MockitoJUnitRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FelhasznaloSzolgaltatasTest {
 
-	private static FelhasznaloSzolgaltatas mockedFelhasznaloSzolgaltatas =
-			mock(FelhasznaloSzolgaltatasImpl.class);
-//	@Autowired
-//	private FelhasznaloSzolgaltatas mockedFelhasznaloSzolgaltatas;
+	@Mock
+	private FelhasznaloTarolo felhasznaloTarolo;
 	
-	private static FelhasznaloVo tesztFelhasznalo;
+	@Spy
+	@InjectMocks
+	private FelhasznaloSzolgaltatasImpl felhasznaloSzolgaltatas;
+	
+	private static Felhasznalo tesztFelhasznalo;
 	
 	@BeforeClass
 	public static void setUpClass(){
+		// elkészítjük az "adatbázist"
 		
-		when(mockedFelhasznaloSzolgaltatas.keresFelhasznalot(any(String.class)))
-		.thenAnswer( new Answer<FelhasznaloVo>() {
+		// felhasználó létrehozás
+		Felhasznalo ujFelhasznalo = new Felhasznalo();
+		ujFelhasznalo.setId(1L);
+		ujFelhasznalo.setFelhasznalonev("TesztFelhasznalo");
+		ujFelhasznalo.setJelszo("tesztJelszo");
+		ujFelhasznalo.setKategoriak(new ArrayList<>());
+		ujFelhasznalo.setTranzakciok(new ArrayList<>());
+		ujFelhasznalo.setKezdoIdopont(LocalDate.now().minusYears(1L));
+		ujFelhasznalo.setVegIdopont(LocalDate.now());
+		
+		tesztFelhasznalo = ujFelhasznalo;
+		
+		// kategóriák létrehozása
+		Kategoria ujKategoria = new Kategoria();
+		ujKategoria.setFelhasznalok(new ArrayList<>(Arrays.asList(tesztFelhasznalo)));
+		ujKategoria.setId(2L);
+		ujKategoria.setNev("TesztKategoria1");
+				
+		Kategoria ujKategoria2 = new Kategoria();
+		ujKategoria2.setFelhasznalok(new ArrayList<>(Arrays.asList(tesztFelhasznalo)));
+		ujKategoria2.setId(3L);
+		ujKategoria2.setNev("TesztKategoria2");
+			
+		// tranzakciók létrehozása
+		Tranzakcio ujTranzakcio = new Tranzakcio();
+		ujTranzakcio.setDatum(LocalDate.now().minusDays(1L));
+		ujTranzakcio.setFelhasznalo(tesztFelhasznalo);
+		ujTranzakcio.setId(4L);
+		ujTranzakcio.setKategoria(ujKategoria2);
+		ujTranzakcio.setLeiras("Tranzakcio4 leirasa");
+		ujTranzakcio.setOsszeg(-800L);
+
+		Tranzakcio ujTranzakcio2 = new Tranzakcio();
+		ujTranzakcio2.setDatum(LocalDate.now().minusDays(2L));
+		ujTranzakcio2.setFelhasznalo(tesztFelhasznalo);
+		ujTranzakcio2.setId(5L);
+		ujTranzakcio2.setKategoria(ujKategoria);
+		ujTranzakcio2.setLeiras("Tranzakcio1 leirasa");
+		ujTranzakcio2.setOsszeg(500L);
+
+		Tranzakcio ujTranzakcio3 = new Tranzakcio();
+		ujTranzakcio3.setDatum(LocalDate.now().minusDays(5L));
+		ujTranzakcio3.setFelhasznalo(tesztFelhasznalo);
+		ujTranzakcio3.setId(6L);
+		ujTranzakcio3.setKategoria(ujKategoria2);
+		ujTranzakcio3.setLeiras("Tranzakcio3 leirasa");
+		ujTranzakcio3.setOsszeg(1000L);
+				
+		Tranzakcio ujTranzakcio4 = new Tranzakcio();
+		ujTranzakcio4.setDatum(LocalDate.now().minusMonths(3L));
+		ujTranzakcio4.setFelhasznalo(tesztFelhasznalo);
+		ujTranzakcio4.setId(7L);
+		ujTranzakcio4.setKategoria(ujKategoria);
+		ujTranzakcio4.setLeiras("Tranzakcio2 leirasa");
+		ujTranzakcio4.setOsszeg(-300L);
+				
+		tesztFelhasznalo.getKategoriak().addAll( Arrays.asList(ujKategoria, ujKategoria2));
+			
+		tesztFelhasznalo.getTranzakciok().addAll( Arrays.asList( ujTranzakcio, ujTranzakcio2, ujTranzakcio3, ujTranzakcio4));
+	}
+	
+	@Before
+	public void initMocks(){
+		MockitoAnnotations.initMocks(this);
+		
+		Mockito.when( felhasznaloTarolo.findByFelhasznalonev(Mockito.any(String.class)))
+		.thenAnswer( new Answer<Felhasznalo>() {
 			@Override
-			public FelhasznaloVo answer(InvocationOnMock invocation) throws Throwable {
+			public Felhasznalo answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
+				// jelenleg csak egy felhasználó van az "adatbázisban"
 				if( ((String)args[0]).equals("TesztFelhasznalo") ){
 					return tesztFelhasznalo;
 				} else {
@@ -57,188 +125,108 @@ public class FelhasznaloSzolgaltatasTest {
 			}
 		});
 		
-		when(mockedFelhasznaloSzolgaltatas.letrehozFelhasznalot(any(FelhasznaloVo.class)))
-		.thenAnswer( new Answer<FelhasznaloVo>() {
+		Mockito.when( felhasznaloTarolo.save(Mockito.any(Felhasznalo.class)))
+		.thenAnswer( new Answer<Felhasznalo>() {
 			@Override
-			public FelhasznaloVo answer(InvocationOnMock invocation) throws Throwable {
+			public Felhasznalo answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
-				FelhasznaloVo ansFelh = (FelhasznaloVo)args[0];
-				ansFelh.setId(1L);
-				ansFelh.setEgyenleg(0L);
-				ansFelh.setKiadasraSzantPenz(0L);
-				
-				LocalDate innentol = LocalDate.of(1970, 1, 1);
-				LocalDate idaig = LocalDate.now();
-				ansFelh.setKezdoIdopont(innentol);
-				ansFelh.setVegIdopont(idaig);
-				ansFelh.setTranzakciok(new ArrayList<>());
-				ansFelh.setKategoriak(new ArrayList<>());
-				tesztFelhasznalo = ansFelh;
-				
-				return tesztFelhasznalo;
+				if( ((Felhasznalo)args[0]).getId() == null ){
+					((Felhasznalo)args[0]).setId(87L);
+				}
+				return ((Felhasznalo)args[0]);
 			}
 		});
 		
-		when(mockedFelhasznaloSzolgaltatas.frissitFelhasznalot(any(FelhasznaloVo.class)))
-		.thenAnswer( new Answer<FelhasznaloVo>() {
-			@Override
-			public FelhasznaloVo answer(InvocationOnMock invocation) throws Throwable {
-				Object[] args = invocation.getArguments();
-				return (FelhasznaloVo)args[0];
-			}
-		});
-		
-		when(mockedFelhasznaloSzolgaltatas.felhasznaloOsszesBevetele(any(FelhasznaloVo.class)))
-		.thenCallRealMethod();
-		
-		when(mockedFelhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(any(FelhasznaloVo.class)))
-		.thenCallRealMethod();
-		
-		when(mockedFelhasznaloSzolgaltatas.bevDiagramAdatokSzamitasaFelhasznalohoz(any(FelhasznaloVo.class)))
-		.thenCallRealMethod();
-		
-		when(mockedFelhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(any(FelhasznaloVo.class)))
-		.thenCallRealMethod();
-		
-		when(mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(any(FelhasznaloVo.class)))
-		.thenCallRealMethod();
-	}
-	
-	@Before
-	public void setUp(){
-		// felhasználó létrehozás
-		FelhasznaloVo ujFelhasznalo = new FelhasznaloVo();
-		ujFelhasznalo.setFelhasznalonev("TesztFelhasznalo");
-		ujFelhasznalo.setJelszo("tesztJelszo");
-		ujFelhasznalo.setKategoriak(new ArrayList<>());
-		ujFelhasznalo.setTranzakciok(new ArrayList<>());
-		
-		// kategóriák létrehozása
-		KategoriaVo ujKategoria = new KategoriaVo();
-		ujKategoria.setFelhasznalok(new ArrayList<>(Arrays.asList(ujFelhasznalo)));
-		ujKategoria.setId(2L);
-		ujKategoria.setNev("TesztKategoria1");
-		
-		KategoriaVo ujKategoria2 = new KategoriaVo();
-		ujKategoria2.setFelhasznalok(new ArrayList<>(Arrays.asList(ujFelhasznalo)));
-		ujKategoria2.setId(3L);
-		ujKategoria2.setNev("TesztKategoria2");
-		
-		// tranzakciók létrehozása
-		TranzakcioVo ujTranzakcio = new TranzakcioVo();
-		ujTranzakcio.setDatum(LocalDate.now().minusDays(2L));
-		ujTranzakcio.setFelhasznalo(ujFelhasznalo);
-		ujTranzakcio.setId(4L);
-		ujTranzakcio.setKategoria(ujKategoria);
-		ujTranzakcio.setLeiras("Tranzakcio1 leirasa");
-		ujTranzakcio.setOsszeg(500L);
-		
-		TranzakcioVo ujTranzakcio2 = new TranzakcioVo();
-		ujTranzakcio2.setDatum(LocalDate.now().minusMonths(3L));
-		ujTranzakcio2.setFelhasznalo(ujFelhasznalo);
-		ujTranzakcio2.setId(4L);
-		ujTranzakcio2.setKategoria(ujKategoria);
-		ujTranzakcio2.setLeiras("Tranzakcio2 leirasa");
-		ujTranzakcio2.setOsszeg(-300L);
-		
-		TranzakcioVo ujTranzakcio3 = new TranzakcioVo();
-		ujTranzakcio3.setDatum(LocalDate.now().minusDays(5L));
-		ujTranzakcio3.setFelhasznalo(ujFelhasznalo);
-		ujTranzakcio3.setId(4L);
-		ujTranzakcio3.setKategoria(ujKategoria2);
-		ujTranzakcio3.setLeiras("Tranzakcio3 leirasa");
-		ujTranzakcio3.setOsszeg(1000L);
-		
-		TranzakcioVo ujTranzakcio4 = new TranzakcioVo();
-		ujTranzakcio4.setDatum(LocalDate.now().minusDays(1L));
-		ujTranzakcio4.setFelhasznalo(ujFelhasznalo);
-		ujTranzakcio4.setId(4L);
-		ujTranzakcio4.setKategoria(ujKategoria2);
-		ujTranzakcio4.setLeiras("Tranzakcio4 leirasa");
-		ujTranzakcio4.setOsszeg(-800L);
-		
-		ujFelhasznalo.getKategoriak().add(ujKategoria);
-		ujFelhasznalo.getKategoriak().add(ujKategoria2);
-		
-		ujFelhasznalo.getTranzakciok().add(ujTranzakcio);
-		ujFelhasznalo.getTranzakciok().add(ujTranzakcio2);
-		ujFelhasznalo.getTranzakciok().add(ujTranzakcio3);
-		ujFelhasznalo.getTranzakciok().add(ujTranzakcio4);
-		
-		tesztFelhasznalo = ujFelhasznalo;
 	}
 	
 	@Test
-	public void keresFelhasznalotTeszt() {
-		FelhasznaloVo vanIlyen = mockedFelhasznaloSzolgaltatas.keresFelhasznalot("TesztFelhasznalo");
+	public void _1letrehozFelhasznalotTeszt() {
+		
+		FelhasznaloVo ujFelhasznalo = new FelhasznaloVo();
+		ujFelhasznalo.setFelhasznalonev("Uj felhasznalo");
+		ujFelhasznalo.setJelszo("Uj jelszo");
+		
+		FelhasznaloVo mentett = 
+				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujFelhasznalo);
+		
+		Assert.assertEquals("Uj felhasznalo", mentett.getFelhasznalonev());
+		Assert.assertNotNull( mentett.getId() );
+		Assert.assertNotNull( mentett.getEgyenleg() );
+		Assert.assertNotNull( mentett.getKategoriak() );
+		Assert.assertNotNull( mentett.getTranzakciok() );
+		Assert.assertNotNull( mentett.getKezdoIdopont() );
+		Assert.assertNotNull( mentett.getVegIdopont() );
+		Assert.assertNotNull( mentett.getKiadasraSzantPenz() );
+		
+	}
+	
+	@Test
+	public void _2keresFelhasznalotTeszt() {
+		FelhasznaloVo vanIlyen = felhasznaloSzolgaltatas.keresFelhasznalot("TesztFelhasznalo");
 		Assert.assertNotNull(vanIlyen);
 		
-		FelhasznaloVo nincsIlyen = mockedFelhasznaloSzolgaltatas.keresFelhasznalot("NincsIlyen");
+		FelhasznaloVo nincsIlyen = felhasznaloSzolgaltatas.keresFelhasznalot("NincsIlyen");
 		Assert.assertNull(nincsIlyen);
 	}
 	
 	@Test
-	public void letrehozFelhasznalotTeszt() {
+	public void _3frissitFelhasznalotTeszt(){
+		FelhasznaloVo ujFelhasznalo = new FelhasznaloVo();
+		ujFelhasznalo.setFelhasznalonev("Uj felhasznalo");
+		ujFelhasznalo.setJelszo("Uj jelszo");
 		
 		FelhasznaloVo mentett = 
-				mockedFelhasznaloSzolgaltatas.letrehozFelhasznalot(tesztFelhasznalo);
+				felhasznaloSzolgaltatas.letrehozFelhasznalot(ujFelhasznalo);
 		
-		Assert.assertEquals("TesztFelhasznalo", mentett.getFelhasznalonev());
-		Assert.assertTrue( mentett.getId() != null );
+		mentett.setFelhasznalonev("UjFelhasznaloNev");
 		
-	}
-	
-	@Test
-	public void frissitFelhasznalotTeszt(){
-		tesztFelhasznalo.setEgyenleg(100L);
-		tesztFelhasznalo.setFelhasznalonev("UjFelhasznaloNev");
-		
-		FelhasznaloVo frissitett = mockedFelhasznaloSzolgaltatas.frissitFelhasznalot(tesztFelhasznalo);
+		// újraszámolja az egyenleget
+		FelhasznaloVo frissitett = felhasznaloSzolgaltatas.frissitFelhasznalot(mentett);
 		
 		Assert.assertEquals("UjFelhasznaloNev", frissitett.getFelhasznalonev());
-		Assert.assertEquals( new Long(100L), frissitett.getEgyenleg());
 	}
 
 	@Test
-	public void felhasznaloOsszesBeveteleTeszt(){
+	public void _4felhasznaloOsszesBeveteleTeszt(){
 		// egy nappal korábbanról tranzakciókat máig
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusDays(1L));
 		tesztFelhasznalo.setVegIdopont(LocalDate.now());
 		
-		Long osszes = mockedFelhasznaloSzolgaltatas.felhasznaloOsszesBevetele(tesztFelhasznalo);
+		Long osszes = felhasznaloSzolgaltatas.felhasznaloOsszesBevetele(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertEquals(new Long(0L), osszes);
 		
 		// három nappal korábbanról máig
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusDays(3L));
 		
-		osszes = mockedFelhasznaloSzolgaltatas.felhasznaloOsszesBevetele(tesztFelhasznalo);
+		osszes = felhasznaloSzolgaltatas.felhasznaloOsszesBevetele(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		Assert.assertEquals(new Long(500L), osszes);
 	}
 	
 	@Test
-	public void felhasznaloOsszesKiadasaTeszt(){
+	public void _5felhasznaloOsszesKiadasaTeszt(){
 		// egy nappal korábbanról tranzakciókat máig
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now());
 		tesztFelhasznalo.setVegIdopont(LocalDate.now());
 		
-		Long osszes = mockedFelhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(tesztFelhasznalo);
+		Long osszes = felhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertEquals(new Long(0L), osszes);
 		
 		// három hónappal korábbanról máig
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusMonths(3L));
 		
-		osszes = mockedFelhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(tesztFelhasznalo);
+		osszes = felhasznaloSzolgaltatas.felhasznaloOsszesKiadasa(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		Assert.assertEquals(new Long(1100L), osszes);
 	}
 	
 	@Test
-	public void bevDiagramAdatokSzamitasaFelhasznalohozTeszt(){
+	public void _6bevDiagramAdatokSzamitasaFelhasznalohozTeszt(){
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusYears(1L));
 		tesztFelhasznalo.setVegIdopont(LocalDate.now());
 		
-		Map<String, Long> map = mockedFelhasznaloSzolgaltatas.bevDiagramAdatokSzamitasaFelhasznalohoz(tesztFelhasznalo);
+		Map<String, Long> map = felhasznaloSzolgaltatas
+				.bevDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertTrue(map.containsKey("TesztKategoria1"));
 		Assert.assertEquals(new Long(500L), map.get("TesztKategoria1"));
@@ -248,7 +236,8 @@ public class FelhasznaloSzolgaltatasTest {
 		
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusDays(1L));
 		
-		map = mockedFelhasznaloSzolgaltatas.bevDiagramAdatokSzamitasaFelhasznalohoz(tesztFelhasznalo);
+		map = felhasznaloSzolgaltatas
+			.bevDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertFalse(map.containsKey("TesztKategoria1"));
 		
@@ -256,11 +245,12 @@ public class FelhasznaloSzolgaltatasTest {
 	}
 	
 	@Test
-	public void kiadDiagramAdatokSzamitasaFelhasznalohozTeszt(){
+	public void _7kiadDiagramAdatokSzamitasaFelhasznalohozTeszt(){
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusYears(1L));
 		tesztFelhasznalo.setVegIdopont(LocalDate.now());
 		
-		Map<String, Long> map = mockedFelhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(tesztFelhasznalo);
+		Map<String, Long> map = felhasznaloSzolgaltatas
+				.kiadDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertTrue(map.containsKey("TesztKategoria1"));
 		Assert.assertEquals(new Long(300L), map.get("TesztKategoria1"));
@@ -270,7 +260,8 @@ public class FelhasznaloSzolgaltatasTest {
 		
 		tesztFelhasznalo.setKezdoIdopont(LocalDate.now().minusDays(1L));
 		
-		map = mockedFelhasznaloSzolgaltatas.kiadDiagramAdatokSzamitasaFelhasznalohoz(tesztFelhasznalo);
+		map = felhasznaloSzolgaltatas
+				.kiadDiagramAdatokSzamitasaFelhasznalohoz(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertFalse(map.containsKey("TesztKategoria1"));
 		
@@ -279,36 +270,36 @@ public class FelhasznaloSzolgaltatasTest {
 	}
 	
 	@Test
-	public void szamolMennyitKolthetMegAFelhasznaloTeszt(){
+	public void _8szamolMennyitKolthetMegAFelhasznaloTeszt(){
 		tesztFelhasznalo.setEgyenleg(0L);
 		tesztFelhasznalo.setKiadasraSzantPenz(0L);
 		
-		long eredmeny = mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(tesztFelhasznalo);
+		long eredmeny = felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		Assert.assertEquals(0L, eredmeny);
 		
 		tesztFelhasznalo.setEgyenleg(800L);
 		tesztFelhasznalo.setKiadasraSzantPenz(0L);
 		
-		eredmeny = mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(tesztFelhasznalo);
+		eredmeny = felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		Assert.assertEquals(800L, eredmeny);
 		
 		tesztFelhasznalo.setEgyenleg(300L);
 		tesztFelhasznalo.setKiadasraSzantPenz(800L);
 		
-		eredmeny = mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(tesztFelhasznalo);
+		eredmeny = felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		Assert.assertEquals(300L, eredmeny);
 		
 		tesztFelhasznalo.setEgyenleg(1000L);
 		// eddig 800 kiadása volt már
 		tesztFelhasznalo.setKiadasraSzantPenz(900L);
 		// 100Ft-t költhet még
-		eredmeny = mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(tesztFelhasznalo);
+		eredmeny = felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertEquals(100L, eredmeny);
 		
 		tesztFelhasznalo.setKiadasraSzantPenz(800L);
 		// elköltötte a kiadásra szántat
-		eredmeny = mockedFelhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(tesztFelhasznalo);
+		eredmeny = felhasznaloSzolgaltatas.szamolMennyitKolthetMegAFelhasznalo(FelhasznaloMapper.toVo(tesztFelhasznalo));
 		
 		Assert.assertEquals(0L, eredmeny);
 	}

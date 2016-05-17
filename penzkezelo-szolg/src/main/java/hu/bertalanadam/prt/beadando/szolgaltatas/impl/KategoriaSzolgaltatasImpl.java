@@ -50,7 +50,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	 * 
 	 * Ebben az implementációban
 	 * a metódus létrehoz egy kategóriát az adatbázisban.
-	 * Ehhez a {@link hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo#save(Kategoria) KategoriaTarolo.save} metódust 
+	 * Ehhez a {@link org.springframework.data.repository.CrudRepository#save(Object) } metódust 
 	 * használja, aminek paraméterül az átmappelt elmentendő kategóriát adjuk és a létrehozott immár generált ID-vel rendelkező
 	 * kategóriát adja eredményül. Ezt visszamappelve adja vissza a szolgáltatás.
 	 * */
@@ -75,7 +75,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 	 * Ebben az implementációban
 	 * a metódus frissít egy már adatbázisban jelen lévő kategóriát.
 	 * A kategória mivel már létezik az adatbázisban, rendelkezik azonosítóval, így a 
-	 * {@link hu.bertalanadam.prt.beadando.db.tarolo.KategoriaTarolo#save(Kategoria) KategoriaTarolo.save} metódus
+	 * {@link org.springframework.data.repository.CrudRepository#save(Object) } metódus
 	 * ahelyett hogy újból létrehozná az adatbázisban az elemet, a meglévő azonosítójú elemet frissíti.
 	 * A metódusnak az átmappelt kategóriát adjuk, amely az immár adatbázisban is frissített kategóriát adja vissza.
 	 * A szolgáltatás ezt a kategóriát adja vissza visszamappelve.
@@ -194,7 +194,7 @@ public class KategoriaSzolgaltatasImpl implements KategoriaSzolgaltatas {
 			logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak van " + kategoria.getNev() + " nevu kategoriaja!");
 		}
 		
-		return isEmpty;
+		return !isEmpty;
 	}
 
 }

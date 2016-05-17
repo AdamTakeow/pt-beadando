@@ -58,7 +58,6 @@ public class BeallitasokKezelo {
 		
 		logolo.debug("Jelszo valtas gomb megnyomva!");
 		
-		// TODO szolgáltatásba talán?
 		celszoveg.setText("");
 		
 		boolean ok = true;

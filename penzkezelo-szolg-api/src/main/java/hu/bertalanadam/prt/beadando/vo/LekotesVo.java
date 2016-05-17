@@ -149,4 +149,14 @@ public class LekotesVo implements Serializable {
 		return "LekotesVo [id=" + id + ", osszeg=" + osszeg + ", futamido=" + futamido + ", kamat=" + kamat
 				+ ", varhato=" + varhato + ", teljesitett=" + teljesitett + "]";
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		LekotesVo another = (LekotesVo)other;
+		return this.id.equals(another.getId()) &&
+			   this.futamido.equals(another.getFutamido()) &&
+			   this.kamat == another.getKamat() &&
+			   this.osszeg.equals(another.getOsszeg()) &&
+			   this.varhato.equals(another.getVarhato());
+	}
 }

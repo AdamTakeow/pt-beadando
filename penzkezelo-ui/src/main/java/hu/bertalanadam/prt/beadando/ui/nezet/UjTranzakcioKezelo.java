@@ -202,11 +202,12 @@ public class UjTranzakcioKezelo {
 		osszeg_bevitel_mentes = osszeg_bevitel.getText();
 		leiras_bevitel_mentes = leiras_bevitel.getText();
 		ismetlodik_mentes = ismetlodo_checkbox.isSelected();
-		if( ismetlodo_checkbox.isSelected() )
-			spinner_ertek_mentes = ismetlodo_napvalaszto.getValue();
-		
-		if( datum_bevitel.getValue() != null )
-			datum_bevitel_mentes = datum_bevitel.getValue();
+		if( ismetlodo_checkbox.isSelected() ){
+			spinner_ertek_mentes = ismetlodo_napvalaszto.getValue();			
+		}
+		if( datum_bevitel.getValue() != null ){
+			datum_bevitel_mentes = datum_bevitel.getValue();			
+		}
 
 		// betöltjük a kategória létrehozót
 		GridPane pane = (GridPane)loader.load("/UjKategoriaFelulet.fxml");
@@ -261,9 +262,7 @@ public class UjTranzakcioKezelo {
 		
 		// ha nincs dátum kiválasztva akkor az aktuális dátum lesz
 		java.time.LocalDate datum = null;
-		if( datum_bevitel.getValue() == null ){
-			datum = java.time.LocalDate.now();
-		} else { 
+		if( datum_bevitel.getValue() != null ){
 			datum = datum_bevitel.getValue();
 		}
 		

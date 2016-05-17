@@ -1,5 +1,6 @@
 package hu.bertalanadam.prt.beadando.szolgaltatas.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,7 +86,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	 * {@inheritDoc}
 	 * 
 	 * Ebben az implementációban 
-	 * a metódusban a {@link hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo#save(Tranzakcio) TranzakcioTarolo.save}
+	 * a metódusban a {@link org.springframework.data.repository.CrudRepository#save(Object) }
 	 * metódusának segítségével eltároljuk az adatbázisban a DTO-vá mappelt felhasználót, ami ezáltal egy generált azonosítót is kap.
 	 * A metódus visszatérési értékként visszaadja az adatbázisban jelen lévő már ID-vel rendelkező felhasználót,
 	 * amelyet a szolgáltatás eredményül visszaad átmappelve.
@@ -93,13 +94,17 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	@Override
 	public TranzakcioVo letrehozTranzakciot(TranzakcioVo ujTranzakcio) {
 		
+		if( ujTranzakcio.getDatum() == null ){
+			ujTranzakcio.setDatum( LocalDate.now() );
+		}
+		
 		Tranzakcio uj = TranzakcioMapper.toDto(ujTranzakcio);
 		
 		Tranzakcio letezo = tranzakcioTarolo.save(uj);
 		if( letezo == null ){
 			logolo.warn("Nem sikerult menteni az uj tranzakciot!");
 		} else {
-			logolo.debug("Sikeresen elmentesre kerult a(z) " + ujTranzakcio.getId() + " azonositoju tranzakcio!");
+			logolo.debug("Sikeresen elmentesre kerult a(z) " + letezo.getId() + " azonositoju tranzakcio!");
 		}
 		
 		return TranzakcioMapper.toVo(letezo);
@@ -131,9 +136,9 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		// elkérjük a felhasználó összes tranzakcióját
 		List<Tranzakcio> findByFelhasznalo = tranzakcioTarolo.findByFelhasznalo(FelhasznaloMapper.toDto(felhasznalo));
 		if( findByFelhasznalo == null ){
-			logolo.warn("A " + felhasznalo.getFelhasznalonev() + " felhasznalónevu felhasznalonak nincsenek tranzakcioi!");
+			logolo.warn("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak nincsenek tranzakcioi!");
 		} else {
-			logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalónevu felhasznalonak " + findByFelhasznalo.size() + " db tranzakcioja van.");
+			logolo.debug("A " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak " + findByFelhasznalo.size() + " db tranzakcioja van.");
 		}
 				
 		// ellenőrizzük hogy van-e ismétlődője és ha van, akkor kezeljük ( új tranzakciók adódhatnak hozzá )
@@ -172,7 +177,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	 * Ebben az implementációban
 	 * a metódus frissít egy már adatbázisban jelen lévő tranzakciót.
 	 * A tranzakció mivel már létezik az adatbázisban, rendelkezik azonosítóval, így a 
-	 * {@link hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo#save(Tranzakcio) TranzakcioTarolo.save} metódus
+	 * {@link org.springframework.data.repository.CrudRepository#save(Object) } metódus
 	 * ahelyett hogy újból létrehozná az adatbázisban az elemet, a meglévő azonosítójú elemet frissíti.
 	 * A metódusnak az átmappelt tranzakciót adjuk, amely az immár adatbázisban is frissített tranzakciót adja vissza.
 	 * A szolgáltatás ezt a tranzakciót adja vissza visszamappelve.
@@ -198,7 +203,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	 * 
 	 * Ebben az implementációban
 	 * a metódus az adatbázisból egy paraméterül megadott azonosítójú tranzakciót keres.
-	 * Ezt a műveletet a {@link hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo#findOne(Long) TranzakcioTarolo.findOne}
+	 * Ezt a műveletet a {@link org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable) }
 	 * metódus segítségével hajtja végre, amely egy Long típusú azonosítót vár paraméterül.
 	 * A szolgáltatás eredményül a megtalált tranzakciót adja vissza átmappelve.
 	 * */
@@ -220,7 +225,7 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 	 * 
 	 * Ebben az implementációban
 	 * a metódus kitöröl az adatbázisból egy létező tranzakciót, amelyet paraméterként kap meg a metódus.
-	 * Ezt a műveletet a {@link hu.bertalanadam.prt.beadando.db.tarolo.TranzakcioTarolo#delete(Long) TranzakcioTarolo.delete}
+	 * Ezt a műveletet a {@link org.springframework.data.repository.CrudRepository#delete(Object) }
 	 * metódus segítségével hajtja végre, amely paraméterül a tranzakció azonosítóját várja.
 	 * Mielőtt kitörölnénk a tranzakciót az adatbázisból, kitöröljük annak a felhasználónak a tranzakciói közül,
 	 * amely birtokolja a tranzakciót.
@@ -288,7 +293,6 @@ public class TranzakcioSzolgaltatasImpl implements TranzakcioSzolgaltatas {
 		TranzakcioVo res = felh_tranzakcioi.stream()
 						.filter( t -> t.getLekotes() != null && !t.getLekotes().isTeljesitett() )
 						.findAny()
-//						.get();
 						.orElse(null);
 		if( res == null ){
 			logolo.warn("Nincs a " + felhasznalo.getFelhasznalonev() + " felhasznalonevu felhasznalonak lekoteses tranzakcioja!");

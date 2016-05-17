@@ -77,7 +77,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * {@inheritDoc}
 	 * 
 	 * Ebben az implementációban 
-	 * a metódusban a {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo#save(Felhasznalo) FelhasznaloTarolo.save}
+	 * a metódusban a {@link org.springframework.data.repository.CrudRepository#save(Object) }
 	 * metódusának segítségével eltároljuk az adatbázisban a DTO-vá mappelt felhasználót, ami ezáltal egy generált azonosítót is kap.
 	 * A metódus visszatérési értékként visszaadja az adatbázisban jelen lévő már ID-vel rendelkező felhasználót,
 	 * amelyet a szolgáltatás eredményül visszaad átmappelve.
@@ -115,7 +115,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * {@inheritDoc}
 	 * 
 	 * Ebben az implementációban
-	 * a metódus a {@link hu.bertalanadam.prt.beadando.db.tarolo.FelhasznaloTarolo#save(Felhasznalo) FelhasznaloTarolo.save}
+	 * a metódus a {@link org.springframework.data.repository.CrudRepository#save(Object) }
 	 * metódussal elmentjük az adatbázisba a felhasználót, ami mivel már rendelkezik generált azonosítóval, így nem hoz
 	 * létre új példányt az adatbázisban, hanem a meglévő ID-val megegyező felhasználót fogja frissíteni.
 	 * Mielőtt még ez megtörténne, a friss felhasználó egyenelgét kiszámoljuk a tranzakcióiból, a tranzakciók

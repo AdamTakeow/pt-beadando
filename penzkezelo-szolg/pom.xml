@@ -12,7 +12,9 @@
 	<name>Pénzügyi menedzser szolgáltatás réteg</name>
 
 	<description>
-  		Ez a modul felelős az üzleti logika megvalósításáért. TODO folytatás
+  		Ez a modul felelős az üzleti logika megvalósításáért. Tartalmazza azokat a Mapper osztályokat
+  		amelyek segítségével az egyes modulok még jobban elkülöníthetőek, valamint a szolgáltatásokat melyek 
+  		működtetik az alkalmazást.
   	</description>
 
 	<dependencies>

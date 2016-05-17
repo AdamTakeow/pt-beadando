@@ -194,13 +194,10 @@ public class TranzakcioVo implements Serializable{
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "TranzakcioVo [id=" + id + ", osszeg=" + osszeg + ", datum=" + datum + ", leiras=" + leiras
-				+ ", felhasznalo=" + felhasznalo + ", kategoria=" + kategoria + ", lekotes=" + lekotes + ", ismetlodo="
+				+ ", felhasznaloID=" + felhasznalo.getId() + ", kategoria=" + kategoria.getNev() + ", lekotes=" + lekotes + ", ismetlodo="
 				+ ismetlodo + "]";
 	}
 }

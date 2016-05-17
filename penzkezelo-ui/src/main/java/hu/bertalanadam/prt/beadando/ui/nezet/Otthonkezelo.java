@@ -334,7 +334,7 @@ public class Otthonkezelo {
 						tranzakcioVo.getLeiras(),
 						tranzakcioVo.getKategoria().getNev() )
 			);	
-			// TODO nem biztos!!
+			
 			logolo.debug("Adat: " + tranzakcioTablazatAdatok.get(tranzakcioTablazatAdatok.size()-1));
 		}
 		

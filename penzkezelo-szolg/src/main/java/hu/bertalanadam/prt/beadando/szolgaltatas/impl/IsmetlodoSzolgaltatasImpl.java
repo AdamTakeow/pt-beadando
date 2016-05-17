@@ -88,11 +88,16 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 	 * Ebben az implementációban
 	 * a metódus létrehozza a paraméterül kapott ismétlődőt az adatbázisban, miután azt a megfelelő objektumra
 	 * átmappelte, majd eredményül visszaadja az adatbázisban immár jelen lévő generált azonosítóval rendelkező
-	 * Ismétlődő objektumot, visszamappelve. Ezt a műveletet a 
-	 * {@link hu.bertalanadam.prt.beadando.db.tarolo.IsmetlodoTarolo#save(Ismetlodo) IsmetlodoTarolo.save} metódusával érjük el.
+	 * Ismétlődő objektumot, visszamappelve. Mielőtt ez megtörténne, beállítja az utolsó beszúrás dátumát amennyiben
+	 * szükséges. Ezt a műveletet a 
+	 * {@link org.springframework.data.repository.CrudRepository#save(Object) } metódusával érjük el.
 	 * */
 	@Override
 	public IsmetlodoVo letrehozIsmetlodot(IsmetlodoVo ismetlodo) {
+		
+		if( ismetlodo.getUtolsoBeszuras() == null ){
+			ismetlodo.setUtolsoBeszuras(LocalDate.now());
+		}
 		// átmappeljük az ismétlődőt
 		Ismetlodo ism = IsmetlodoMapper.toDto( ismetlodo );
 		
@@ -115,7 +120,7 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 	 * a metódus frissíti a paraméterül kapott ismétlődő objektumot az adatbázisban,
 	 * azaz a kapott objektum adatai meg fognak egyezni az adatbázisban lévőével.
 	 * Mivel a paraméterül kapott objektum már létezik az adatbázisban, ezért rendelkezik már generált
-	 * azonosítóval, ezért amikor a {@link hu.bertalanadam.prt.beadando.db.tarolo.IsmetlodoTarolo#save(Ismetlodo) IsmetlodoTarolo#save} metódus
+	 * azonosítóval, ezért amikor a {@link org.springframework.data.repository.CrudRepository#save(Object) } metódus
 	 * segítségével perzisztáljuk, nem jön létre újabb adatbázis elem, hanem a megfelelő ID-val rendelkező elemet fogja frissíteni.
 	 * */
 	@Override
@@ -165,6 +170,12 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 				
 				// amíg az ismétlődő utolsó beszúrásának időpontja az ismétlődés gyakoriságával régebbi
 				// mint a mai dátum
+				if( ism.getUtolsoBeszuras() == null ){
+					System.out.println("ism utolsobeszuras null"); // TODO kiszedni
+				}
+				if( ism.getIdo() == null ){
+					System.out.println("ism ido null");
+				}
 				while( ma.isAfter( ism.getUtolsoBeszuras().plus(ism.getIdo()-1L, ChronoUnit.DAYS) ) ){
 					
 					// átállítjuk egy ismétlődés gyakoriságányival előrébb a beszúrás időpontját
@@ -184,7 +195,7 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 					
 					TranzakcioVo letezo_tr = tranzakcioSzolgaltatas.letrehozTranzakciot(ujTr);
 					
-					felhasznalo.getTranzakciok().add(letezo_tr);
+					felhasznalo.getTranzakciok().add(letezo_tr);					
 					
 					felhasznaloSzolgaltatas.frissitFelhasznalot(felhasznalo);
 					

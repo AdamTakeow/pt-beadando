@@ -53,7 +53,6 @@ public class Felhasznalo extends FoEntitas {
 	 */
 	private Long kiadasraSzantPenz;
 	
-	
 	/**
 	 * A felhasználó számára ettől a dátumtól kezdődően fognak látszódni a tranzakciói.
 	 */

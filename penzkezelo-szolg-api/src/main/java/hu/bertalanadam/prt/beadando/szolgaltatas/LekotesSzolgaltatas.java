@@ -66,10 +66,21 @@ public interface LekotesSzolgaltatas {
 	Period mennyiIdoVanHatra(FelhasznaloVo felhasznalo, LekotesVo lekotes );
 	
 	/**
-	 * @param osszeg
-	 * @param kamat
-	 * @param futamido
-	 * @return
+	 * Kiszámolja a kapott értékek alapján egy lekötéshez hogy mennyit kap a felhasználó
+	 * a lekötés lejárta után.
+	 * @param osszeg A lekötés összege.
+	 * @param kamat A lekötés kamata.
+	 * @param futamido A lekötés futamideje évben.
+	 * @return A paraméterül kapott értékek alapján számolt kamatos kamat összege.
 	 */
 	Long kiszamolVarhatoOsszeget(Long osszeg, Double kamat, Long futamido);
+	
+	/**
+	 * Amennyiben a paraméterül kapott felhasználó szeretné a pénzét a lekötés vége előtt visszakapni
+	 * van lehetősége feltörni a lekötését, ekkor visszakapja a lekötött pénzét kamat nélkül.
+	 * Ez a metódus elvégzi a feltörés végrehajtásához szükséges műveleteket. 
+	 * @param lekotes A feltörendő lekötés.
+	 * @param felhasznalo A felhasználó aki fel szeretné törni a lekötését.
+	 */
+	void lekotesFeltorese( LekotesVo lekotes, FelhasznaloVo felhasznalo );
 }
