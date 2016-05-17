@@ -170,9 +170,6 @@ public class IsmetlodoSzolgaltatasImpl implements IsmetlodoSzolgaltatas {
 				
 				// amíg az ismétlődő utolsó beszúrásának időpontja az ismétlődés gyakoriságával régebbi
 				// mint a mai dátum
-				if( ism.getUtolsoBeszuras() == null ){
-					System.out.println("ism utolsobeszuras null"); // TODO kiszedni
-				}
 				if( ism.getIdo() == null ){
 					System.out.println("ism ido null");
 				}

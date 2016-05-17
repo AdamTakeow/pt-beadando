@@ -282,9 +282,6 @@ public class UjTranzakcioKezelo {
 				List<FelhasznaloVo> felhasznalok = new ArrayList<>();
 				felhasznalok.add(bejelentkezett_fh);
 				ujkat.setFelhasznalok(felhasznalok);
-				
-				// tranzakcióihoz pedig egy üres listát
-//				ujkat.setTranzakciok(new ArrayList<TranzakcioVo>() );
 	
 				kategoriaSzolgaltatas.letrehozKategoriat(ujkat);
 				
@@ -338,7 +335,6 @@ public class UjTranzakcioKezelo {
 			IsmetlodoVo ismetlodo = new IsmetlodoVo();
 			
 			if( ismetlodo_checkbox.isSelected() ){
-				
 				ismetlodo.setIdo( new Long( ismetlodo_napvalaszto.getValue() ) );
 				ismetlodo.setUtolsoBeszuras(datum);
 				ismetlodo = ismetlodoSzolgaltatas.letrehozIsmetlodot(ismetlodo);

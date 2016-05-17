@@ -33,7 +33,7 @@
 								false
 							</createDependencyReducedPom>
 							<finalName>
-								penzkezelo
+								penzkezelo-${project.version}
 							</finalName>
 							<transformers>
 								<transformer
