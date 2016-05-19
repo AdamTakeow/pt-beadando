@@ -43,10 +43,8 @@ public class UjKategoriaKezelo {
 
 	@FXML
 	private TextField ujKatNeve;
-	
 	@FXML 
 	private Button closeButton;
-	
 	@FXML
 	private Text celszoveg;
 	

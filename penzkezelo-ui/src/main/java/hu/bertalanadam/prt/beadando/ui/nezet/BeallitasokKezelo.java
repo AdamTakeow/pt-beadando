@@ -28,22 +28,16 @@ public class BeallitasokKezelo {
 
 	@FXML
 	private Button koltekezes_mentes;
-	
 	@FXML
 	private TextField koltekezes_bevitel;
-	
 	@FXML
 	private PasswordField ujJelszo_bevitel;
-	
 	@FXML
 	private Button jelszoCsereGomb;
-	
 	@FXML
 	private Label celszoveg;
-	
 	@FXML
 	private Button closeButton;
-	
 	@FXML
 	private Text jelenlegi_kiadasraszant;
 	
@@ -57,7 +51,6 @@ public class BeallitasokKezelo {
 	protected void jelszoValtas(ActionEvent event){
 		
 		logolo.debug("Jelszo valtas gomb megnyomva!");
-		
 		celszoveg.setText("");
 		
 		boolean ok = true;

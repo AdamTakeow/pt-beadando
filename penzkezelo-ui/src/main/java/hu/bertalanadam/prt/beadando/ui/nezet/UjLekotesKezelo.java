@@ -45,19 +45,14 @@ public class UjLekotesKezelo {
 	
 	@FXML
 	private TextField osszeg_bevitel;
-	
 	@FXML
 	private TextField futamido_bevitel;
-
 	@FXML
 	private TextField kamat_bevitel;
-	
 	@FXML
 	private DatePicker datum_kivalasztas;
-
 	@FXML
 	private Button vissza_gomb;
-	
 	@FXML
 	private Label celszoveg;
 	
@@ -141,8 +136,7 @@ public class UjLekotesKezelo {
 			ujLekotes.setOsszeg(osszeg);
 			ujLekotes.setTeljesitett(false);
 			
-			// várható összeg kiszámolása
-			// Kamatos kamat számítás
+			// várható összeg kiszámolása a létrehozásnál számolódik ki Kamatos kamat számítás
 			LekotesVo letezo_lek = lekotesSzolgaltatas.letrehozLekotest(ujLekotes);
 			
 			logolo.debug("Levonjuk a felhasznalo egyenleget a lekotes miatt");
@@ -153,14 +147,15 @@ public class UjLekotesKezelo {
 			if( datum_kivalasztas.getValue() != null ){
 				ujTranzakcio.setDatum(datum_kivalasztas.getValue());
 			}
+			
 			ujTranzakcio.setLeiras("Lekötés");
-			// lekötés kategóriája?
 
 			// van már lekötés kategória?
 			KategoriaVo letezo = kategoriaSzolgaltatas.keresKategoriat("Lekötés");
 			if( letezo == null ){
 				logolo.debug("Nincs meg ilyen kategoria: Lekotes");
 				
+				// akkor létrehozzuk
 				KategoriaVo kategoria = new KategoriaVo();
 				kategoria.setNev("Lekötés");
 				kategoria.setFelhasznalok(new ArrayList<FelhasznaloVo>());

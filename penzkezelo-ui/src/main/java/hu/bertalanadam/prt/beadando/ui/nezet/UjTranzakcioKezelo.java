@@ -67,31 +67,22 @@ public class UjTranzakcioKezelo {
 	
 	@FXML
 	private Text celszoveg;
-	
 	@FXML 
 	private Button closeButton;
-	
 	@FXML
 	private RadioButton bevetel_radiogomb;
-	
 	@FXML
 	private RadioButton kiadas_radiogomb;
-	
 	@FXML
 	private TextField osszeg_bevitel;
-	
 	@FXML
 	private TextArea leiras_bevitel;
-	
 	@FXML
 	private DatePicker datum_bevitel;
-	
 	@FXML
 	private ComboBox<String> kategoria_bevitel;
-	
 	@FXML
 	private CheckBox ismetlodo_checkbox;
-	
 	@FXML
 	private Spinner<Integer> ismetlodo_napvalaszto; 
 	
@@ -180,10 +171,7 @@ public class UjTranzakcioKezelo {
 		leiras_bevitel_mentes = null;
 		datum_bevitel_mentes = null;
 		ismetlodik_mentes = false;
-		spinner_ertek_mentes = 0;
-		
-		// lefrissítjük a kezdőképernyő adatait.
-//		otthonkezelo.adatFrissites();
+		spinner_ertek_mentes = 1;
 		
 		// bezárjk ezt a dialogot
 		((Stage)closeButton.getScene().getWindow()).close();
@@ -268,6 +256,7 @@ public class UjTranzakcioKezelo {
 		
 		// megnézzük hogy a felhasználó melyik kategóriát választotta
 		String kategoria = kategoria_bevitel.getValue();
+		
 		// ha nem lett megadva kategória, létrehozunk egy "nincs" nevűt
 		if( kategoria == null ){
 			// ha még nincs Nincs nevű kategória
@@ -366,7 +355,7 @@ public class UjTranzakcioKezelo {
 			leiras_bevitel_mentes = null;
 			datum_bevitel_mentes = null;	
 			ismetlodik_mentes = false;
-			spinner_ertek_mentes = 0;
+			spinner_ertek_mentes = 1;
 			
 			trz_kategoriaja = null;
 

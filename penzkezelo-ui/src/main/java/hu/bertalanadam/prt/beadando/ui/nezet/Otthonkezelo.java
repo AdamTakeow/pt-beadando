@@ -76,52 +76,39 @@ public class Otthonkezelo {
 	
 	@FXML
 	private DatePicker lebontas_innentol;
-	
 	@FXML
 	private DatePicker lebontas_idaig;
-
 	@FXML
 	private Button lekotesGomb;
-	
 	@FXML
 	private Text ennyitKolthetekMeg;
-
 	// üdvözlet a felhasználónak
 	@FXML
 	private Text welcome_user;
-	
 	// a felhasználó egyenlege
 	@FXML
 	private Text egyenleg_text;
-	
 	// a felhasználó összes bevétele
 	@FXML
 	private Text sum_bevetel;
-	
 	// a felhasználó összes kiadása
 	@FXML
 	private Text sum_kiadas;
-	
 	// a tranzakciókat tartalmazó táblázat
 	@FXML
 	private TableView<TranzakcioData> tranzakcioTable;
-	
 	// a tranzakciókat tartalmazó táblázat összeg oszlopa
 	@FXML
 	private TableColumn<TranzakcioData, String> osszegOszlop;
-	
 	// a tranzakciókat tartalmazó táblázat dátum oszlopa
 	@FXML
 	private TableColumn<TranzakcioData, String> datumOszlop;
-	
 	// a tranzakciókat tartalmazó táblázat kategória oszlopa
 	@FXML
 	private TableColumn<TranzakcioData, String> kategoriaOszlop;
-	
 	// a bevételeket szemléltető diagram
 	@FXML
 	private PieChart bev_diagram;
-	
 	// a kiadásokat szemléltető diagram
 	@FXML
 	private PieChart kiad_diagram;

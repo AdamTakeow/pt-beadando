@@ -40,18 +40,14 @@ public class BejelentkezesKezelo {
 	// ahová a bejelentkezéssel kapcsolatos üzeneteket írjuk ki
 	@FXML
 	private Text uzenet;
-	
 	@FXML
 	private Button bejelentkezoGomb;
-	
 	// felhasználónév beviteli mező
 	@FXML
 	private TextField felhnev_bevitel;
-	
 	// jelszó beviteli mező
 	@FXML
 	private TextField jelszo_bevitel;
-
 	// a bejelentkezés gombra lefutó metódus
 	@FXML
 	protected void bejelentkezesGombKezelo(ActionEvent event) {
@@ -136,6 +132,7 @@ public class BejelentkezesKezelo {
 				// ha nincs még ilyen felhasználó
 				logolo.info("Uj felhasználó regisztralasa:");
 				
+				// 
 				// létrehozzuk az új felhasználót
 				FelhasznaloVo ujfelhasznalo = new FelhasznaloVo();
 				ujfelhasznalo.setFelhasznalonev(felhnev_bevitel.getText());

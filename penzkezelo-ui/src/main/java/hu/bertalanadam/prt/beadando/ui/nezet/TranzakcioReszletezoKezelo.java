@@ -27,28 +27,20 @@ public class TranzakcioReszletezoKezelo {
 	
 	@FXML
 	private Text osszeg_reszletezo;
-
 	@FXML
 	private Text datum_reszletezo;
-	
 	@FXML
 	private Text leiras_reszletezo;
-	
 	@FXML
 	private Text felhasznalo_reszletezo;
-	
 	@FXML
 	private Text kategoria_reszletezo;
-	
 	@FXML
 	private Text ismetlodik_reszletezo;
-	
 	@FXML
 	private Text nap_reszletezo;
-	
 	@FXML
 	private Text lekotes_reszletezo;
-	
 	@FXML
 	private Button torlesGomb;
 	

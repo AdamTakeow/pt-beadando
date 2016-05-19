@@ -51,13 +51,13 @@
 	</licenses>
 
 	<modules>
-		<module>penzkezelo-db</module>
 		<module>eszkozok</module>
+		<module>penzkezelo-db</module>
 		<module>penzkezelo-szolg-api</module>
 		<module>penzkezelo-szolg</module>
 		<module>penzkezelo-ui</module>
 	</modules>
-	
+
 	<distributionManagement>
 		<site>
 			<id>website</id>
@@ -73,15 +73,15 @@
 				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
-	
+
 			<!-- logolás -->
-			
+
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
 				<version>1.1.7</version>
 			</dependency>
-	
+
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -181,6 +181,16 @@
 						</configuration>
 					</reportSet>
 				</reportSets>
+<!-- 				<configuration> -->
+<!-- 					<instrumentation> -->
+<!-- 						<ignores> -->
+<!-- 							<ignore>hu.bertalanadam.prt.beadando.db.*</ignore> -->
+<!-- 							<ignore>hu.bertalanadam.prt.beadando.vo</ignore> -->
+<!-- 							<ignore>hu.bertalanadam.prt.beadando.szolgaltatas</ignore> -->
+<!-- 							<ignore>hu.bertalanadam.prt.beadando.ui</ignore> -->
+<!-- 						</ignores> -->
+<!-- 					</instrumentation> -->
+<!-- 				</configuration> -->
 			</plugin>
 
 			<plugin>
