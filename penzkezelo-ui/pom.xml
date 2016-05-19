@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>hu.bertalanadam.prt.beadando</groupId>
 		<artifactId>penzkezelo</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>penzkezelo-ui</artifactId>
 
@@ -62,13 +62,13 @@
 		<dependency>
 			<groupId>hu.bertalanadam.prt.beadando</groupId>
 			<artifactId>penzkezelo-szolg-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>hu.bertalanadam.prt.beadando</groupId>
 			<artifactId>penzkezelo-szolg</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>hu.bertalanadam.prt.beadando</groupId>
 			<artifactId>eszkozok</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
