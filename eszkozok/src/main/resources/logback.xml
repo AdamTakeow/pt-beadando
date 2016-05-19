@@ -7,30 +7,33 @@
 		</encoder>
 	</appender>
 
-	<appender name="FILE1" class="ch.qos.logback.core.FileAppender">
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>errors.log</file>
 		<append>false</append>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ERROR</level>
 		</filter>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} \(%line\) -
-				%msg%n</pattern>
+			<pattern>%d{MM-dd_HH:mm:ss.SSS} [%thread] %.-5level %logger{36} \(%line\) - %msg%n</pattern>
 		</encoder>
 	</appender>
 
 	<logger name="org.hibernate" level="INFO" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 	<logger name="org.springframework" level="INFO" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 	<logger name="hu.bertalanadam.prt.beadando" level="ALL"
 		additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 	<logger name="org.jboss.logging" level="OFF" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 
 </configuration>

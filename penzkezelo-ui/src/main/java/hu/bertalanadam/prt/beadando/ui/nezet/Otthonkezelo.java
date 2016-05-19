@@ -116,7 +116,7 @@ public class Otthonkezelo {
 	// a képernyő betöltődése előtt lefutó metódus
 	@FXML
 	private void initialize(){
-
+		
 		adatFrissites();
 		
 		// üdvözöljük a felhasználót
