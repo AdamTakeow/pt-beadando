@@ -105,6 +105,10 @@
 						</goals>
 						<configuration>
 							<rules>
+								<reactorModuleConvergence>
+									<message>A reaktor nem ervenyes</message>
+									<ignoreModuleDependencies>true</ignoreModuleDependencies>
+								</reactorModuleConvergence>
 								<requireJavaVersion>
 									<version>1.8</version>
 								</requireJavaVersion>
@@ -181,16 +185,16 @@
 						</configuration>
 					</reportSet>
 				</reportSets>
-<!-- 				<configuration> -->
-<!-- 					<instrumentation> -->
-<!-- 						<ignores> -->
-<!-- 							<ignore>hu.bertalanadam.prt.beadando.db.*</ignore> -->
-<!-- 							<ignore>hu.bertalanadam.prt.beadando.vo</ignore> -->
-<!-- 							<ignore>hu.bertalanadam.prt.beadando.szolgaltatas</ignore> -->
-<!-- 							<ignore>hu.bertalanadam.prt.beadando.ui</ignore> -->
-<!-- 						</ignores> -->
-<!-- 					</instrumentation> -->
-<!-- 				</configuration> -->
+				<!-- <configuration> -->
+				<!-- <instrumentation> -->
+				<!-- <ignores> -->
+				<!-- <ignore>hu.bertalanadam.prt.beadando.db.*</ignore> -->
+				<!-- <ignore>hu.bertalanadam.prt.beadando.vo</ignore> -->
+				<!-- <ignore>hu.bertalanadam.prt.beadando.szolgaltatas</ignore> -->
+				<!-- <ignore>hu.bertalanadam.prt.beadando.ui</ignore> -->
+				<!-- </ignores> -->
+				<!-- </instrumentation> -->
+				<!-- </configuration> -->
 			</plugin>
 
 			<plugin>
