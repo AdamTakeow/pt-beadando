@@ -136,7 +136,7 @@
 					<dependency>
 						<groupId>hu.bertalanadam.prt.beadando</groupId>
 						<artifactId>eszkozok</artifactId>
-						<version>0.0.1-SNAPSHOT</version>
+						<version>1.0.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -152,6 +152,22 @@
 				<version>2.10.3</version>
 				<configuration>
 					<show>private</show>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.6</version>
+				<configuration>
+					<minimumTokens>10</minimumTokens>
+					<aggregate>true</aggregate>
+					<rulesets>
+						<ruleset>/rulesets/java/basic.xml</ruleset>
+						<ruleset>/rulesets/java/unusedcode.xml</ruleset>
+						<ruleset>/rulesets/java/imports.xml</ruleset>
+						<ruleset>/rulesets/java/codesize.xml</ruleset>
+					</rulesets>
 				</configuration>
 			</plugin>
 

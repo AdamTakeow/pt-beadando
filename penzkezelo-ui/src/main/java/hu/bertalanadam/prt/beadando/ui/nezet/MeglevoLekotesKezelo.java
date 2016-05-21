@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF
 package hu.bertalanadam.prt.beadando.ui.nezet;
 
 import java.time.Period;
