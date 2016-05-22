@@ -48,7 +48,7 @@ public class FelhasznaloSzolgaltatasImpl implements FelhasznaloSzolgaltatas {
 	 * szükséges adatbázis műveletek.
 	 */
 	@Autowired
-	private FelhasznaloTarolo felhasznaloTarolo;	
+	private FelhasznaloTarolo felhasznaloTarolo;
 
 	/**
 	 * {@inheritDoc}
