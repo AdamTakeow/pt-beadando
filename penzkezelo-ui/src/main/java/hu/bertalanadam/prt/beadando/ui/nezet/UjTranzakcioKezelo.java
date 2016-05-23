@@ -174,6 +174,8 @@ public class UjTranzakcioKezelo {
 		ismetlodik_mentes = false;
 		spinner_ertek_mentes = 1;
 		
+		bejelentkezett_fh = null;
+		
 		// bezárjk ezt a dialogot
 		((Stage)closeButton.getScene().getWindow()).close();
 	}
@@ -282,11 +284,11 @@ public class UjTranzakcioKezelo {
 				logolo.debug("Van mar Nincs nevu kategoria!");
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat("Nincs");
 
-				boolean isEmpty =
+				boolean van =
 						kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(bejelentkezett_fh, letezo_kat);
 
 				// ha nem szerepel, hozzáadom
-				if( isEmpty ){
+				if( !van ){
 					letezo_kat.getFelhasznalok().add(bejelentkezett_fh);
 					
 					kategoriaSzolgaltatas.frissitKategoriat(letezo_kat);

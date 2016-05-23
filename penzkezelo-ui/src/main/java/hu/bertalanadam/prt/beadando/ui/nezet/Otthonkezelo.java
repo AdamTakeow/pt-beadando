@@ -65,13 +65,13 @@ public class Otthonkezelo {
 	private FelhasznaloVo bejelentkezett_fh;
 
 	// a tranzakciókat tartalmazó táblázat adatait tartalmazó lista
-	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok = FXCollections.observableArrayList();
+	private ObservableList<TranzakcioData> tranzakcioTablazatAdatok;
 	
 	// a bevételeket szemléltető diagram adatait tartalmazó lista
-	private ObservableList<PieChart.Data> bev_diagramAdatok = FXCollections.observableArrayList();
+	private ObservableList<PieChart.Data> bev_diagramAdatok;
 	
 	// a kiadásokat szemléltető diagram adatait tartalmazó lista
-	private ObservableList<PieChart.Data> kiad_diagramAdatok = FXCollections.observableArrayList();
+	private ObservableList<PieChart.Data> kiad_diagramAdatok;
 	
 	// fxml komponensek
 	
@@ -117,6 +117,10 @@ public class Otthonkezelo {
 	// a képernyő betöltődése előtt lefutó metódus
 	@FXML
 	private void initialize(){
+		
+		tranzakcioTablazatAdatok = FXCollections.observableArrayList();
+		bev_diagramAdatok = FXCollections.observableArrayList();
+		kiad_diagramAdatok = FXCollections.observableArrayList();
 		
 		adatFrissites();
 		
@@ -248,6 +252,12 @@ public class Otthonkezelo {
 		if( !kiad_diagramAdatok.isEmpty() ){
 			kiad_diagramAdatok.clear();
 		}
+		
+		bejelentkezett_fh = null;
+		kivalasztott_trz = null;
+		kiad_diagramAdatok = null;
+		bev_diagramAdatok = null;
+		tranzakcioTablazatAdatok = null;
 
 		Parent parent = (Parent)loader.load("/BejelentkezoFelulet.fxml");
 		Scene scene = new Scene(parent);

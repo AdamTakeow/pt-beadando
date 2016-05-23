@@ -85,12 +85,12 @@ public class UjKategoriaKezelo {
 				// felhozom azt a kategóriát
 				KategoriaVo letezo_kat = kategoriaSzolgaltatas.keresKategoriat(ujKatNeve.getText());
 
-				boolean isEmpty = kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(
+				boolean van = kategoriaSzolgaltatas.vanIlyenKategoriajaAFelhasznalonak(
 												ujtranzakciokezelo.getBejelentkezett_fh(),
 												letezo_kat);
 				
 				// ha nem birtokolja még 
-				if( isEmpty ){
+				if( !van ){
 					// akkor hozzáadom a kategória listájához az aktuálisan bejelentkezett felhasználót
 					letezo_kat.getFelhasznalok().add(ujtranzakciokezelo.getBejelentkezett_fh());
 					
